@@ -1,0 +1,6 @@
+.form-veiculo {
+  display: grid;
+  gap: 16px;
+  max-width: 400px;
+  margin: 24px auto;
+}
