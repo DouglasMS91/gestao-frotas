@@ -16,6 +16,20 @@
 
 .left-panel {
   background-color: #b71c1c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  display: block;
+  max-width: 60%;
+  max-height: 60%;
+  object-fit: contain;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  image-rendering: crisp-edges;
 }
 
 .right-panel {

@@ -7,7 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-loginapp',
   standalone: true,
   imports: [
     MatFormFieldModule,
