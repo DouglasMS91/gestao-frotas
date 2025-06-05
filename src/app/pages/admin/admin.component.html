@@ -1,3 +1,12 @@
+<mat-toolbar color="primary">
+  <mat-icon class="icone-esquerdo">local_shipping</mat-icon>
+  <span class="titulo">Cargo Express</span>
+  <span class="spacer"></span>
+  <button mat-icon-button>
+    <mat-icon class="icone-direito">supervised_user_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
 <mat-sidenav-container class="admin-layout">
   <mat-sidenav mode="side" opened class="admin-sidenav">
     <button mat-button routerLink="/admin/agendar-viagem">Agendar Viagem</button>
@@ -7,10 +16,8 @@
     <button mat-button routerLink="/admin/registrar-manutencao">Registrar Manutenção</button>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">Bem-vindo ADM</mat-toolbar>
-    <div class="admin-content">
+  <div class="admin-content">
       <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+
+

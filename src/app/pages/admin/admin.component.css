@@ -1,3 +1,8 @@
+mat-toolbar{
+  background-color: rgb(255, 0, 0);
+}
+
+
 .admin-layout {
   height: 100vh;
 }
@@ -16,5 +21,14 @@
 }
 
 .admin-content {
-  padding: 2rem;
+  padding: 1rem;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.icone-esquerdo{
+  margin-right: 8px;
+}
+
