@@ -33,7 +33,6 @@ export class GerenciarVeiculosComponent {
   openDialog() {
     this.dialog.open(DialogComponent, {
       width: '30%',
-      height: '60%',
     });
   }
 }
