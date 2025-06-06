@@ -1,38 +1,5 @@
-<form [formGroup]="veiculoForm" (ngSubmit)="salvar()" class="form-veiculo">
-  <mat-form-field appearance="fill">
-    <mat-label>Placa</mat-label>
-    <input matInput formControlName="placa">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Modelo</mat-label>
-    <input matInput formControlName="modelo">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Tipo</mat-label>
-    <mat-select formControlName="tipo">
-      <mat-option *ngFor="let t of tipos" [value]="t">{{ t }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Ano</mat-label>
-    <input matInput type="number" formControlName="ano">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Quilometragem Atual</mat-label>
-    <input matInput type="number" formControlName="quilometragemAtual">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Status</mat-label>
-    <mat-select formControlName="status">
-      <mat-option *ngFor="let s of status" [value]="s">{{ s }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" type="submit">Salvar</button>
-</form>
-
+<mat-toolbar class="toolbar">
+  <span class="titulo">Gerenciar Veículos</span>
+  <span class="example-spacer"></span>
+  <button mat-raised-button color="warn" (click)="openDialog()">Editar</button>
+</mat-toolbar>

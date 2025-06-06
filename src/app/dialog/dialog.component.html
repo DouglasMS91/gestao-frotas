@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Adicionar Veículos</h1>
+<div mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>Placa</mat-label>
+        <input matInput placeholder="Ex:. AAA8H50">
+  </mat-form-field>
+
+   <mat-form-field appearance="fill">
+        <mat-label>Modelo</mat-label>
+        <input matInput placeholder="Modelo">
+  </mat-form-field>
+
+   <mat-form-field appearance="fill">
+    <mat-label>Tipo</mat-label>
+    <mat-select placeholder="">
+      <mat-option value="">Carro</mat-option>
+      <mat-option value="">Van</mat-option>
+      <mat-option value="">Caminhão</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+        <mat-label>Ano</mat-label>
+        <input matInput placeholder="Ex.: 2014">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+        <mat-label>Quilometragem Atual</mat-label>
+        <input matInput placeholder="Ex.: 20.521">
+  </mat-form-field>
+
+    <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select placeholder="">
+      <mat-option value="">Disponível</mat-option>
+      <mat-option value="">Inativo</mat-option>
+      <mat-option value="">Em anutenção</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-action [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close>Fechar</button>
+  <button mat-raised-button color="primary" class="btn-salvar">Salvar</button>
+</div>

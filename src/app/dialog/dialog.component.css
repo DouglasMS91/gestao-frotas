@@ -1,0 +1,14 @@
+mat-form-field{
+    width: 100%;
+}
+
+h1{
+    align-self: center;
+    margin-top: 10px;
+}
+
+.btn-salvar{
+    margin-left: 8px;
+    margin-right: 8px;
+}
+

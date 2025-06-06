@@ -5,6 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbar } from '@angular/material/toolbar';
+import { DialogComponent } from '../../../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -17,32 +20,20 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatToolbar,
   ],
   templateUrl: './gerenciar-veiculos.component.html',
   styleUrl: './gerenciar-veiculos.component.css'
 })
+
+
 export class GerenciarVeiculosComponent {
-  veiculoForm: FormGroup;
-  tipos =['Carro', 'Van', 'Caminhão'];
-  status = ['Disponível', 'Inativo', 'Em Manutenção'];
-
-  constructor(private fb: FormBuilder){
-    this.veiculoForm = this.fb.group({
-      placa: ['', Validators.required],
-      modelo: ['', Validators.required],
-      tipo: ['', Validators.required],
-      ano: [null, [Validators.required, Validators.min(1900)]],
-      quilometragemAtual: [0, [Validators.required, Validators.min(0)]],
-      status: ['', Validators.required],
-    })
+  constructor(private dialog: MatDialog) {}
+  
+  openDialog() {
+    this.dialog.open(DialogComponent, {
+      width: '30%',
+      height: '60%',
+    });
   }
-
-  salvar(){
-    if(this.veiculoForm.valid){
-      console.log(this.veiculoForm.value);
-    }
-  }
-
-
-
 }
