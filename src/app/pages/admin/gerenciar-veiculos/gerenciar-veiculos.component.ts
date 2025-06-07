@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';
 import { DialogComponent } from '../../../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatSelectModule,
     MatButtonModule,
     MatToolbar,
+    MatTableModule
   ],
   templateUrl: './gerenciar-veiculos.component.html',
   styleUrl: './gerenciar-veiculos.component.css'
@@ -28,11 +30,27 @@ import { MatDialog } from '@angular/material/dialog';
 
 
 export class GerenciarVeiculosComponent {
+  lista_veiculos: any[] = [];
+
+  colunas: string[] = [
+    'Placa',
+    'Modelo',
+    'Tipo',
+    'Ano',
+    'Quilometragem Atual',
+    'Status',
+  ]
+
   constructor(private dialog: MatDialog) {}
-  
-  openDialog() {
-    this.dialog.open(DialogComponent, {
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
       width: '30%',
-    });
+    })
+
+    dialogRef.afterClosed().subscribe((resultado) => {
+    if (resultado) {
+      this.lista_veiculos = [...this.lista_veiculos, resultado];
+    }
+  });
   }
 }

@@ -3,3 +3,41 @@
   <span class="example-spacer"></span>
   <button mat-raised-button color="primary" (click)="openDialog()">Editar</button>
 </mat-toolbar>
+
+<div class="tabela-container">
+  <table mat-table [dataSource]="lista_veiculos" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="Placa">
+      <mat-header-cell *matHeaderCellDef> Placa </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo"> {{veiculo.placa}} </mat-cell>
+    </ng-container>
+     
+    <ng-container matColumnDef="Modelo">
+      <mat-header-cell *matHeaderCellDef> Modelo </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo"> {{veiculo.modelo}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Tipo">
+      <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo"> {{veiculo.tipo}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Ano">
+      <mat-header-cell *matHeaderCellDef> Ano </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo"> {{veiculo.ano}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Quilometragem Atual">
+      <mat-header-cell *matHeaderCellDef> Quilometragem Atual </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo"> {{veiculo.quilometragemAtual}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo"> {{veiculo.status}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: colunas;"></mat-row>
+  </table>
+</div>
