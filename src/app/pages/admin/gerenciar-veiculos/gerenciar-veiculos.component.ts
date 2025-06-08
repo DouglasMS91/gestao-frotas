@@ -5,6 +5,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbar } from '@angular/material/toolbar';
+import { DialogComponent } from '../../../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
 
 
 @Component({
@@ -17,32 +21,36 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatToolbar,
+    MatTableModule
   ],
   templateUrl: './gerenciar-veiculos.component.html',
   styleUrl: './gerenciar-veiculos.component.css'
 })
+
+
 export class GerenciarVeiculosComponent {
-  veiculoForm: FormGroup;
-  tipos =['Carro', 'Van', 'Caminhão'];
-  status = ['Disponível', 'Inativo', 'Em Manutenção'];
+  lista_veiculos: any[] = [];
 
-  constructor(private fb: FormBuilder){
-    this.veiculoForm = this.fb.group({
-      placa: ['', Validators.required],
-      modelo: ['', Validators.required],
-      tipo: ['', Validators.required],
-      ano: [null, [Validators.required, Validators.min(1900)]],
-      quilometragemAtual: [0, [Validators.required, Validators.min(0)]],
-      status: ['', Validators.required],
+  colunas: string[] = [
+    'Placa',
+    'Modelo',
+    'Tipo',
+    'Ano',
+    'Quilometragem Atual',
+    'Status',
+  ]
+
+  constructor(private dialog: MatDialog) {}
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '30%',
     })
-  }
 
-  salvar(){
-    if(this.veiculoForm.valid){
-      console.log(this.veiculoForm.value);
+    dialogRef.afterClosed().subscribe((resultado) => {
+    if (resultado) {
+      this.lista_veiculos = [...this.lista_veiculos, resultado];
     }
+  });
   }
-
-
-
 }

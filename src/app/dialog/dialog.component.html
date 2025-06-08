@@ -1,0 +1,48 @@
+<div class="form-container">
+<h1 mat-dialog-title>Adicionar Veículos</h1>
+  <form [formGroup]="cadastrar_veiculo_form"> 
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Placa</mat-label>
+            <input matInput placeholder="Ex:. AAA8H50" formControlName="placa">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+            <mat-label>Modelo</mat-label>
+            <input matInput placeholder="Modelo" formControlName="modelo">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option value="Carro">Carro</mat-option>
+          <mat-option value="Van">Van</mat-option>
+          <mat-option value="Caminhão">Caminhão</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+            <mat-label>Ano</mat-label>
+            <input matInput placeholder="Ex.: 2014" formControlName="ano">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+            <mat-label>Quilometragem Atual</mat-label>
+            <input matInput placeholder="Ex.: 20.521" formControlName="quilometragemAtual">
+      </mat-form-field>
+
+        <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="Disponível">Disponível</mat-option>
+          <mat-option value="Inativo">Inativo</mat-option>
+          <mat-option value="Em Manutenção">Em Manutenção</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button color="warn" mat-dialog-close (click)="btn_Fechar()">Fechar</button>
+      <button mat-raised-button color="primary" (click)="btn_Salvar()" class="btn-salvar">Salvar</button>
+    </div>
+  </form>
+</div>
