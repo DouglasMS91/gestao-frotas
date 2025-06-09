@@ -40,8 +40,9 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div>
-      <button mat-raised-button color="warn" mat-dialog-close (click)="btn_Fechar()">Fechar</button>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button color="warn" mat-dialog-close>Fechar</button>
       <button mat-raised-button color="primary" (click)="btn_Salvar()" class="btn-salvar">Salvar</button>
     </div>
   </form>
