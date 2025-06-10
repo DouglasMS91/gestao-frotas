@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -22,6 +23,7 @@ import { MatDialogRef } from '@angular/material/dialog';
     CommonModule,
     MatDialogModule,
     ReactiveFormsModule,
+    MatNativeDateModule
   ],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.css'
@@ -31,7 +33,9 @@ export class DialogComponent {
   cadastrar_veiculo_form!: FormGroup;
 
   constructor(private fb: FormBuilder, 
-    public dialogRef: MatDialogRef<DialogComponent>) {
+    public dialogRef: MatDialogRef<DialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.cadastrar_veiculo_form = this.fb.group({
       placa: ['', Validators.required],
       modelo: ['', Validators.required],
@@ -40,19 +44,26 @@ export class DialogComponent {
       quilometragemAtual: ['', Validators.required],
       status: ['', Validators.required],
     });
+
+    if (data && data.veiculo) {
+       setTimeout(() => {
+           this.cadastrar_veiculo_form.patchValue(data.veiculo);
+        });
+     
+      console.log('Form atualizado:', this.cadastrar_veiculo_form.value);
+    }
   }
 
-    btn_Salvar() {
+    onSubmit() {
       if(this.cadastrar_veiculo_form.valid){
         const form = this.cadastrar_veiculo_form.value;
-        //form.placa = form.placa.toUpperCase();
         this.dialogRef.close(form);
         console.log(form);
       }
 
   }
+  onClose(){
+    this.dialogRef.close(); 
+  }
 
-    btn_Fechar(): void{
-      this.dialogRef.close();
-    }
 }

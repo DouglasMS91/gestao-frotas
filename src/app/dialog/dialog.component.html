@@ -1,6 +1,6 @@
 <div class="form-container">
 <h1 mat-dialog-title>Adicionar Veículos</h1>
-  <form [formGroup]="cadastrar_veiculo_form"> 
+  <form [formGroup]="cadastrar_veiculo_form" (ngSubmit)="onSubmit()"> 
     <div mat-dialog-content>
         <mat-form-field appearance="fill">
             <mat-label>Placa</mat-label>
@@ -42,8 +42,9 @@
     </div>
 
     <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>Fechar</button>
-      <button mat-raised-button color="primary" (click)="btn_Salvar()" class="btn-salvar">Salvar</button>
+      <button mat-raised-button color="warn" (click)="onClose()">Fechar</button>
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+
     </div>
   </form>
 </div>

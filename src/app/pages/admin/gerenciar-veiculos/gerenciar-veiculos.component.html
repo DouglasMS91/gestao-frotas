@@ -37,6 +37,14 @@
       <mat-cell *matCellDef="let veiculo"> {{veiculo.status}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="Ações">
+      <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo">
+        <button mat-button  (click)="editVeiculo(veiculo)">Editar</button>
+        <button mat-button  (click)="deleteVeiculo(veiculo)">Excluir</button>
+      </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
     <mat-row *matRowDef="let row; columns: colunas;"></mat-row>
   </table>

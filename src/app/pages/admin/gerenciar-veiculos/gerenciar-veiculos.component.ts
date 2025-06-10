@@ -9,6 +9,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { DialogComponent } from '../../../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
+import { ConfirmarExclusaoComponent } from './confirmar-exclusao-veiculo/confirmar-exclusao.component';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class GerenciarVeiculosComponent {
     'Ano',
     'Quilometragem Atual',
     'Status',
+    'Ações'
   ]
 
   constructor(private dialog: MatDialog) {}
@@ -48,9 +50,42 @@ export class GerenciarVeiculosComponent {
     })
 
     dialogRef.afterClosed().subscribe((resultado) => {
-    if (resultado) {
-      this.lista_veiculos = [...this.lista_veiculos, resultado];
-    }
-  });
+      if (resultado) {
+        this.lista_veiculos = [...this.lista_veiculos, resultado];
+      }
+    });
+  }
+
+  editVeiculo(veiculo: any): void {
+    const dialogRef = this.dialog.open(DialogComponent, { 
+      width: '30%',
+      data: { veiculo }
+    });
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        const index = this.lista_veiculos.indexOf(veiculo);
+        if (index > -1) {
+          this.lista_veiculos[index] = resultado; // Atualiza o veiculo editado
+          this.lista_veiculos = [...this.lista_veiculos]; // Atualiza a lista para refletir as mudanças
+          console.log('Veiculo updated:', resultado);
+        }
+      }
+    });
+  }
+
+  deleteVeiculo(veiculo: any): void {
+    const dialogRef = this.dialog.open(ConfirmarExclusaoComponent, {
+      width: '30%',
+    });
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        const index = this.lista_veiculos.indexOf(veiculo);
+        if (index > -1) {   
+          this.lista_veiculos.splice(index, 1);
+          this.lista_veiculos = [...this.lista_veiculos]; // Atualiza a lista para refletir as mudanças
+          console.log('Veiculo deleted:', veiculo);
+        }
+      }
+    });
   }
 }
