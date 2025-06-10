@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { ConfirmarExclusaoComponent } from './confirmar-exclusao/confirmar-exclusao.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -26,6 +27,7 @@ import { ConfirmarExclusaoComponent } from './confirmar-exclusao/confirmar-exclu
     MatToolbarModule, 
     MatTableModule,
     MatSelectModule,
+    MatIconModule
   ],
   templateUrl: './gerenciar-motoristas.component.html',
   styleUrl: './gerenciar-motoristas.component.css'

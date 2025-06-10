@@ -50,8 +50,12 @@
     <ng-container matColumnDef="Ações">
       <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
       <mat-cell *matCellDef="let motorista">
-        <button mat-button (click)="editMotorista(motorista)">Editar</button>
-        <button mat-button (click)="deleteMotorista(motorista)">Excluir</button>
+        <button mat-button (click)="editMotorista(motorista)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button (click)="deleteMotorista(motorista)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </mat-cell>
     </ng-container>
 

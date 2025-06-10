@@ -10,6 +10,7 @@ import { DialogComponent } from '../../../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { ConfirmarExclusaoComponent } from './confirmar-exclusao-veiculo/confirmar-exclusao.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -23,7 +24,8 @@ import { ConfirmarExclusaoComponent } from './confirmar-exclusao-veiculo/confirm
     MatSelectModule,
     MatButtonModule,
     MatToolbar,
-    MatTableModule
+    MatTableModule,
+    MatIconModule
   ],
   templateUrl: './gerenciar-veiculos.component.html',
   styleUrl: './gerenciar-veiculos.component.css'
