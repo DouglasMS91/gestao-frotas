@@ -3,3 +3,60 @@
   <span class="example-spacer"></span>
   <button mat-raised-button color="primary" (click)="openDialog()">Editar</button>
 </mat-toolbar>
+
+<div class="tabela-motoristas">
+  <table mat-table [dataSource]="lista_motoristas" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="Nome">
+      <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.nome}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="CPF">
+      <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.cpf}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="CNH">
+      <mat-header-cell *matHeaderCellDef> CNH </mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.cnh}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Validade CNH">
+      <mat-header-cell *matHeaderCellDef> Validade CNH</mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.validade_cnh | date:'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Telefone">
+      <mat-header-cell *matHeaderCellDef> Telefone </mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.telefone}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Endereço">
+      <mat-header-cell *matHeaderCellDef> Endereço </mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.endereco}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.email}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Senha">
+      <mat-header-cell *matHeaderCellDef> Senha </mat-header-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.senha }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Ações">
+      <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+      <mat-cell *matCellDef="let motorista">
+        <button mat-button (click)="editMotorista(motorista)">Editar</button>
+        <button mat-button (click)="deleteMotorista(motorista)">Excluir</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: colunas;"></mat-row>
+  </table>
+
+</div>

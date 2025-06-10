@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';
 import { DialogComponent } from '../../../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 
 
 @Component({

@@ -16,20 +16,13 @@
       <mat-form-field appearance="fill">
         <mat-label>CNH</mat-label>
         <input matInput formControlName="cnh">
-      </mat-form-field>
-
-    <!--
-      <mat-form-field appearance="fill">
-      <mat-label>Validade CNH</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="validade_cnh">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    -->
+      </mat-form-field>      
 
       <mat-form-field appearance="fill">
         <mat-label>Validade CNH</mat-label>
-        <input matInput formControlName="validade_cnh">
+        <input matInput [matDatepicker]="picker" formControlName="validade_cnh">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
        <mat-form-field appearance="fill">
@@ -54,7 +47,7 @@
       
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>Fechar</button>
+      <button mat-raised-button color="warn" (click)="onClose()">Fechar</button>
       <button mat-raised-button color="primary" class="btn-salvar" type="submit">Salvar</button>
     </div>
   </form>

@@ -29,7 +29,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 export class DialogComponent {
   cadastrar_veiculo_form!: FormGroup;
-  //public dialogRef!: MatDialogRef<DialogComponent>
 
   constructor(private fb: FormBuilder, 
     public dialogRef: MatDialogRef<DialogComponent>) {
