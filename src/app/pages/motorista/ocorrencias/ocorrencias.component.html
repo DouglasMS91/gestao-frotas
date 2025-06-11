@@ -1,0 +1,25 @@
+<div class="ocorrencias-container">
+  <mat-card>
+    <h2>Registrar Ocorrência</h2>
+
+    <form [formGroup]="ocorrenciaForm" (ngSubmit)="enviarOcorrencia()">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Veículo</mat-label>
+        <mat-select formControlName="veiculo" required>
+          <mat-option *ngFor="let veiculo of veiculos" [value]="veiculo.id">
+            {{ veiculo.modelo }} - {{ veiculo.placa }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Descrição do problema</mat-label>
+        <textarea matInput rows="5" formControlName="descricao" required></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="ocorrenciaForm.invalid">
+        Enviar Ocorrência
+      </button>
+    </form>
+  </mat-card>
+</div>

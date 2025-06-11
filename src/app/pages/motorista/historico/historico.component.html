@@ -1,0 +1,40 @@
+<mat-card>
+  <mat-card-title>Histórico de Viagens</mat-card-title>
+  <mat-card-content>
+    <table mat-table [dataSource]="viagens" class="mat-elevation-z8 full-width-table">
+
+      <!-- Veículo -->
+      <ng-container matColumnDef="veiculo">
+        <th mat-header-cell *matHeaderCellDef>Veículo</th>
+        <td mat-cell *matCellDef="let viagem">{{ viagem.veiculo }}</td>
+      </ng-container>
+
+      <!-- Saída -->
+      <ng-container matColumnDef="saida">
+        <th mat-header-cell *matHeaderCellDef>Saída</th>
+        <td mat-cell *matCellDef="let viagem">{{ viagem.dataSaida }}</td>
+      </ng-container>
+
+      <!-- Retorno -->
+      <ng-container matColumnDef="retorno">
+        <th mat-header-cell *matHeaderCellDef>Retorno</th>
+        <td mat-cell *matCellDef="let viagem">{{ viagem.dataRetorno }}</td>
+      </ng-container>
+
+      <!-- Destino -->
+      <ng-container matColumnDef="destino">
+        <th mat-header-cell *matHeaderCellDef>Destino</th>
+        <td mat-cell *matCellDef="let viagem">{{ viagem.destino }}</td>
+      </ng-container>
+
+      <!-- Quilometragem -->
+      <ng-container matColumnDef="km">
+        <th mat-header-cell *matHeaderCellDef>KM</th>
+        <td mat-cell *matCellDef="let viagem">{{ viagem.kmInicial }} → {{ viagem.kmFinal }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
