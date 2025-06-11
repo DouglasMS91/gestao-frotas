@@ -1,1 +1,28 @@
-<p>motorista-home works!</p>
+<div class="pagina-motorista">
+  <h2 class="titulo">📅 Meus Agendamentos</h2>
+
+  <div class="agendamentos-grid">
+    <mat-card *ngFor="let agendamento of agendamentos" class="agendamento-card">
+      <div class="agendamento-info">
+        <h3>{{ agendamento.veiculo }}</h3>
+        <p><mat-icon>event</mat-icon> {{ agendamento.data }}</p>
+        <p><mat-icon>place</mat-icon> {{ agendamento.destino }}</p>
+        <p><mat-icon>info</mat-icon> Status: <strong>{{ agendamento.status }}</strong></p>
+      </div>
+
+      <div class="agendamento-acoes">
+        <button *ngIf="agendamento.status === 'AGENDADO'" mat-raised-button color="primary" (click)="iniciarViagem(agendamento.id)">
+          <mat-icon>play_arrow</mat-icon> Iniciar Viagem
+        </button>
+
+        <button *ngIf="agendamento.status === 'EM USO'" mat-raised-button color="accent" (click)="finalizarViagem(agendamento.id)">
+          <mat-icon>stop</mat-icon> Finalizar Viagem
+        </button>
+
+        <button *ngIf="agendamento.status !== 'AGENDADO' && agendamento.status !== 'EM USO'" mat-raised-button color="warn" (click)="visualizarDetalhes(agendamento.id)">
+          <mat-icon>visibility</mat-icon> Ver Detalhes
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+.pagina-motorista {
+  padding: 2rem;
+  background-color: #f4f6f8;
+}
+
+.titulo {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.agendamentos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.agendamento-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.agendamento-info h3 {
+  margin: 0 0 0.5rem;
+  color: #3f51b5;
+}
+
+.agendamento-info p {
+  margin: 0.2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #555;
+}
+
+.agendamento-acoes {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
