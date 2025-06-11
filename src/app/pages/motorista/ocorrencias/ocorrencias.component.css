@@ -1,0 +1,14 @@
+.ocorrencias-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+mat-card {
+  padding: 2rem;
+}
