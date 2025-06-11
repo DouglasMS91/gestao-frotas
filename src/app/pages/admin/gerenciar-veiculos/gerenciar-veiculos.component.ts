@@ -33,7 +33,32 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 export class GerenciarVeiculosComponent {
-  lista_veiculos: any[] = [];
+  lista_veiculos: any[] = [
+    {
+      placa: 'ABC-1234',
+      modelo: 'Fusca',
+      tipo: 'Carro',
+      ano: 1975,
+      quilometragemAtual: 150000,
+      status: 'Disponível'
+    },
+    {
+      placa: 'XYZ-5678',
+      modelo: 'Caminhonete',
+      tipo: 'Caminhonete',
+      ano: 2010,
+      quilometragemAtual: 80000,
+      status: 'Em manutenção'
+    },
+    {
+      placa: 'LMN-9012',
+      modelo: 'Van',
+      tipo: 'Van',
+      ano: 2015,
+      quilometragemAtual: 50000,
+      status: 'Disponível'
+    }
+  ];
 
   colunas: string[] = [
     'Placa',

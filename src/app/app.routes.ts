@@ -6,6 +6,7 @@ import { GerenciarMotoristasComponent } from './pages/admin/gerenciar-motoristas
 import { GerenciarVeiculosComponent } from './pages/admin/gerenciar-veiculos/gerenciar-veiculos.component';
 import { RegistrarAbastecimentoComponent } from './pages/admin/registrar-abastecimento/registrar-abastecimento.component';
 import { RegistrarManutencaoComponent } from './pages/admin/registrar-manutencao/registrar-manutencao.component';
+import { PaginaInicialComponent } from './pages/admin/pagina-inicial/pagina-inicial.component';
 import { MotoristaHomeComponent } from './pages/motorista/home/motorista-home.component';
 import { MOTORISTA_ROUTES } from './pages/motorista/motorista.route';
 
@@ -19,6 +20,7 @@ export const routes: Routes = [
 
   {path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
     children: [
+        {path: 'pagina-inicial', loadComponent: ()=> import('./pages/admin/pagina-inicial/pagina-inicial.component').then((m) => m.PaginaInicialComponent)},
         {path: 'agendar-viagem', loadComponent: ()=> import('./pages/admin/agendar-viagem/agendar-viagem.component').then((m) => m.AgendarViagemComponent),},
         {path: 'gerenciar-motoristas', loadComponent: ()=> import('./pages/admin/gerenciar-motoristas/gerenciar-motoristas.component').then((m) => m.GerenciarMotoristasComponent),},
         {path: 'gerenciar-veiculos', loadComponent: () => import('./pages/admin/gerenciar-veiculos/gerenciar-veiculos.component').then((m) => m.GerenciarVeiculosComponent),},

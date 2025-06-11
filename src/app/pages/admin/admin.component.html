@@ -9,6 +9,7 @@
 
 <mat-sidenav-container class="admin-layout">
   <mat-sidenav mode="side" opened class="admin-sidenav">
+    <button mat-button routerLink="/admin/pagina-inicial">Página Inicial</button>
     <button mat-button routerLink="/admin/agendar-viagem">Agendar Viagem</button>
     <button mat-button routerLink="/admin/gerenciar-veiculos">Gerenciar Veículos</button>
     <button mat-button routerLink="/admin/gerenciar-motoristas">Gerenciar Motoristas</button>
@@ -16,6 +17,7 @@
     <button mat-button routerLink="/admin/registrar-manutencao">Registrar Manutenção</button>
   </mat-sidenav>
 
+ 
   <div class="admin-content">
       <router-outlet></router-outlet>
   </div>

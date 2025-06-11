@@ -6,12 +6,14 @@ import { routes } from './app/app.routes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
+import { provideHttpClient } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     importProvidersFrom(BrowserAnimationsModule),
-    importProvidersFrom(MatNativeDateModule)
+    importProvidersFrom(MatNativeDateModule),
+    provideHttpClient(),
   ]
 });
 

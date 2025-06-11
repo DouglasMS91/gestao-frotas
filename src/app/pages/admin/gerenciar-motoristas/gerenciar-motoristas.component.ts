@@ -34,7 +34,30 @@ import { MatIconModule } from '@angular/material/icon';
 })
 
 export class GerenciarMotoristasComponent {
-  lista_motoristas: any[] = [];
+  lista_motoristas: any[] = [
+    {
+      nome: 'João da Silva',
+      cpf: '123.456.789-00',
+      cnh: '1234567890',
+      validadeCnh: '04/12/2033',
+      telefone: '(41) 99999-9999',
+      endereco: 'Rua A, 123, Curitiba - PR',
+      email: 'joao.silva@gmail.com',
+      senha: 'senha123'
+    },
+    {
+      nome: 'Maria Oliveira',
+      cpf: '987.654.321-00',
+      cnh: '0987654321',
+      validadeCnh: '06/10/2036',
+      telefone: '(41) 98888-8888',
+      endereco: 'Avenida B, 456, Curitiba - PR',
+      email: 'm.oliveira@hotmail.com',
+      senha: 'senha123'
+    },
+
+
+  ];
   colunas: string[] = [
     'Nome',
     'CPF',
