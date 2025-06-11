@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <mat-icon class="icone-esquerdo">local_shipping</mat-icon>
+  <span class="titulo">Cargo Express</span>
+  <span class="spacer"></span>
+  <button mat-icon-button>
+    <mat-icon class="icone-direito">supervised_user_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="motorista-layout">
+  <mat-sidenav mode="side" opened class="motorista-sidenav">
+      <button mat-button routerLink="/motorista/home" routerLinkActive="active">
+        <mat-icon class="icone-esquerdo">home</mat-icon>Início</button>
+      <button mat-button routerLink="/motorista/ocorrencias" routerLinkActive="active">Ocorrências</button>
+      <button mat-button routerLink="/motorista/historico" routerLinkActive="active">Histórico</button>
+  </mat-sidenav>
+
+  <div class="motorista-content">
+      <router-outlet></router-outlet>
+  </div>
+

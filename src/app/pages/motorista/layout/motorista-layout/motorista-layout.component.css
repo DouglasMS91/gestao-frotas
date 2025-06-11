@@ -1,0 +1,33 @@
+mat-toolbar{
+  background-color: #b71c1c;
+}
+
+
+.motorista-layout {
+  height: 100vh;
+}
+
+.motorista-sidenav {
+  width: 220px;
+  padding: 1rem;
+  background-color: #f0f0f0;
+}
+
+.motorista-sidenav button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.motorista-content {
+  padding: 1rem;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.icone-esquerdo{
+  margin-right: 8px;
+}

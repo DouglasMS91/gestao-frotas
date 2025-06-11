@@ -1,12 +1,15 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
-import { MotoristaComponent } from './pages/motorista/motorista.component';
 import { AgendarViagemComponent } from './pages/admin/agendar-viagem/agendar-viagem.component';
 import { GerenciarMotoristasComponent } from './pages/admin/gerenciar-motoristas/gerenciar-motoristas.component';
 import { GerenciarVeiculosComponent } from './pages/admin/gerenciar-veiculos/gerenciar-veiculos.component';
 import { RegistrarAbastecimentoComponent } from './pages/admin/registrar-abastecimento/registrar-abastecimento.component';
 import { RegistrarManutencaoComponent } from './pages/admin/registrar-manutencao/registrar-manutencao.component';
+import { MotoristaHomeComponent } from './pages/motorista/home/motorista-home.component';
+import { MOTORISTA_ROUTES } from './pages/motorista/motorista.route';
+
+
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -22,5 +25,9 @@ export const routes: Routes = [
         {path: 'registrar-abastecimento', loadComponent: ()=> import('./pages/admin/registrar-abastecimento/registrar-abastecimento.component').then((m) => m.RegistrarAbastecimentoComponent),},
         {path: 'registrar-manutencao', loadComponent: ()=> import('./pages/admin/registrar-manutencao/registrar-manutencao.component').then((m) => m.RegistrarManutencaoComponent),},
     ],
+  },
+  {
+    path: 'motorista',
+    children: MOTORISTA_ROUTES
   },
 ];
