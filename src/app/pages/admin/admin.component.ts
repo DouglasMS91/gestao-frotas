@@ -4,7 +4,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { AgendamentoService } from '../../services/agendamento.service';
+//import { AgendamentoService } from '../../services/agendamento.service';
 import { Agendamento } from '../../models/agendamento.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -31,10 +31,11 @@ export class AdminComponent implements OnInit {
   //opened = true;
   agendamentos: Agendamento[] = [];
 
-  constructor(private agendamentoService: AgendamentoService) {}
+  //constructor(private agendamentoService: AgendamentoService) {}
+  //O QUE EESTÁ COMENTADO POR ENQUANTO É PARA EVITAR ERRO DA REQUISIÇÃO HTTP DO AGENDAMENTO SERVICE
 
   ngOnInit(): void {
-    this.carregarAgendamentos();
+    //this.carregarAgendamentos();
     this.agendamentos = [
     { id: 1, status: 'PENDENTE', motorista: { id: 1, nome: 'João' }, dataInicio: '10/05/2025', dataFim: '15/05/2025', veiculo: { modelo: '', placa: '' } },
     { id: 2, status: 'EM_USO', motorista: { id: 2, nome: 'Maria' }, dataInicio: '', dataFim: '', veiculo: { modelo: '', placa: '' } },
@@ -42,12 +43,13 @@ export class AdminComponent implements OnInit {
   ];
   }
 
-    carregarAgendamentos(): void {
+   /* carregarAgendamentos(): void {
     this.agendamentoService.listarAgendamentos({}).subscribe({
       next: (res) => this.agendamentos = res,
       error: (err) => console.error(err)
     });
-  }
+  }*/
+
   filtros = {
     periodoInicial: '',
     periodoFinal: '',

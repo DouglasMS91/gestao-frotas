@@ -3,97 +3,11 @@
 }
 
 .toolbar{
-  background-color: red;
+  background-color: #b71c1c;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
 }
 
-.container {
-  max-width: 600px;
-  margin: 20px auto;
-  font-family: Arial, sans-serif;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.card {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  margin-bottom: 16px;
-  padding: 12px;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.status {
-  padding: 4px 8px;
-  border-radius: 12px;
+.titulo{
   color: white;
-  font-size: 0.8rem;
-  text-transform: uppercase;
 }
 
-.status.pendente {
-  background-color: #f39c12; /* laranja */
-}
-
-.status.em_uso {
-  background-color: #2980b9; /* azul */
-}
-
-.status.finalizado {
-  background-color: #27ae60; /* verde */
-}
-
-.card-body p {
-  margin: 6px 0;
-}
-
-.actions {
-  margin-top: 12px;
-}
-
-.btn {
-  border: none;
-  padding: 8px 14px;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-  margin-right: 8px;
-  transition: background-color 0.3s ease;
-}
-
-.btn.success {
-  background-color: #2ecc71;
-}
-
-.btn.success:hover {
-  background-color: #27ae60;
-}
-
-.btn.warning {
-  background-color: #f1c40f;
-  color: #333;
-}
-
-.btn.warning:hover {
-  background-color: #d4ac0d;
-  color: #222;
-}
-
-.btn.info {
-  background-color: #3498db;
-}
-
-.btn.info:hover {
-  background-color: #2980b9;
-}

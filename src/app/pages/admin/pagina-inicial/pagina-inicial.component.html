@@ -1,21 +1,3 @@
-<mat-toolbar color="primary">
-  <mat-icon class="icone-esquerdo">local_shipping</mat-icon>
-  <span class="titulo">Cargo Express</span>
-  <span class="spacer"></span>
-  <button mat-icon-button>
-    <mat-icon class="icone-direito">supervised_user_circle</mat-icon>
-  </button>
-</mat-toolbar>
-
-<mat-sidenav-container class="admin-layout">
-  <mat-sidenav mode="side" opened class="admin-sidenav">
-    <button mat-button routerLink="/admin/agendar-viagem">Agendar Viagem</button>
-    <button mat-button routerLink="/admin/gerenciar-veiculos">Gerenciar Veículos</button>
-    <button mat-button routerLink="/admin/gerenciar-motoristas">Gerenciar Motoristas</button>
-    <button mat-button routerLink="/admin/registrar-abastecimento">Registrar Abastecimento</button>
-    <button mat-button routerLink="/admin/registrar-manutencao">Registrar Manutenção</button>
-  </mat-sidenav>
-
  <div class="container">
   <h2>Lista de Agendamentos</h2>
 
@@ -24,22 +6,20 @@
       <span>Agendamento #{{ ag.id }}</span>
       <span class="status" [ngClass]="ag.status.toLowerCase()">{{ ag.status }}</span>
     </div>
+
     <div class="card-body">
       <p><strong>Motorista:</strong> {{ ag.motorista }}</p>
-      <p><strong>Data:</strong> {{ ag.dataInicio || 'Não informada' }}</p>
-      <p><strong>Data:</strong> {{ ag.dataFim || 'Não informada' }}</p>
+      <p><strong>Início:</strong> {{ ag.dataInicio || 'Não informada' }}</p>
+      <p><strong>Fim:</strong> {{ ag.dataFim || 'Não informada' }}</p>
 
       <div class="actions">
         <button *ngIf="ag.status === 'PENDENTE'" (click)="agendarViagem(ag.id)" class="btn success">Agendar Viagem</button>
         <button *ngIf="ag.status === 'EM_USO'" (click)="registrarAbastecimento(ag.id)" class="btn warning">Registrar Abastecimento</button>
         <button *ngIf="ag.status === 'FINALIZADO'" (click)="registrarManutencao(ag.id)" class="btn info">Registrar Manutenção</button>
+        
       </div>
     </div>
   </div>
 </div>
 
 
-
-  <div class="admin-content">
-      <router-outlet></router-outlet>
-  </div>

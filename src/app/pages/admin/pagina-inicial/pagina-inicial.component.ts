@@ -1,13 +1,12 @@
 import { Component, OnInit} from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AgendamentoService } from '../../../services/agendamento.service';
-import { Agendamento } from '../../../models/agendamento.model';
+
 
 
 
@@ -15,8 +14,6 @@ import { Agendamento } from '../../../models/agendamento.model';
   selector: 'app-pagina-inicial',
   standalone: true,
   imports: [
-    RouterOutlet,
-    RouterModule,
     MatSidenavModule,
     MatButtonModule,
     MatToolbarModule,
@@ -24,32 +21,24 @@ import { Agendamento } from '../../../models/agendamento.model';
     FormsModule,
     CommonModule,
   ],
-  providers: [AgendamentoService],
   templateUrl: './pagina-inicial.component.html',
   styleUrl: './pagina-inicial.component.css'
 })
 
 export class PaginaInicialComponent  implements OnInit{
-  agendamentos: Agendamento[] = [];
-  
-    constructor(private agendamentoService: AgendamentoService) {}
-  
-    ngOnInit(): void {
-      this.carregarAgendamentos();
-      this.agendamentos = [
-      { id: 1, status: 'PENDENTE', motorista: { id: 1, nome: 'João' }, dataInicio: '10/05/2025', dataFim: '15/05/2025', veiculo: { modelo: '', placa: '' } },
-      { id: 2, status: 'EM_USO', motorista: { id: 2, nome: 'Maria' }, dataInicio: '', dataFim: '', veiculo: { modelo: '', placa: '' } },
-      { id: 3, status: 'FINALIZADO', motorista: { id: 3, nome: 'Carlos' }, dataInicio: '', dataFim: '', veiculo: { modelo: '', placa: '' } }
+  agendamentos: any[] = [];
+
+  ngOnInit(): void {
+    console.log('Página Inicial carregada');
+    this.agendamentos = [
+      { id: 1, status: 'PENDENTE', motorista: 'João', dataInicio: '10/05/2025', dataFim: '15/05/2025' },
+      { id: 2, status: 'EM_USO', motorista: 'Maria', dataInicio: '1', dataFim: '1' },
+      { id: 3, status: 'FINALIZADO', motorista: 'Carlos', dataInicio: '2', dataFim: '2' },
+      { id: 4, status: 'PENDENTE', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' }
     ];
-    }
-  
-      carregarAgendamentos(): void {
-      this.agendamentoService.listarAgendamentos({}).subscribe({
-        next: (res) => this.agendamentos = res,
-        error: (err) => console.error(err)
-      });
-    }
-    filtros = {
+  }
+
+  filtros = {
       periodoInicial: '',
       periodoFinal: '',
       status: '',
@@ -77,3 +66,4 @@ export class PaginaInicialComponent  implements OnInit{
       // Lógica para registrar manutenção
     }
 }
+
