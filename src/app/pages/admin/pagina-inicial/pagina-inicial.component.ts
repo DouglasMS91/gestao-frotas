@@ -6,6 +6,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AgendarViagemComponent } from '../agendar-viagem/agendar-viagem.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RegistrarAbastecimentoComponent } from '../registrar-abastecimento/registrar-abastecimento.component';
 
 
 
@@ -26,10 +29,49 @@ import { CommonModule } from '@angular/common';
 })
 
 export class PaginaInicialComponent  implements OnInit{
+  veiculos: any = [
+    'Fusca',
+    'Caminhonete'
+  ]
+
+  motoristas: any = [
+    'João da Silva',
+    'Maria Oliveira'
+  ]
+
+  constructor(private dialog: MatDialog) { }
+  agendarViagem(id: number) {
+  this.dialog.open(AgendarViagemComponent, {
+    width: '30%',
+    data: {
+      veiculos: this.veiculos, // array de veículos disponíveis
+      motoristas: this.motoristas // array de motoristas disponíveis
+    }
+  }).afterClosed().subscribe(result => {
+    if (result) {
+      // Salve o agendamento (ex: this.agendamentos.push(result))
+    }
+  });
+}
+
+registrarAbastecimento(id: number) {
+  this.dialog.open(RegistrarAbastecimentoComponent, {
+    width: '30%',
+    data: {
+      veiculos: this.veiculos, // array de veículos disponíveis 
+      motoristas: this.motoristas // array de motoristas disponíveis
+    }
+  }).afterClosed().subscribe(result => {
+    if (result) {
+      // Salve o abastecimento (ex: this.abastecimentos.push(result))      
+    }
+  });
+}
+
+
   agendamentos: any[] = [];
 
   ngOnInit(): void {
-    console.log('Página Inicial carregada');
     this.agendamentos = [
       { id: 1, status: 'PENDENTE', motorista: 'João', dataInicio: '10/05/2025', dataFim: '15/05/2025' },
       { id: 2, status: 'EM_USO', motorista: 'Maria', dataInicio: '1', dataFim: '1' },
@@ -51,15 +93,9 @@ export class PaginaInicialComponent  implements OnInit{
     }
   
     // MÉTODOS QUE ESTÃO SENDO CHAMADOS NO HTML - DECLARADOS AQUI
-    agendarViagem(id: number): void {
-      console.log('Agendar viagem para o agendamento id:', id);
-      // Lógica para agendar viagem
-    }
+
   
-    registrarAbastecimento(id: number): void {
-      console.log('Registrar abastecimento para o agendamento id:', id);
-      // Lógica para registrar abastecimento
-    }
+    
   
     registrarManutencao(id: number): void {
       console.log('Registrar manutenção para o agendamento id:', id);
