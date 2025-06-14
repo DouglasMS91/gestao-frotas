@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AgendarViagemComponent } from '../agendar-viagem/agendar-viagem.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RegistrarAbastecimentoComponent } from '../registrar-abastecimento/registrar-abastecimento.component';
+import { RegistrarManutencaoComponent } from '../registrar-manutencao/registrar-manutencao.component';
 
 
 
@@ -68,6 +69,20 @@ registrarAbastecimento(id: number) {
   });
 }
 
+  registrarManutencao(id: number) {
+      this.dialog.open(RegistrarManutencaoComponent, {
+        width: '30%',
+        data: {
+          veiculos: this.veiculos // array de veículos disponíveis
+        }
+    }).afterClosed().subscribe(result => {
+    if (result) {
+     
+    }
+  });
+}
+
+
 
   agendamentos: any[] = [];
 
@@ -97,9 +112,6 @@ registrarAbastecimento(id: number) {
   
     
   
-    registrarManutencao(id: number): void {
-      console.log('Registrar manutenção para o agendamento id:', id);
-      // Lógica para registrar manutenção
-    }
+  
 }
 
