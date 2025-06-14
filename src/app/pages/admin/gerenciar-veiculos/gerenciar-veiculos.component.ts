@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,10 +7,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';
 import { DialogComponent } from '../../../dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { ConfirmarExclusaoComponent } from './confirmar-exclusao-veiculo/confirmar-exclusao.component';
 import { MatIconModule } from '@angular/material/icon';
+import { Veiculo, VeiculoService } from '../../../services/veiculo.service';
+import { EditarVeiculoComponent } from './components/editar-veiculo/editar-veiculo.component';
 
 
 @Component({
@@ -32,34 +34,9 @@ import { MatIconModule } from '@angular/material/icon';
 })
 
 
-export class GerenciarVeiculosComponent {
-  lista_veiculos: any[] = [
-    {
-      placa: 'ABC-1234',
-      modelo: 'Fusca',
-      tipo: 'Carro',
-      ano: 1975,
-      quilometragemAtual: 150000,
-      status: 'Disponível'
-    },
-    {
-      placa: 'XYZ-5678',
-      modelo: 'Caminhonete',
-      tipo: 'Caminhonete',
-      ano: 2010,
-      quilometragemAtual: 80000,
-      status: 'Em manutenção'
-    },
-    {
-      placa: 'LMN-9012',
-      modelo: 'Van',
-      tipo: 'Van',
-      ano: 2015,
-      quilometragemAtual: 50000,
-      status: 'Disponível'
-    }
-  ];
-
+export class GerenciarVeiculosComponent implements OnInit {
+  lista_veiculos: Veiculo[] = [];
+  
   colunas: string[] = [
     'Placa',
     'Modelo',
@@ -70,49 +47,68 @@ export class GerenciarVeiculosComponent {
     'Ações'
   ]
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private veiculoService: VeiculoService
+  ) {}
+
+ngOnInit() {
+    this.veiculoService.getVeiculos().subscribe(veiculos => {
+      this.lista_veiculos = [...veiculos];
+});
+}
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '30%',
-    })
+    });
 
-    dialogRef.afterClosed().subscribe((resultado) => {
-      if (resultado) {
-        this.lista_veiculos = [...this.lista_veiculos, resultado];
+    dialogRef.afterClosed().subscribe((form: any) => {
+      if (form) {
+        const novoVeiculo: Veiculo = {
+          id: Date.now(), 
+          placa: form.placa,
+          modelo: form.modelo,
+          tipo: form.tipo,
+          ano: form.ano,
+          quilometragemAtual: form.quilometragemAtual,
+          status: 'Disponível' 
+        };
+
+        this.veiculoService.adicionarVeiculo(novoVeiculo);
       }
     });
   }
+
+  
 
   editVeiculo(veiculo: any): void {
-    const dialogRef = this.dialog.open(DialogComponent, { 
+    const dialogRef = this.dialog.open(EditarVeiculoComponent, { 
       width: '30%',
-      data: { veiculo }
+      data: veiculo,
     });
-    dialogRef.afterClosed().subscribe((resultado) => {
-      if (resultado) {
-        const index = this.lista_veiculos.indexOf(veiculo);
-        if (index > -1) {
-          this.lista_veiculos[index] = resultado; // Atualiza o veiculo editado
-          this.lista_veiculos = [...this.lista_veiculos]; // Atualiza a lista para refletir as mudanças
-          console.log('Veiculo updated:', resultado);
-        }
+
+    dialogRef.afterClosed().subscribe((veiculoAtualizado: Veiculo) => {
+      if (veiculoAtualizado) {
+        this.veiculoService.atualizarVeiculo(veiculoAtualizado);
       }
     });
   }
 
-  deleteVeiculo(veiculo: any): void {
+  deleteVeiculo(veiculo: Veiculo): void {
     const dialogRef = this.dialog.open(ConfirmarExclusaoComponent, {
       width: '30%',
     });
+
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado) {
         const index = this.lista_veiculos.indexOf(veiculo);
-        if (index > -1) {   
-          this.lista_veiculos.splice(index, 1);
-          this.lista_veiculos = [...this.lista_veiculos]; // Atualiza a lista para refletir as mudanças
-          console.log('Veiculo deleted:', veiculo);
+        if (resultado) {   
+         this.veiculoService.removerVeiculo(veiculo.id);
         }
       }
     });
   }
 }
+
+

@@ -6,37 +6,58 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { VeiculoService } from '../../../../../services/veiculo.service';
+
+
+
+
 
 @Component({
   standalone: true,
   selector: 'app-editar-veiculo',
   templateUrl: './editar-veiculo.component.html',
   styleUrls: ['./editar-veiculo.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatButtonModule]
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    MatInputModule, 
+    MatSelectModule, 
+    MatButtonModule],
+    
+    providers: [VeiculoService]
 })
+
 export class EditarVeiculoComponent {
   veiculoForm: FormGroup;
   statusOptions = ['Disponível', 'Inativo', 'Em Manutenção'];
 
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EditarVeiculoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private fb: FormBuilder, 
+    private dialogRef: MatDialogRef<EditarVeiculoComponent>, 
+    private veiculoService: VeiculoService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    const veiculo = this.data;
     this.veiculoForm = this.fb.group({
-      modelo: [data.modelo, Validators.required],
-      tipo: [data.tipo, Validators.required],
-      placa: [data.placa, Validators.required],
-      ano: [data.ano, [Validators.required, Validators.min(1900)]],
-      km: [data.km, Validators.required],
-      status: [data.status, Validators.required],
+      id: [veiculo.id],
+      modelo: [veiculo.modelo, Validators.required],
+      tipo: [veiculo.tipo, Validators.required],
+      placa: [veiculo.placa, Validators.required],
+      ano: [veiculo.ano, [Validators.required, Validators.min(1900)]],
+      quilometragemAtual: [veiculo.quilometragemAtual, Validators.required],
+      status: [veiculo.status, Validators.required],
     });
+
+    
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.veiculoForm.valid) {
-      this.dialogRef.close(this.veiculoForm.value);
-    }
+    const veiculoAtualizado = this.veiculoForm.value;
+    this.veiculoService.atualizarVeiculo(veiculoAtualizado); // <- atualiza a lista no serviço
+    this.dialogRef.close(veiculoAtualizado); 
+    console.log('Veículo atualizado:', veiculoAtualizado);
+  }
   }
 
   onCancel() {

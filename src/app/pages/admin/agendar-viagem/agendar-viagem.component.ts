@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { VeiculoService } from '../../../services/veiculo.service';
+import { Veiculo } from '../../../services/veiculo.service';
 
 
 @Component({
@@ -27,18 +29,18 @@ import { CommonModule } from '@angular/common';
   templateUrl: './agendar-viagem.component.html',
   styleUrl: './agendar-viagem.component.css'
 })
-export class AgendarViagemComponent {
+export class AgendarViagemComponent implements OnInit {
   form: FormGroup;
-  veiculos: any[] = [];
+  veiculos: Veiculo[] = [];
   motoristas: any[] = [];
 
  constructor(
     private fb: FormBuilder,
+    private veiculoService: VeiculoService,
     public dialogRef: MatDialogRef<AgendarViagemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.veiculos = data.veiculos || [];
-    this.motoristas = data.motoristas || [];
+    this.motoristas = data?.motoristas || [];
     this.form = this.fb.group({
       veiculo: ['', Validators.required],
       motorista: ['', Validators.required],
@@ -49,6 +51,12 @@ export class AgendarViagemComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.veiculoService.getVeiculos().subscribe((veiculos: Veiculo[]) => {
+      this.veiculos = veiculos;
+    });
+  }
+  
   onSubmit() {
     if (this.form.valid) {
       const agendamento = {
