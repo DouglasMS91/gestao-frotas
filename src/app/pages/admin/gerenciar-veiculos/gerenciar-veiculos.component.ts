@@ -62,7 +62,6 @@ ngOnInit() {
   openDialog(): void {
     const dialogRef = this.dialog.open(CadastrarVeiculoComponent, {
       width: '30%',
-
     });
 
     dialogRef.afterClosed().subscribe((form: any) => {
@@ -82,9 +81,7 @@ ngOnInit() {
     });
   }
 
-  
-
-  editVeiculo(veiculo: any): void {
+    editVeiculo(veiculo: any): void {
     const dialogRef = this.dialog.open(EditarVeiculoComponent, { 
       width: '30%',
       data: veiculo,

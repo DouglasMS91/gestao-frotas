@@ -1,5 +1,5 @@
 import { Injectable, model } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Veiculo {
   id: number; 

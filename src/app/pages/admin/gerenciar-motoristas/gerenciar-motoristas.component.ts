@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { FormMotoristasComponent } from './editar-motorista/form-motoristas.component';
+import { FormMotoristasComponent } from './cadastrar-motorista/form-motoristas.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,7 +11,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { ExcluirMotoristaComponent } from './excluir-motorista/excluir-motorista';
-
+import { Motorista } from '../../../models/motorista.model';
+import { MotoristaService } from '../../../services/motorista.service';
+import { EditarMotoristaComponent } from './editar-motorista/editar-motorista.component';
 
 
 
@@ -34,30 +36,8 @@ import { ExcluirMotoristaComponent } from './excluir-motorista/excluir-motorista
 })
 
 export class GerenciarMotoristasComponent {
-  lista_motoristas: any[] = [
-    {
-      nome: 'João da Silva',
-      cpf: '123.456.789-00',
-      cnh: '1234567890',
-      validade_cnh: '04/12/2033',
-      telefone: '(41) 99999-9999',
-      endereco: 'Rua A, 123, Curitiba - PR',
-      email: 'joao.silva@gmail.com',
-      senha: 'senha123'
-    },
-    {
-      nome: 'Maria Oliveira',
-      cpf: '987.654.321-00',
-      cnh: '0987654321',
-      validade_cnh: '06/10/2036',
-      telefone: '(41) 98888-8888',
-      endereco: 'Avenida B, 456, Curitiba - PR',
-      email: 'm.oliveira@hotmail.com',
-      senha: 'senha123'
-    },
+  lista_motoristas: Motorista[] = [];
 
-
-  ];
   colunas: string[] = [
     'Nome',
     'CPF',
@@ -70,31 +50,49 @@ export class GerenciarMotoristasComponent {
     'Ações'
   ]
 
-  constructor(private dialog: MatDialog){}
+  constructor(
+    private dialog: MatDialog,
+    private motoristaService: MotoristaService
+  ) {}
+
+  ngOnInit() {
+    this.motoristaService.getMotoristas().subscribe(motoristas => {
+      this.lista_motoristas = [...motoristas];
+    });
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(FormMotoristasComponent, {
       width: '30%',
     });
 
-    dialogRef.afterClosed().subscribe((resultado) => {
-      if (resultado) {
-        this.lista_motoristas = [...this.lista_motoristas, resultado];
-      }
-    })
+    dialogRef.afterClosed().subscribe((form: any) => {
+      if (form) {
+        const novoMotorista: Motorista = {
+          id: Date.now(),
+          nome: form.nome,
+          cpf: form.cpf,
+          cnh: form.cnh,
+          validade_cnh: form.validade_cnh,
+          telefone: form.telefone,
+          endereco: form.endereco,
+          email: form.email,
+          senha: form.senha
+      };
+        this.motoristaService.adicionarMotorista(novoMotorista);
+      } 
+    });
   }
 
   editMotorista(motorista: any): void {
-  const dialogRef = this.dialog.open(FormMotoristasComponent, {
+  const dialogRef = this.dialog.open(EditarMotoristaComponent, {
     width: '30%',
-    data: {motorista}
+    data: motorista,
   });
-  dialogRef.afterClosed().subscribe((resultado) => {
-    if (resultado) {
-      const index = this.lista_motoristas.indexOf(motorista);
-      if (index > -1) {
-        this.lista_motoristas[index] = resultado; 
-        this.lista_motoristas = [...this.lista_motoristas]; // Atualiza a lista para refletir as mudanças
-      }
+
+  dialogRef.afterClosed().subscribe((motoristaAtualizado) => {
+    if (motoristaAtualizado) {
+      this.motoristaService.atualizarMotorista(motoristaAtualizado);
     }
   });
 }
@@ -105,16 +103,13 @@ deleteMotorista(motorista: any): void {
     width: '30%',
   });
 
-  dialogRef.afterClosed().subscribe((confirmado) => {
-    if (confirmado) {
+  dialogRef.afterClosed().subscribe((resultado) => {
+    if (resultado) {
       const index = this.lista_motoristas.indexOf(motorista);
-      if (index > -1) { 
-        this.lista_motoristas.splice(index, 1);
-        this.lista_motoristas = [...this.lista_motoristas];
-        console.log('Motorista deleted:', motorista);
+     if(resultado){
+      this.motoristaService.removerMotorista(motorista.id);
+       }
       }
-    }
-  });
-}
-
+    });
+  }
 }
