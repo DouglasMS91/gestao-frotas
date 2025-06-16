@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h1 mat-dialog-title>Gerenciar Motoristas</h1>
+  <h1 mat-dialog-title>Editar Motoristas</h1>
   <form [formGroup]="formMotorista" (ngSubmit)="onSubmit()">
     <div mat-dialog-content>
 
@@ -44,11 +44,11 @@
         <mat-label>Senha</mat-label>
         <input matInput formControlName="senha">
       </mat-form-field>
-      
     </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button color="warn" (click)="onClose()">Fechar</button>
+    
+    <div class="actions">
       <button mat-raised-button color="primary" class="btn-salvar" type="submit">Salvar</button>
+      <button mat-raised-button color="warn" (click)="onClose()">Fechar</button>
     </div>
   </form>
 </div>

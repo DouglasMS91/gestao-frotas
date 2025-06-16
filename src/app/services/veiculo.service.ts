@@ -15,7 +15,9 @@ export interface Veiculo {
   providedIn: 'root'
 })
 export class VeiculoService {
-  private veiculos: Veiculo[] = [];
+  private veiculos: Veiculo[] = [
+    { id: 1, placa: 'ABC-1234', modelo: 'Fusca', tipo: 'Sedan', ano: 1975, quilometragemAtual: 120000, status: 'Disponível' },
+  ];
 
   private veiculosSubject = new BehaviorSubject<Veiculo[]>(this.veiculos);
 

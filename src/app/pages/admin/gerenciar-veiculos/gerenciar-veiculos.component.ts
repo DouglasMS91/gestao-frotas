@@ -9,10 +9,11 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { DialogComponent } from '../../../dialog/dialog.component';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { ConfirmarExclusaoComponent } from './confirmar-exclusao-veiculo/confirmar-exclusao.component';
+import { ConfirmarExclusaoComponent } from './excluir-veiculo/confirmar-exclusao.component';
 import { MatIconModule } from '@angular/material/icon';
 import { Veiculo, VeiculoService } from '../../../services/veiculo.service';
 import { EditarVeiculoComponent } from './components/editar-veiculo/editar-veiculo.component';
+import { CadastrarVeiculoComponent } from './components/cadastrar-veiculo/cadastrar-veiculo.component';
 
 
 @Component({
@@ -59,8 +60,9 @@ ngOnInit() {
 }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    const dialogRef = this.dialog.open(CadastrarVeiculoComponent, {
       width: '30%',
+
     });
 
     dialogRef.afterClosed().subscribe((form: any) => {

@@ -41,7 +41,7 @@ export class FormMotoristasComponent {
       nome: ['', Validators.required],
       cpf: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
       cnh: ['', [Validators.required]],
-      validade_cnh: [null, Validators.required],
+      validade_cnh: ['', Validators.required],
       telefone: ['', [Validators.required, Validators.pattern('^[0-9]{10,11}$')]],
       endereco: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

@@ -22,3 +22,8 @@ h2[mat-dialog-title] {
   text-align: center;
 }
 
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

@@ -10,9 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatButtonModule
   ],
-  templateUrl: './confirmar-exclusao.component.html',
-  styleUrl: './confirmar-exclusao.component.css'
+  templateUrl: './excluir-motorista.html',
+  styleUrl: './excluir-motorista.css'
 })
-export class ConfirmarExclusaoComponent {
+export class ExcluirMotoristaComponent {
 
 }

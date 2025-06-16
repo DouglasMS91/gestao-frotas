@@ -23,7 +23,6 @@ import { VeiculoService } from '../../../../../services/veiculo.service';
     MatInputModule, 
     MatSelectModule, 
     MatButtonModule],
-    
     providers: [VeiculoService]
 })
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { FormMotoristasComponent } from './form-motoristas/form-motoristas.component';
+import { FormMotoristasComponent } from './editar-motorista/form-motoristas.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,8 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
-import { ConfirmarExclusaoComponent } from './confirmar-exclusao/confirmar-exclusao.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ExcluirMotoristaComponent } from './excluir-motorista/excluir-motorista';
 
 
 
@@ -39,7 +39,7 @@ export class GerenciarMotoristasComponent {
       nome: 'João da Silva',
       cpf: '123.456.789-00',
       cnh: '1234567890',
-      validadeCnh: '04/12/2033',
+      validade_cnh: '04/12/2033',
       telefone: '(41) 99999-9999',
       endereco: 'Rua A, 123, Curitiba - PR',
       email: 'joao.silva@gmail.com',
@@ -49,7 +49,7 @@ export class GerenciarMotoristasComponent {
       nome: 'Maria Oliveira',
       cpf: '987.654.321-00',
       cnh: '0987654321',
-      validadeCnh: '06/10/2036',
+      validade_cnh: '06/10/2036',
       telefone: '(41) 98888-8888',
       endereco: 'Avenida B, 456, Curitiba - PR',
       email: 'm.oliveira@hotmail.com',
@@ -94,7 +94,6 @@ export class GerenciarMotoristasComponent {
       if (index > -1) {
         this.lista_motoristas[index] = resultado; 
         this.lista_motoristas = [...this.lista_motoristas]; // Atualiza a lista para refletir as mudanças
-        console.log('Motorista updated:', resultado);
       }
     }
   });
@@ -102,7 +101,7 @@ export class GerenciarMotoristasComponent {
 
 
 deleteMotorista(motorista: any): void {
-  const dialogRef = this.dialog.open(ConfirmarExclusaoComponent, {
+  const dialogRef = this.dialog.open(ExcluirMotoristaComponent, {
     width: '30%',
   });
 
