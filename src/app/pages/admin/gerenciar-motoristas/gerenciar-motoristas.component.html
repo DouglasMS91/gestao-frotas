@@ -34,7 +34,8 @@
 
     <ng-container matColumnDef="Endereço">
       <mat-header-cell *matHeaderCellDef> Endereço </mat-header-cell>
-      <mat-cell *matCellDef="let motorista"> {{motorista.endereco}} </mat-cell>
+      <mat-cell *matCellDef="let motorista"> {{formatarEndereco(motorista)}} </mat-cell>
+      <!-- <mat-cell *matCellDef="let motorista"> {{motorista.endereco}} </mat-cell> -->
     </ng-container>
 
     <ng-container matColumnDef="Email">

@@ -10,6 +10,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { MatIcon } from '@angular/material/icon';
+import { provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 
 
@@ -25,15 +29,19 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     CommonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatIcon,
+    NgxMaskDirective,
   ],
-
+  providers: [provideNgxMask()],
   templateUrl: './form-motoristas.component.html',
   styleUrl: './form-motoristas.component.css'
 })
 export class FormMotoristasComponent {
-  formMotorista!: FormGroup;
+formMotorista!: FormGroup;
 
-  constructor(private fb: FormBuilder,
+constructor(
+  private fb: FormBuilder,
+  private http: HttpClient,
   public dialogRef: MatDialogRef<FormMotoristasComponent>,
   @Inject(MAT_DIALOG_DATA) public data: any
 ) {
@@ -43,7 +51,11 @@ export class FormMotoristasComponent {
       cnh: ['', [Validators.required]],
       validade_cnh: ['', Validators.required],
       telefone: ['', [Validators.required, Validators.pattern('^[0-9]{10,11}$')]],
-      endereco: ['', Validators.required],
+      cep: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
+      logradouro: [''],
+      bairro: [''],
+      localidade: [''],
+      uf: [''],
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
     });
@@ -64,4 +76,43 @@ export class FormMotoristasComponent {
   onClose() {
     this.dialogRef.close();
   }
+
+
+  buscarCep() {
+  const cepControl = this.formMotorista.get('cep');
+  if (!cepControl?.value) return;
+
+  const cep = cepControl.value.replace(/\D/g, '');
+
+  this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`).subscribe({
+    next: (data) => {
+      if (!data.erro) {
+        this.formMotorista.patchValue({
+          logradouro: data.logradouro,
+          bairro: data.bairro,
+          localidade: data.localidade,
+          uf: data.uf,
+        });
+      } else {
+        alert('CEP não encontrado!');
+        this.formMotorista.patchValue({
+          logradouro: '',
+          bairro: '',
+          localidade: '',
+          uf: '',
+        });
+      }
+    },
+    error: () => {
+      alert('Erro ao buscar CEP!');
+      this.formMotorista.patchValue({
+        logradouro: '',
+        bairro: '',
+        localidade: '',
+        uf: '',
+      });
+    },
+  });
+}
+
 }

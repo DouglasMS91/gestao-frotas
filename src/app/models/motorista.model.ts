@@ -5,7 +5,11 @@ export interface Motorista {
     cnh: string;
     validade_cnh: Date;
     telefone: string;
-    endereco: string;
+    cep: string,
+    logradouro: string,
+    bairo: string,
+    localidade: string,
+    uf: string,
     email: string;
     senha: string;
     }

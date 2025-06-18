@@ -15,12 +15,16 @@ export class MotoristaService {
         cnh: "1234567890", 
         validade_cnh: new Date("2025-12-31"), 
         telefone: "11987654321", 
-        endereco: "Rua A, 123", 
+        cep: "80740060",
+        logradouro: "R. Dep. Heitor Alencar Furtado",
+        bairo: "Mossunguê",
+        localidade: "Curitiba",
+        uf: "PR",
         email: 'joao.s@gmail.com', 
         senha: 'senha123'
     },
     ];   
-    
+
     private motoristaSubject = new BehaviorSubject<Motorista[]>(this.motoristas);
 
     constructor() {}

@@ -75,7 +75,11 @@ export class GerenciarMotoristasComponent {
           cnh: form.cnh,
           validade_cnh: form.validade_cnh,
           telefone: form.telefone,
-          endereco: form.endereco,
+          cep: form.cep,
+          logradouro: form.logradouro,
+          bairo: form.bairo,
+          localidade: form.string,
+          uf: form.uf,
           email: form.email,
           senha: form.senha
       };
@@ -84,6 +88,16 @@ export class GerenciarMotoristasComponent {
     });
   }
 
+  formatarEndereco(motorista: any): string {
+    const partes = [];
+    if (motorista.logradouro) partes.push(motorista.logradouro);
+    if (motorista.bairro) partes.push(`Bairro: ${motorista.bairro}`);
+    if (motorista.localidade && motorista.uf) {
+      partes.push(`${motorista.localidade} - ${motorista.uf}`);
+  }
+  return partes.join(', ');
+  }
+  
   editMotorista(motorista: any): void {
   const dialogRef = this.dialog.open(EditarMotoristaComponent, {
     width: '30%',
