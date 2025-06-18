@@ -77,7 +77,7 @@ export class GerenciarMotoristasComponent {
           telefone: form.telefone,
           cep: form.cep,
           logradouro: form.logradouro,
-          bairo: form.bairo,
+          bairro: form.bairo,
           localidade: form.string,
           uf: form.uf,
           email: form.email,

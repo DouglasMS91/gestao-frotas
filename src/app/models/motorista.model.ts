@@ -7,7 +7,7 @@ export interface Motorista {
     telefone: string;
     cep: string,
     logradouro: string,
-    bairo: string,
+    bairro: string,
     localidade: string,
     uf: string,
     email: string;

@@ -4,8 +4,14 @@ import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MotoristaService } from '../../../../services/motorista.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { ViaCepService } from '../../../../services/viacep.service';
 
 @Component({
   standalone: true,
@@ -17,9 +23,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     ReactiveFormsModule, 
     MatInputModule, 
     MatSelectModule, 
-    MatButtonModule],
-
-    providers: [MotoristaService]
+    MatButtonModule,
+    MatIcon,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    //NgxMaskDirective,
+  ],
+  providers: [MotoristaService, provideNgxMask()]
 })
 
 export class EditarMotoristaComponent {
@@ -29,6 +39,7 @@ export class EditarMotoristaComponent {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditarMotoristaComponent>,
     private motoristaService: MotoristaService,
+    private viaCep: ViaCepService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     const motorista = this.data;
@@ -39,10 +50,16 @@ export class EditarMotoristaComponent {
       cnh: [motorista.cnh, Validators.required],
       validade_cnh: [motorista.validade_cnh, Validators.required],
       telefone: [motorista.telefone, Validators.required],
-      endereco: [motorista.endereco, Validators.required],
+      cep: [motorista.cep, [Validators.required, Validators.pattern(/^\d{8}$/)]],
+      logradouro: [motorista.logradouro],
+      bairro: [motorista.bairro],
+      localidade: [motorista.localidade],
+      uf: [motorista.uf],
       email: [motorista.email, Validators.required],
       senha: [motorista.senha, Validators.required]
     });
+    console.log('Motorista recebido:', motorista);
+
   }
 
 
@@ -58,4 +75,30 @@ export class EditarMotoristaComponent {
   onCancel(): void {
     this.dialogRef.close();
   }
+
+  buscarCep(): void {
+  const cep = this.motoristaForm.get('cep')?.value;
+  if (cep && /^\d{8}$/.test(cep)) {
+    this.viaCep.buscar(cep).subscribe(
+      dados => {
+        if (!dados.erro) {
+          this.motoristaForm.patchValue({
+            logradouro: dados.logradouro || '',
+            bairro: dados.bairro || '',
+            localidade: dados.localidade || '',
+            uf: dados.uf || ''
+          });
+        } else {
+          alert('CEP não encontrado.');
+        }
+      },
+      erro => {
+        alert('Erro ao buscar o CEP.');
+      }
+    );
+  }
+}
+
+
+
 }

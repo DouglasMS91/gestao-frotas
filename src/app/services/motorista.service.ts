@@ -17,11 +17,11 @@ export class MotoristaService {
         telefone: "11987654321", 
         cep: "80740060",
         logradouro: "R. Dep. Heitor Alencar Furtado",
-        bairo: "Mossunguê",
+        bairro: "Mossunguê",
         localidade: "Curitiba",
         uf: "PR",
-        email: 'joao.s@gmail.com', 
-        senha: 'senha123'
+        email: "joao.s@gmail.com", 
+        senha: "senha123",
     },
     ];   
 

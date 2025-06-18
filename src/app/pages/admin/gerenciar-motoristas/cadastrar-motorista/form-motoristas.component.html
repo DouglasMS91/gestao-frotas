@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h1 mat-dialog-title>Editar Motoristas</h1>
+  <h1 mat-dialog-title>Cadastrar Motoristas</h1>
   <form [formGroup]="formMotorista" (ngSubmit)="onSubmit()">
     <div mat-dialog-content>
 
@@ -32,8 +32,8 @@
 
       <mat-form-field appearance="fill">
         <mat-label>CEP</mat-label>
-        <input matInput formControlName="cep" maxlength="8" (blur)="buscarCep()" placeholder="Digite o CEP" />
-        <button mat-icon-button matSuffix (click)="buscarCep()" aria-label="Buscar CEP">
+        <input matInput formControlName="cep" maxlength="8" (blur)="buscarCep()"/>
+        <button mat-icon-button matSuffix type="button" (click)="buscarCep()" aria-label="Buscar CEP">
           <mat-icon>search</mat-icon>
         </button>
         <mat-error *ngIf="formMotorista.get('cep')?.hasError('required')" > CEP Obrigatório!</mat-error>
