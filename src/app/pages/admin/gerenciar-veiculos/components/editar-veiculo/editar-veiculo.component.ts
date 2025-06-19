@@ -30,6 +30,7 @@ import { VeiculoService } from '../../../../../services/veiculo.service';
 export class EditarVeiculoComponent {
   veiculoForm: FormGroup;
   statusOptions = ['Disponível', 'Inativo', 'Em Manutenção'];
+  tipoVeiculo = ['Carro', 'Van', 'Caminhão', 'Furgão'];
 
   constructor(
     private fb: FormBuilder, 
@@ -60,7 +61,7 @@ export class EditarVeiculoComponent {
   }
   }
 
-  onCancel() {
+  onClose() {
     this.dialogRef.close();
   }
 }

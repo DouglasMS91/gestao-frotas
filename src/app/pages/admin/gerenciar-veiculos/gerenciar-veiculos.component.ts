@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';
-import { DialogComponent } from '../../../dialog/dialog.component';
+import { Dialog } from '@angular/cdk/dialog';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { ConfirmarExclusaoComponent } from './excluir-veiculo/confirmar-exclusao.component';
@@ -28,7 +28,7 @@ import { CadastrarVeiculoComponent } from './components/cadastrar-veiculo/cadast
     MatButtonModule,
     MatToolbar,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './gerenciar-veiculos.component.html',
   styleUrl: './gerenciar-veiculos.component.css'
@@ -61,7 +61,7 @@ ngOnInit() {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CadastrarVeiculoComponent, {
-      width: '30%',
+      width: '40%',
     });
 
     dialogRef.afterClosed().subscribe((form: any) => {
@@ -73,9 +73,8 @@ ngOnInit() {
           tipo: form.tipo,
           ano: form.ano,
           quilometragemAtual: form.quilometragemAtual,
-          status: 'Disponível' 
+          status: form.status,
         };
-
         this.veiculoService.adicionarVeiculo(novoVeiculo);
       }
     });
@@ -83,7 +82,7 @@ ngOnInit() {
 
     editVeiculo(veiculo: any): void {
     const dialogRef = this.dialog.open(EditarVeiculoComponent, { 
-      width: '30%',
+      width: '40%',
       data: veiculo,
     });
 

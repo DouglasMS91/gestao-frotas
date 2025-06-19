@@ -1,46 +1,49 @@
 <div class="form-container"> 
-  <h1 mat-dialog-tittle>Editar Veículo</h1>
+  <h1 mat-dialog-title>Editar Veículo</h1>
   <form [formGroup]="veiculoForm" (ngSubmit)="onSubmit()">
-  <div mat-dialog-content>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Placa</mat-label>
-      <input matInput formControlName="placa" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Modelo</mat-label>
-      <input matInput formControlName="modelo" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Tipo</mat-label>
-      <input matInput formControlName="tipo" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Ano</mat-label>
-      <input matInput type="number" formControlName="ano" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Quilometragem Atual</mat-label>
-      <input matInput type="number" formControlName="quilometragemAtual" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Status</mat-label>
-      <mat-select formControlName="status">
-        <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  
-  <div class="actions">
-    <button mat-raised-button color="primary" type="submit">Salvar</button>
-    <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
-  </div>
-</form>
+    
+    <div mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Placa</mat-label>
+        <input matInput formControlName="placa">
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" >
+        <mat-label>Modelo</mat-label>
+        <input matInput formControlName="modelo">
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option *ngFor="let tipo of tipoVeiculo" [value]="tipo">{{ tipo }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" >
+        <mat-label>Ano</mat-label>
+        <input matInput type="number" formControlName="ano">
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" >
+        <mat-label>Quilometragem Atual</mat-label>
+        <input matInput type="number" formControlName="quilometragemAtual">
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" >
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+      <button mat-raised-button color="warn" type="button" (click)="onClose()">Cancelar</button>
+    </div>
+    
+  </form>
 </div>
 
 

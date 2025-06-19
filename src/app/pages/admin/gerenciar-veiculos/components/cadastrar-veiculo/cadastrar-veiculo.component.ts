@@ -30,13 +30,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 })
 
 export class CadastrarVeiculoComponent {
-  cadastrar_veiculo_form!: FormGroup;
+  veiculoForm: FormGroup;
+  statusOptions = ['Disponível', 'Inativo', 'Em Manutenção'];
+  tipoVeiculo = ['Carro', 'Van', 'Caminhão', 'Furgão'];
 
   constructor(private fb: FormBuilder, 
     public dialogRef: MatDialogRef<CadastrarVeiculoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.cadastrar_veiculo_form = this.fb.group({
+    this.veiculoForm = this.fb.group({
       placa: ['', Validators.required],
       modelo: ['', Validators.required],
       tipo: ['', Validators.required],
@@ -47,18 +49,15 @@ export class CadastrarVeiculoComponent {
 
     if (data && data.veiculo) {
        setTimeout(() => {
-           this.cadastrar_veiculo_form.patchValue(data.veiculo);
+           this.veiculoForm.patchValue(data.veiculo);
         });
-     
-      console.log('Form atualizado:', this.cadastrar_veiculo_form.value);
     }
   }
 
     onSubmit() {
-      if(this.cadastrar_veiculo_form.valid){
-        const form = this.cadastrar_veiculo_form.value;
+      if(this.veiculoForm.valid){
+        const form = this.veiculoForm.value;
         this.dialogRef.close(form);
-        console.log(form);
       }
 
   }
