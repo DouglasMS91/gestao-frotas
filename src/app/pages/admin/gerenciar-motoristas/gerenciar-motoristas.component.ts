@@ -63,7 +63,7 @@ export class GerenciarMotoristasComponent {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FormMotoristasComponent, {
-      width: '30%',
+      width: '40%',
     });
 
     dialogRef.afterClosed().subscribe((form: any) => {
@@ -91,7 +91,7 @@ export class GerenciarMotoristasComponent {
   formatarEndereco(motorista: any): string {
     const partes = [];
     if (motorista.logradouro) partes.push(motorista.logradouro);
-    if (motorista.bairro) partes.push(`Bairro: ${motorista.bairro}`);
+    if (motorista.bairro) partes.push(motorista.bairro);
     if (motorista.localidade && motorista.uf) {
       partes.push(`${motorista.localidade} - ${motorista.uf}`);
   }
@@ -100,7 +100,7 @@ export class GerenciarMotoristasComponent {
   
   editMotorista(motorista: any): void {
   const dialogRef = this.dialog.open(EditarMotoristaComponent, {
-    width: '30%',
+    width: '40%',
     data: motorista,
   });
 
