@@ -44,10 +44,6 @@ export class PaginaInicialComponent  implements OnInit{
   agendarViagem(id: number) {
   this.dialog.open(AgendarViagemComponent, {
     width: '30%',
-    data: {
-      veiculos: this.veiculos, // array de veículos disponíveis
-      motoristas: this.motoristas // array de motoristas disponíveis
-    }
   }).afterClosed().subscribe(result => {
     if (result) {
       // Salve o agendamento (ex: this.agendamentos.push(result))

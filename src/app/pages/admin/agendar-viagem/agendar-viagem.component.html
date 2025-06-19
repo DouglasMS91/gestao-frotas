@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Agendar Viagem</h2>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="motoristas.length && veiculos.length">
 
   <mat-form-field appearance="fill">
     <mat-label>Veículo</mat-label>
@@ -41,4 +41,5 @@
     <button mat-raised-button color="primary" type="submit">Agendar</button>
     <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
   </div>
+
 </form>

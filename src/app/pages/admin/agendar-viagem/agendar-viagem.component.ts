@@ -13,7 +13,8 @@ import { VeiculoService } from '../../../services/veiculo.service';
 import { Veiculo } from '../../../services/veiculo.service';
 import { MotoristaService } from '../../../services/motorista.service';
 import { Motorista } from '../../../models/motorista.model';
-
+import { Agendamento } from '../../../models/agendamento.model';
+import { AgendamentoService } from '../../../services/agendamento.service';
 
 @Component({
   selector: 'app-agendar-viagem',
@@ -32,7 +33,7 @@ import { Motorista } from '../../../models/motorista.model';
   styleUrl: './agendar-viagem.component.css'
 })
 export class AgendarViagemComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   veiculos: Veiculo [] = [];
   motoristas: Motorista [] = [];
 
@@ -40,9 +41,11 @@ export class AgendarViagemComponent implements OnInit {
     private fb: FormBuilder,
     private veiculoService: VeiculoService,
     private motoristaService: MotoristaService,
+    private agendamentoService: AgendamentoService,
     public dialogRef: MatDialogRef<AgendarViagemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
+  ) {}
+    /*
     this.motoristas = data?.motoristas || [];
     this.form = this.fb.group({
       veiculo: ['', Validators.required],
@@ -52,29 +55,46 @@ export class AgendarViagemComponent implements OnInit {
       destino: ['', Validators.required],
       justificativa: ['', Validators.required],
     });
-  }
+  }*/
 
   ngOnInit(): void {
-    this.veiculoService.getVeiculos().subscribe((veiculos: Veiculo[]) => {
-      this.veiculos = veiculos;
+    this.form = this.fb.group({
+      veiculo: ['', Validators.required],
+      motorista: ['', Validators.required],
+      dataSaida: ['', Validators.required],
+      horaSaida: ['', Validators.required],
+      destino: ['', Validators.required],
+      justificativa: ['', Validators.required],
     });
-    this.motoristaService.getMotoristas().subscribe((motoristas: Motorista[]) =>
-      this.motoristas = motoristas
-    );
+
+
+    if (this.data?.motoristas) {
+      this.motoristas = this.data.motoristas;
+    } else {
+      this.motoristaService.getMotoristas().subscribe(m => this.motoristas = m);
+    }
+    if (this.data?.veiculos) {
+      this.veiculos = this.data.veiculos;
+    } else {
+      this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
+    }
+    
+    console.log('Motoristas recebidos:', this.motoristas);
+    console.log('Veículos recebidos:', this.veiculos);  
   }
   
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
       const agendamento = {
-        veiculo: this.form.value.veiculo,
-        motorista: this.form.value.motorista,
-        dataSaida: this.form.value.dataSaida,
-        horaSaida: this.form.value.horaSaida,
-        justificativa: this.form.value.justificativa,
+        ...this.form.value,
         status: 'AGENDADO'
       };
+      console.log('Agendamento criado:', agendamento);
       this.dialogRef.close(agendamento);
     }
-    console.log(this.form.value);
+    
   }
-}
+
