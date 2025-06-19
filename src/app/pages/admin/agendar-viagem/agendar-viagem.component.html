@@ -1,16 +1,17 @@
 <h2 mat-dialog-title>Agendar Viagem</h2>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
   <mat-form-field appearance="fill">
     <mat-label>Veículo</mat-label>
     <mat-select formControlName="veiculo" required>
-        <mat-option *ngFor="let v of veiculos" [value]="v">{{ v }}</mat-option>
+        <mat-option *ngFor="let v of veiculos" [value]="v">{{ v.modelo }} </mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Motorista</mat-label>
     <mat-select formControlName="motorista" required>
-      <mat-option *ngFor="let m of motoristas" [value]="m">{{ m }}</mat-option>
+      <mat-option *ngFor="let m of motoristas" [value]="m"> {{m.nome}} </mat-option>
     </mat-select>
   </mat-form-field>
 

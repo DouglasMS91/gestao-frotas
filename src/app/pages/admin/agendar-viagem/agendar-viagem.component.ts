@@ -11,6 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { VeiculoService } from '../../../services/veiculo.service';
 import { Veiculo } from '../../../services/veiculo.service';
+import { MotoristaService } from '../../../services/motorista.service';
+import { Motorista } from '../../../models/motorista.model';
 
 
 @Component({
@@ -31,12 +33,13 @@ import { Veiculo } from '../../../services/veiculo.service';
 })
 export class AgendarViagemComponent implements OnInit {
   form: FormGroup;
-  veiculos: Veiculo[] = [];
-  motoristas: any[] = [];
+  veiculos: Veiculo [] = [];
+  motoristas: Motorista [] = [];
 
  constructor(
     private fb: FormBuilder,
     private veiculoService: VeiculoService,
+    private motoristaService: MotoristaService,
     public dialogRef: MatDialogRef<AgendarViagemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -55,6 +58,9 @@ export class AgendarViagemComponent implements OnInit {
     this.veiculoService.getVeiculos().subscribe((veiculos: Veiculo[]) => {
       this.veiculos = veiculos;
     });
+    this.motoristaService.getMotoristas().subscribe((motoristas: Motorista[]) =>
+      this.motoristas = motoristas
+    );
   }
   
   onSubmit() {

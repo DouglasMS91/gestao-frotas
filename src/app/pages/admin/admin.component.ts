@@ -30,49 +30,81 @@ import { CommonModule } from '@angular/common';
 export class AdminComponent implements OnInit {
   //opened = true;
   agendamentos: Agendamento[] = [];
-
+  
   //constructor(private agendamentoService: AgendamentoService) {}
   //O QUE EESTÁ COMENTADO POR ENQUANTO É PARA EVITAR ERRO DA REQUISIÇÃO HTTP DO AGENDAMENTO SERVICE
-
+  
   ngOnInit(): void {
     //this.carregarAgendamentos();
     this.agendamentos = [
-    { id: 1, status: 'PENDENTE', motorista: { id: 1, nome: 'João' }, dataInicio: '10/05/2025', dataFim: '15/05/2025', veiculo: { modelo: '', placa: '' } },
-    { id: 2, status: 'EM_USO', motorista: { id: 2, nome: 'Maria' }, dataInicio: '', dataFim: '', veiculo: { modelo: '', placa: '' } },
-    { id: 3, status: 'FINALIZADO', motorista: { id: 3, nome: 'Carlos' }, dataInicio: '', dataFim: '', veiculo: { modelo: '', placa: '' } }
-  ];
+      {
+        id: 1,
+        data: '15/06/2025', //mudar depois para Date
+        hora: '15:30',
+        destino: 'Jaraguá',
+        Justificativa: "Entrega de Soja",
+        status: 'PENDENTE',
+        
+        
+        motorista: {
+          id: 1,
+          nome: 'João',
+          cpf: '12345678901',
+          cnh: '1234567890',
+          validade_cnh: new Date("2025-12-31"),
+          telefone: '11987654321',
+          cep: '80740060',
+          logradouro: 'R. Dep. Heitor Alencar Furtado',
+          bairro: 'Mossunguê',
+          localidade: 'Curitiba',
+          uf: 'PR',
+          email: 'joao.s@gmail.com',
+          senha: 'senha123'
+        },
+        veiculo: {
+          id: 1,
+          modelo: 'Fusca',
+          placa: 'ABC-1234',
+          tipo: 'Carro',
+          quilometragemAtual: 120000,
+          status: 'Disponível',
+        }
+      },
+      //{ id: 2, status: 'EM_USO', motorista: { id: 2, nome: 'Maria' }, dataInicio: '', dataFim: '', veiculo: { modelo: '', placa: '' } },
+      //{ id: 3, status: 'FINALIZADO', motorista: { id: 3, nome: 'Carlos' }, dataInicio: '', dataFim: '', veiculo: { modelo: '', placa: '' } }
+    ];
   }
-
-   /* carregarAgendamentos(): void {
-    this.agendamentoService.listarAgendamentos({}).subscribe({
-      next: (res) => this.agendamentos = res,
-      error: (err) => console.error(err)
-    });
+  
+  /* carregarAgendamentos(): void {
+  this.agendamentoService.listarAgendamentos({}).subscribe({
+  next: (res) => this.agendamentos = res,
+  error: (err) => console.error(err)
+  });
   }*/
-
+  
   filtros = {
     periodoInicial: '',
     periodoFinal: '',
     status: '',
     motorista: ''
   };
-
+  
   filtrar() {
     console.log(this.filtros);
     // Aqui você pode usar o AgendamentoService.listarAgendamentos(this.filtros)
   }
-
+  
   // MÉTODOS QUE ESTÃO SENDO CHAMADOS NO HTML - DECLARADOS AQUI
   agendarViagem(id: number): void {
     console.log('Agendar viagem para o agendamento id:', id);
     // Lógica para agendar viagem
   }
-
+  
   registrarAbastecimento(id: number): void {
     console.log('Registrar abastecimento para o agendamento id:', id);
     // Lógica para registrar abastecimento
   }
-
+  
   registrarManutencao(id: number): void {
     console.log('Registrar manutenção para o agendamento id:', id);
     // Lógica para registrar manutenção

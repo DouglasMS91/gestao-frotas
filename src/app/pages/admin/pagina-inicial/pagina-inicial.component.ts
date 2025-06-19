@@ -35,7 +35,7 @@ export class PaginaInicialComponent  implements OnInit{
     'Caminhonete'
   ]
 
-  motoristas: any = [
+  motoristas: any = [ // puxar isso dos dados depois
     'João da Silva',
     'Maria Oliveira'
   ]

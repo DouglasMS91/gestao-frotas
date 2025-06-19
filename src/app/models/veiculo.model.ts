@@ -3,6 +3,6 @@ export interface Veiculo {
     placa: string;
     modelo: string;
     tipo: string;
-    quiometragemAtual: number;
+    quilometragemAtual: number;
     status: string,
 }
