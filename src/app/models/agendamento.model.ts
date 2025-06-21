@@ -9,8 +9,6 @@ export interface Agendamento {
   hora: String;
   destino: String;
   Justificativa: String;
-  //dataInicio: string;
-  //dataFim: string;
   status?: String;
 }
 

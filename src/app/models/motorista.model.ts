@@ -12,4 +12,5 @@ export interface Motorista {
     uf: string,
     email: string;
     senha: string;
+    exibirSenha?: boolean;
 }

@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Veiculo } from '../../../models/veiculo.model';
+import { VeiculoService } from '../../../services/veiculo.service';
 
 @Component({
   selector: 'app-registrar-manutencao',
@@ -27,38 +29,43 @@ import { CommonModule } from '@angular/common';
   styleUrl: './registrar-manutencao.component.css'
 })
 export class RegistrarManutencaoComponent {
-  form_manutencao: any;
-  veiculos: any[] = ['Fox', 'Gol', 'Civic', 'Corolla']; // Example vehicle list
-
+  form_manutencao!: FormGroup;
+  veiculos: Veiculo [] = [];
+  
   constructor(
     private fb: FormBuilder,
+    private veiculoService: VeiculoService,
     public dialogRef: MatDialogRef<RegistrarManutencaoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.veiculos = data.veiculos || [];
+  ) {}
+  
+  ngOnInit(): void {
     this.form_manutencao = this.fb.group({
       veiculo: ['', Validators.required],
       dataManutencao: ['', Validators.required],
-      tipo: ['', Validators.required],
-      valor: ['', [Validators.required, Validators.min(0)]],
+      valorManutencao: ['', Validators.required],
+      tipoManutencao: ['', Validators.required],
       quilometragemAtual: ['', Validators.required],
       descricao: ['', Validators.required],
     });
+    
+    if (this.data?.veiculos) {
+      this.veiculos = this.data.veiculos;
+    } else {
+      this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
+    }  
   }
-
+  
   onSubmit() {
     if (this.form_manutencao.valid) {
-      const manutencao = {
-        veiculo: this.form_manutencao.value.veiculo,
-        dataManutencao: this.form_manutencao.value.dataManutencao,
-        tipo: this.form_manutencao.value.tipo,
-        valor: this.form_manutencao.value.valor,
-        quilometragemAtual: this.form_manutencao.value.quilometragem,
-        descricao: this.form_manutencao.value.descricao,
-      };
+      const manutencao = this.form_manutencao.value;
       this.dialogRef.close(manutencao);
+      console.log('Manutenção registrada:', manutencao);
     }
-    console.log(this.form_manutencao.value);
+  }
+
+  onClose() {
+    this.dialogRef.close();
   }
 }
 

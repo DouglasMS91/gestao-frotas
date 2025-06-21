@@ -1,13 +1,35 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar{
+  background-color: #b71c1c;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
+}
+
+.titulo{
+  color: white;
+}
+
+.botao {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
 .container {
-  max-width: 600px;
-  margin: 20px auto;
+  display: flex;
+  margin: 20px 0 0 20px; /* top  - right - bottom- left*/
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+  justify-content: flex-start;
   font-family: Arial, sans-serif;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
+
 
 .card {
   border: 1px solid #ddd;
@@ -15,21 +37,27 @@ h2 {
   margin-bottom: 16px;
   padding: 12px;
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  width: auto;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+}
+.info {
+    margin-bottom: 10px;
+    justify-content: center;
 }
 
 .status {
   padding: 4px 8px;
-  border-radius: 12px;
+  border-radius: 8px;
   color: white;
   font-size: 0.8rem;
   text-transform: uppercase;
+
 }
 
 .status.pendente {

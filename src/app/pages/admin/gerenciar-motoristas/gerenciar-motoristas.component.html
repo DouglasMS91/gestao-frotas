@@ -11,43 +11,47 @@
       <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
       <mat-cell *matCellDef="let motorista"> {{motorista.nome}} </mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="CPF">
       <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
       <mat-cell *matCellDef="let motorista"> {{motorista.cpf}} </mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="CNH">
       <mat-header-cell *matHeaderCellDef> CNH </mat-header-cell>
       <mat-cell *matCellDef="let motorista"> {{motorista.cnh}} </mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="Validade CNH">
       <mat-header-cell *matHeaderCellDef> Validade CNH</mat-header-cell>
       <mat-cell *matCellDef="let motorista"> {{motorista.validade_cnh | date:'dd/MM/yyyy'}} </mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="Telefone">
       <mat-header-cell *matHeaderCellDef> Telefone </mat-header-cell>
       <mat-cell *matCellDef="let motorista"> {{motorista.telefone}} </mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="Endereço">
       <mat-header-cell *matHeaderCellDef> Endereço </mat-header-cell>
       <mat-cell *matCellDef="let motorista"> {{formatarEndereco(motorista)}} </mat-cell>
-      <!-- <mat-cell *matCellDef="let motorista"> {{motorista.endereco}} </mat-cell> -->
     </ng-container>
-
+    
     <ng-container matColumnDef="Email">
       <mat-header-cell *matHeaderCellDef> E-mail </mat-header-cell>
       <mat-cell *matCellDef="let motorista"> {{motorista.email}} </mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="Senha">
       <mat-header-cell *matHeaderCellDef> Senha </mat-header-cell>
-      <mat-cell *matCellDef="let motorista"> {{motorista.senha }} </mat-cell>
+      <mat-cell *matCellDef="let motorista">
+        <span>{{ motorista.exibirSenha ? motorista.senha : '********' }}</span>
+        <button mat-icon-button class="botao" (click)="visualizarSenha(motorista)" type="button">
+          <mat-icon class="icone">{{ motorista.exibirSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="Ações">
       <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
       <mat-cell *matCellDef="let motorista">
@@ -59,9 +63,9 @@
         </button>
       </mat-cell>
     </ng-container>
-
+    
     <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
     <mat-row *matRowDef="let row; columns: colunas;"></mat-row>
   </table>
-
+  
 </div>

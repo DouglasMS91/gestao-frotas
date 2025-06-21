@@ -1,7 +1,7 @@
 <div class="form-container">
   <h1 mat-dialog-title>Cadastro de Motoristas</h1>
   <form [formGroup]="formMotorista" (ngSubmit)="onSubmit()">
-
+    
     <div mat-dialog-content>
       <mat-form-field appearance="fill">
         <mat-label>Nome Completo</mat-label>
@@ -9,84 +9,84 @@
       </mat-form-field>
       
       <div class="form-row-flex">
-         <mat-form-field appearance="fill">
-        <mat-label>CPF</mat-label>
-        <input matInput formControlName="cpf">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Telefone</mat-label>
-        <input matInput type="text" mask="(00) 00000-0000" formControlName="telefone" placeholder="(XX) XXXXX-XXXX">
-      </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Telefone</mat-label>
+          <input matInput type="text" mask="(00) 00000-0000" formControlName="telefone" placeholder="(XX) XXXXX-XXXX">
+        </mat-form-field>
       </div>
-
-    <div class="form-row-flex">
-      <mat-form-field appearance="fill">
-        <mat-label>CNH</mat-label>
-        <input matInput formControlName="cnh">
-      </mat-form-field>      
-
-      <mat-form-field appearance="fill">
-        <mat-label>Validade CNH</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="validade_cnh">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </div>
-
-
-    <div class="form-row-flex">
-       <mat-form-field appearance="fill" class="inputCep">
-        <mat-label>CEP</mat-label>
-        <input matInput formControlName="cep" maxlength="8" (blur)="buscarCep()"/>
-        <button mat-icon-button matSuffix type="button" (click)="buscarCep()" aria-label="Buscar CEP">
-          <mat-icon>search</mat-icon>
-        </button>
-        <mat-error *ngIf="formMotorista.get('cep')?.hasError('required')" > CEP Obrigatório!</mat-error>
-        <mat-error *ngIf="formMotorista.get('cep')?.hasError('pattern')" > CEP Inválido - Somente Números!</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Logradouro</mat-label>
-        <input matInput formControlName="logradouro">
-      </mat-form-field>
-    </div>
-   
-   <div class="form-row-flex">
-     <mat-form-field appearance="fill" >
-        <mat-label>Bairro</mat-label>
-        <input matInput formControlName="bairro">
-      </mat-form-field>
-
-       <mat-form-field appearance="fill" >
-        <mat-label>Localidade</mat-label>
-        <input matInput formControlName="localidade">
-      </mat-form-field>
       
-       <mat-form-field appearance="fill" class="uf">
-        <mat-label>UF</mat-label>
-        <input matInput formControlName="uf">
-      </mat-form-field>
-   </div>
-     
-    <div class="form-row-flex">
-
-         <mat-form-field appearance="fill">
-        <mat-label>E-mail</mat-label>
-        <input matInput formControlName="email">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Senha</mat-label>
-        <input matInput formControlName="senha">
-      </mat-form-field>
+      <div class="form-row-flex">
+        <mat-form-field appearance="fill">
+          <mat-label>CNH</mat-label>
+          <input matInput formControlName="cnh">
+        </mat-form-field>      
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Validade CNH</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="validade_cnh">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      
+      
+      <div class="form-row-flex">
+        <mat-form-field appearance="fill" class="inputCep">
+          <mat-label>CEP</mat-label>
+          <input matInput formControlName="cep" maxlength="8" (blur)="buscarCep()"/>
+          <button mat-icon-button matSuffix type="button" (click)="buscarCep()" aria-label="Buscar CEP">
+            <mat-icon>search</mat-icon>
+          </button>
+          <mat-error *ngIf="formMotorista.get('cep')?.hasError('required')" > CEP Obrigatório!</mat-error>
+          <mat-error *ngIf="formMotorista.get('cep')?.hasError('pattern')" > CEP Inválido!</mat-error>
+          <mat-error *ngIf="formMotorista.get('cep')?.hasError('notFound')"> CEP não encontrado. </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Logradouro</mat-label>
+          <input matInput formControlName="logradouro">
+        </mat-form-field>
+      </div>
+      
+      <div class="form-row-flex">
+        <mat-form-field appearance="fill" >
+          <mat-label>Bairro</mat-label>
+          <input matInput formControlName="bairro">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" >
+          <mat-label>Localidade</mat-label>
+          <input matInput formControlName="localidade">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="uf">
+          <mat-label>UF</mat-label>
+          <input matInput formControlName="uf">
+        </mat-form-field>
+      </div>
+      
+      <div class="form-row-flex">
+        <mat-form-field appearance="fill">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="senha">
+        </mat-form-field>
+      </div>
     </div>
-    </div>
-
- 
     
-
-   
+    
+    
+    
+    
     
     <div class="actions">
       <button mat-raised-button color="primary" class="btn-salvar" type="submit">Salvar</button>

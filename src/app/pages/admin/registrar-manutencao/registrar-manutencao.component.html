@@ -4,7 +4,7 @@
      <mat-form-field appearance="fill">
         <mat-label>Veículo</mat-label>
         <mat-select formControlName="veiculo" required>
-            <mat-option *ngFor="let v of veiculos" [value]="v">{{ v }}</mat-option>
+            <mat-option *ngFor="let v of veiculos" [value]="v">{{ v.modelo }}</mat-option>
         </mat-select>
     </mat-form-field>
 
@@ -17,12 +17,12 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Valor</mat-label>
-        <input matInput type="number" formControlName="valor" required>
+        <input matInput type="number" formControlName="valorManutencao" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
         <mat-label>Tipo de Manutenção</mat-label>
-        <mat-select formControlName="tipo" required>
+        <mat-select formControlName="tipoManutencao" required>
             <mat-option value="Preventiva">Preventiva</mat-option>
             <mat-option value="Corretiva">Corretiva</mat-option>
         </mat-select>
@@ -38,9 +38,10 @@
         <textarea matInput rows="5" formControlName="descricao" required></textarea>
       </mat-form-field>
 
-      <div mat-dialog-actions>
-        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+      <div class="actions">
         <button mat-raised-button color="primary" type="submit">Registar</button>
+        <button mat-raised-button color="warn" (click)="onClose()" mat-dialog-close>Cancelar</button>
     </div>
 
 </form>
+

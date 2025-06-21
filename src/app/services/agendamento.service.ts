@@ -1,18 +1,29 @@
-
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
 import { Agendamento } from '../models/agendamento.model';
+import { Motorista } from '../models/motorista.model';
+import { MotoristaService } from './motorista.service';
+import { VeiculoService } from './veiculo.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgendamentoService {
-  private agendamentos: Agendamento [] = [];
-  //private apiUrl = 'http://localhost:4200/agendamentos'; // Ajuste conforme seu backend
+   //private apiUrl = 'http://localhost:4200/agendamentos'; // Ajuste conforme seu backend
 
-  constructor() {}
+  private agendamentos: Agendamento [] = [];
+   
+ 
+  constructor(
+    private motoristaService: MotoristaService,
+    private veiculoService: VeiculoService,
+  ) {
+    const motoritsa = this.motoristaService.getMotoristas();
+    const veiculo = this.veiculoService.getVeiculos();
+  }
+
+    
 
  agendarViagem(agendamentos: Agendamento): Observable<Agendamento> {
     agendamentos.id = this.agendamentos.length + 1;

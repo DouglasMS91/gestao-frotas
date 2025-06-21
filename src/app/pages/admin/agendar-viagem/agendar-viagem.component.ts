@@ -77,13 +77,20 @@ export class AgendarViagemComponent implements OnInit {
       this.veiculos = this.data.veiculos;
     } else {
       this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
-    }
-    
-    console.log('Motoristas recebidos:', this.motoristas);
-    console.log('Veículos recebidos:', this.veiculos);  
+    }  
   }
   
   onSubmit(): void {
+    if (this.form.valid) {
+      const agendamento = this.form.value;
+      this.dialogRef.close(agendamento);
+       console.log('Agendamento criado:', agendamento);
+      }
+    }
+  }
+
+/*
+ onSubmit(): void {
     if (this.form.valid) {
       this.form.markAllAsTouched();
       return;
@@ -95,6 +102,4 @@ export class AgendarViagemComponent implements OnInit {
       console.log('Agendamento criado:', agendamento);
       this.dialogRef.close(agendamento);
     }
-    
-  }
-
+*/

@@ -24,6 +24,14 @@ export class VeiculoService {
       quilometragemAtual: 120000, 
       status: 'Disponível' 
     },
+    {id: 2, 
+      placa: 'ABC-0000', 
+      modelo: 'F-150', 
+      tipo: 'Caminhão', 
+      ano: 2012, 
+      quilometragemAtual: 18231, 
+      status: 'Disponível' 
+    },
   ];
 
   private veiculosSubject = new BehaviorSubject<Veiculo[]>(this.veiculos);

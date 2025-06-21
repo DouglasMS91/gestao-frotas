@@ -38,6 +38,11 @@ import { EditarMotoristaComponent } from './editar-motorista/editar-motorista.co
 export class GerenciarMotoristasComponent {
   lista_motoristas: Motorista[] = [];
 
+  visualizarSenha(motorista: Motorista){
+    motorista.exibirSenha = !motorista.exibirSenha;
+  }
+
+
   colunas: string[] = [
     'Nome',
     'CPF',

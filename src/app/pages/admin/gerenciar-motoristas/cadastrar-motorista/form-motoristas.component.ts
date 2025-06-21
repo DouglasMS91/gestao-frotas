@@ -37,14 +37,14 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
   styleUrl: './form-motoristas.component.css'
 })
 export class FormMotoristasComponent {
-formMotorista!: FormGroup;
-
-constructor(
-  private fb: FormBuilder,
-  private http: HttpClient,
-  public dialogRef: MatDialogRef<FormMotoristasComponent>,
-  @Inject(MAT_DIALOG_DATA) public data: any
-) {
+  formMotorista!: FormGroup;
+  
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    public dialogRef: MatDialogRef<FormMotoristasComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.formMotorista = this.fb.group({
       nome: ['', Validators.required],
       cpf: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]],
@@ -59,60 +59,84 @@ constructor(
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
     });
-
+    
+    this.formMotorista.get('cep')?.valueChanges.subscribe(() => {
+      this.cepNaoEncontrado = false;
+    });
+    
+    
     if (data) {
       this.formMotorista.patchValue(data.motorista);
     }
   }
-
+  
   onSubmit() {
     if (this.formMotorista.valid) {
       const motoristaData = this.formMotorista.value;
       this.dialogRef.close(motoristaData);
       console.log(motoristaData);
-   }
+    }
   }
-
+  
   onClose() {
     this.dialogRef.close();
   }
-
-
+  
+  cepNaoEncontrado = false;
+  
   buscarCep() {
-  const cepControl = this.formMotorista.get('cep');
-  if (!cepControl?.value) return;
-
-  const cep = cepControl.value.replace(/\D/g, '');
-
-  this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`).subscribe({
-    next: (data) => {
-      if (!data.erro) {
-        this.formMotorista.patchValue({
-          logradouro: data.logradouro,
-          bairro: data.bairro,
-          localidade: data.localidade,
-          uf: data.uf,
-        });
-      } else {
-        alert('CEP não encontrado!');
-        this.formMotorista.patchValue({
-          logradouro: '',
-          bairro: '',
-          localidade: '',
-          uf: '',
-        });
-      }
-    },
-    error: () => {
-      alert('Erro ao buscar CEP!');
-      this.formMotorista.patchValue({
-        logradouro: '',
-        bairro: '',
-        localidade: '',
-        uf: '',
-      });
-    },
-  });
-}
-
+    const cepControl = this.formMotorista.get('cep');
+    if (!cepControl?.value) return;
+    
+    const cep = cepControl.value.replace(/\D/g, '');
+    
+    if (cep.length !== 8) {
+      this.cepNaoEncontrado = true;
+      this.limparCamposEndereco();
+      return;
+    }
+    
+    this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`).subscribe({
+      next: (data) => {
+        if (!data.erro) {
+          this.cepNaoEncontrado = false;
+          cepControl?.setErrors(null);
+          this.formMotorista.patchValue({
+            logradouro: data.logradouro,
+            bairro: data.bairro,
+            localidade: data.localidade,
+            uf: data.uf,
+          });
+        } else {
+          this.setCepNotFoundError();
+          //this.cepNaoEncontrado = true;
+          //this.limparCamposEndereco();
+        }
+      },
+      error: () => {
+        this.setCepNotFoundError();
+        //this.cepNaoEncontrado = true;
+        //this.limparCamposEndereco()
+      },
+    });
+  }
+  
+  limparCamposEndereco(){
+    this.formMotorista.patchValue({
+      logradouro: '',
+      bairro: '',
+      localidade: '',
+      uf: '',
+    })
+  }
+  
+  setCepNotFoundError() {
+    this.cepNaoEncontrado = true;
+    const cepControl = this.formMotorista.get('cep');
+    cepControl?.setErrors({ notFound: true });
+    this.limparCamposEndereco();
+  }
+  
+ 
+  
 }

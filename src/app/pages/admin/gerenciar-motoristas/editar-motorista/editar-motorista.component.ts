@@ -34,7 +34,12 @@ import { ViaCepService } from '../../../../services/viacep.service';
 
 export class EditarMotoristaComponent {
   motoristaForm: FormGroup;
-
+  
+  hide: boolean = true;
+  visualizarSenha(): void {
+    this.hide = !this.hide;
+  }
+  
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditarMotoristaComponent>,
@@ -59,10 +64,10 @@ export class EditarMotoristaComponent {
       senha: [motorista.senha, Validators.required]
     });
     console.log('Motorista recebido:', motorista);
-
+    
   }
-
-
+  
+  
   onSubmit(): void {
     if (this.motoristaForm.valid) {
       const motoristaAtualizado = this.motoristaForm.value;
@@ -71,34 +76,34 @@ export class EditarMotoristaComponent {
       console.log('Motorista atualizado:', motoristaAtualizado);
     }
   }
-
+  
   onCancel(): void {
     this.dialogRef.close();
   }
-
+  
   buscarCep(): void {
-  const cep = this.motoristaForm.get('cep')?.value;
-  if (cep && /^\d{8}$/.test(cep)) {
-    this.viaCep.buscar(cep).subscribe(
-      dados => {
-        if (!dados.erro) {
-          this.motoristaForm.patchValue({
-            logradouro: dados.logradouro || '',
-            bairro: dados.bairro || '',
-            localidade: dados.localidade || '',
-            uf: dados.uf || ''
-          });
-        } else {
-          alert('CEP não encontrado.');
+    const cep = this.motoristaForm.get('cep')?.value;
+    if (cep && /^\d{8}$/.test(cep)) {
+      this.viaCep.buscar(cep).subscribe(
+        dados => {
+          if (!dados.erro) {
+            this.motoristaForm.patchValue({
+              logradouro: dados.logradouro || '',
+              bairro: dados.bairro || '',
+              localidade: dados.localidade || '',
+              uf: dados.uf || ''
+            });
+          } else {
+            alert('CEP não encontrado.');
+          }
+        },
+        erro => {
+          alert('Erro ao buscar o CEP.');
         }
-      },
-      erro => {
-        alert('Erro ao buscar o CEP.');
-      }
-    );
+      );
+    }
   }
-}
-
-
-
+  
+  
+  
 }
