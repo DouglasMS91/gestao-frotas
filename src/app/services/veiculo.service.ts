@@ -33,20 +33,25 @@ export class VeiculoService {
       status: 'Disponível' 
     },
   ];
-
+  
   private veiculosSubject = new BehaviorSubject<Veiculo[]>(this.veiculos);
-
+  
   constructor() {}
-
+  
   getVeiculos(): Observable<Veiculo[]> {
     return this.veiculosSubject.asObservable();
   }
-
+  
+  getVeiculoById(id: number): Veiculo | undefined {
+    return this.veiculos.find(v => v.id === id);
+  }
+  
+  
   adicionarVeiculo(novoVeiculo: Veiculo): void {
     this.veiculos.push(novoVeiculo);
     this.veiculosSubject.next([...this.veiculos]);
   }
-
+  
   atualizarVeiculo(veiculoAtualizado: Veiculo): void {
     const index = this.veiculos.findIndex(v => v.id === veiculoAtualizado.id);
     if (index !== -1) {
@@ -54,7 +59,7 @@ export class VeiculoService {
       this.veiculosSubject.next([...this.veiculos]); 
     }
   }
-
+  
   removerVeiculo(id: number): void {
     this.veiculos = this.veiculos.filter(v => v.id !== id);
     this.veiculosSubject.next([...this.veiculos]);

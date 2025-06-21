@@ -1,5 +1,4 @@
 import { Component, OnInit} from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -16,6 +15,9 @@ import { Veiculo } from '../../../models/veiculo.model';
 import { Agendamento } from '../../../models/agendamento.model';
 import { Motorista } from '../../../models/motorista.model';
 import { MotoristaService } from '../../../services/motorista.service';
+import { AgendamentoComponent } from '../agendamento/agendamento.component';
+import { AgendamentoService } from '../../../services/agendamento.service';
+
 
 
 
@@ -35,31 +37,24 @@ import { MotoristaService } from '../../../services/motorista.service';
   styleUrl: './pagina-inicial.component.css'
 })
 
-export class PaginaInicialComponent  implements OnInit{
+export class PaginaInicialComponent  implements OnInit {
   veiculos: Veiculo[] = [];
   motoristas: Motorista[] = [];
+  agendamentos: Agendamento[] = [];
   
   constructor(
     private dialog: MatDialog,
     private veiculoService: VeiculoService,
-    private motoristaService: MotoristaService
+    private motoristaService: MotoristaService,
+    private agendamentoService: AgendamentoService,
   ) {}
   
-  agendamentos: any[] = [];
   
-  ngOnInit(): void {
-    this.agendamentos = [
-      { id: 1, status: 'PENDENTE', motorista: 'João', dataInicio: '10/05/2025', dataFim: '15/05/2025' },
-      { id: 2, status: 'EM_USO', motorista: 'Maria', dataInicio: '1', dataFim: '1' },
-      { id: 3, status: 'FINALIZADO', motorista: 'Carlos', dataInicio: '2', dataFim: '2' },
-      { id: 4, status: 'EM_USO', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' },
-      { id: 5, status: 'PENDENTE', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' },
-      { id: 6, status: 'FINALIZADO', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' },
-      { id: 7, status: 'PENDENTE', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' },
-      { id: 8, status: 'EM_USO', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' },
-      { id: 9, status: 'FINALIZADO', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' },
-      
-    ];
+
+  ngOnInit() {
+    this.agendamentoService.getAgendamentos().subscribe(agendamentos => {
+      this.agendamentos = [...agendamentos];
+  });
 
     this.veiculoService.getVeiculos().subscribe(v => {
     this.veiculos = v;
@@ -70,13 +65,20 @@ export class PaginaInicialComponent  implements OnInit{
    });
 }   
 
-  
-  filtros = {
-    periodoInicial: '',
-    periodoFinal: '',
-    status: '',
-    motorista: ''
-  };
+
+  openDialog(): void{
+    this.dialog.open(AgendamentoComponent, {
+      width: '30%',
+      data: {
+        veiculos: this.veiculos,
+        motoristas: this.motoristas 
+      }
+    }).afterClosed().subscribe(result =>{
+      if (result) {
+        this.agendamentos.push(result);
+      }
+    });
+  }
   
   agendarViagem(id: number) {
     this.dialog.open(AgendarViagemComponent, {

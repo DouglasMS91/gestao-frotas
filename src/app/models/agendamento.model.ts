@@ -2,13 +2,13 @@ import { Veiculo } from "./veiculo.model";
 import { Motorista } from "./motorista.model";
 
 export interface Agendamento {
-  id?: number;
+  id: number;
   veiculo: Veiculo;
   motorista: Motorista;
-  data: String; //mudar depois para Date
-  hora: String;
-  destino: String;
-  Justificativa: String;
+  data: Date; //mudar depois para Date
+  //hora: String;
+  //destino: String;
+  //justificativa: String;
   status?: String;
 }
 

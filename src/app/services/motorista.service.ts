@@ -33,6 +33,10 @@ export class MotoristaService {
         return this.motoristaSubject.asObservable();
     }
     
+    getMotoristaById(id: number): Motorista | undefined {
+        return this.motoristas.find(m => m.id === id);
+    }
+    
     /*
     ** Quando o back estiver pronto
     getMotoristas() -> Você troca o método listarMotoristas() para fazer uma requisição real ao banco:
