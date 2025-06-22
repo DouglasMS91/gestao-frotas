@@ -1,46 +1,68 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
+
+
 
 @Component({
-  standalone: true,
-  selector: 'app-cadastrar-veiculo',
+  selector: 'app-dialog',
+  standalone:true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    CommonModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatNativeDateModule
+  ],
   templateUrl: './cadastrar-veiculo.component.html',
-  styleUrls: ['./cadastrar-veiculo.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatButtonModule]
+  styleUrl: './cadastrar-veiculo.component.css'
 })
+
 export class CadastrarVeiculoComponent {
   veiculoForm: FormGroup;
-
   statusOptions = ['Disponível', 'Inativo', 'Em Manutenção'];
+  tipoVeiculo = ['Carro', 'Van', 'Caminhão', 'Furgão'];
 
-  constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CadastrarVeiculoComponent>
+  constructor(private fb: FormBuilder, 
+    public dialogRef: MatDialogRef<CadastrarVeiculoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.veiculoForm = this.fb.group({
+      placa: ['', Validators.required],
       modelo: ['', Validators.required],
       tipo: ['', Validators.required],
-      placa: ['', Validators.required],
-      ano: ['', [Validators.required, Validators.min(1900)]],
-      km: ['', Validators.required],
+      ano: ['', Validators.required],
+      quilometragemAtual: ['', Validators.required],
       status: ['', Validators.required],
     });
-  }
 
-  onSubmit() {
-    if (this.veiculoForm.valid) {
-      console.log(this.veiculoForm.value);
-      this.dialogRef.close(this.veiculoForm.value);
+    if (data && data.veiculo) {
+       setTimeout(() => {
+           this.veiculoForm.patchValue(data.veiculo);
+        });
     }
   }
 
-  onCancel() {
-    this.dialogRef.close();
+    onSubmit() {
+      if(this.veiculoForm.valid){
+        const form = this.veiculoForm.value;
+        this.dialogRef.close(form);
+      }
+
   }
+  onClose(){
+    this.dialogRef.close(); 
+  }
+
 }

@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Agendar Viagem</h2>
+<form [formGroup]="formAgendamento" (ngSubmit)="onSubmit()" *ngIf="motoristas.length && veiculos.length">
+    
+    <mat-form-field appearance="fill">
+        <mat-label>Veículo</mat-label>
+        <mat-select formControlName="veiculo" required>
+            <mat-option *ngFor="let v of veiculos" [value]="v">{{ v.modelo }} </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+        <mat-label>Motorista</mat-label>
+        <mat-select formControlName="motorista" required>
+            <mat-option *ngFor="let m of motoristas" [value]="m"> {{ m.nome }} </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="data" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+            <mat-option value="PENDENTE">PENDENTE</mat-option>
+            <mat-option value="EM_USO">EM USO</mat-option>
+            <mat-option value="FINALIZADO">FINALIZADO</mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <div class="actions">
+        <button mat-raised-button color="primary" type="submit">Agendar</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    </div>
+    
+</form>
+

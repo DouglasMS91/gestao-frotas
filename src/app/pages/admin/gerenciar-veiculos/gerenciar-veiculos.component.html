@@ -1,7 +1,7 @@
 <mat-toolbar class="toolbar">
   <span class="titulo">Gerenciar Veículos</span>
   <span class="example-spacer"></span>
-  <button mat-raised-button color="primary" (click)="openDialog()">Editar</button>
+  <button mat-raised-button color="primary" (click)="openDialog()">Cadastrar</button>
 </mat-toolbar>
 
 <div class="tabela-container">
@@ -35,6 +35,18 @@
     <ng-container matColumnDef="Status">
       <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
       <mat-cell *matCellDef="let veiculo"> {{veiculo.status}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Ações">
+      <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+      <mat-cell *matCellDef="let veiculo">
+        <button mat-button  (click)="editVeiculo(veiculo)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button  (click)="deleteVeiculo(veiculo)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>

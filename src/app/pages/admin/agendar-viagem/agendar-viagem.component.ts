@@ -1,12 +1,105 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { VeiculoService } from '../../../services/veiculo.service';
+import { Veiculo } from '../../../services/veiculo.service';
+import { MotoristaService } from '../../../services/motorista.service';
+import { Motorista } from '../../../models/motorista.model';
+import { Agendamento } from '../../../models/agendamento.model';
+import { AgendamentoService } from '../../../services/agendamento.service';
 
 @Component({
   selector: 'app-agendar-viagem',
   standalone: true,
-  imports: [],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    CommonModule
+  ],
   templateUrl: './agendar-viagem.component.html',
   styleUrl: './agendar-viagem.component.css'
 })
-export class AgendarViagemComponent {
+export class AgendarViagemComponent implements OnInit {
+  form!: FormGroup;
+  veiculos: Veiculo [] = [];
+  motoristas: Motorista [] = [];
 
-}
+ constructor(
+    private fb: FormBuilder,
+    private veiculoService: VeiculoService,
+    private motoristaService: MotoristaService,
+    private agendamentoService: AgendamentoService,
+    public dialogRef: MatDialogRef<AgendarViagemComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+    /*
+    this.motoristas = data?.motoristas || [];
+    this.form = this.fb.group({
+      veiculo: ['', Validators.required],
+      motorista: ['', Validators.required],
+      dataSaida: ['', Validators.required],
+      horaSaida: ['', Validators.required],
+      destino: ['', Validators.required],
+      justificativa: ['', Validators.required],
+    });
+  }*/
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      veiculo: ['', Validators.required],
+      motorista: ['', Validators.required],
+      dataSaida: ['', Validators.required],
+      horaSaida: ['', Validators.required],
+      destino: ['', Validators.required],
+      justificativa: ['', Validators.required],
+    });
+
+
+    if (this.data?.motoristas) {
+      this.motoristas = this.data.motoristas;
+    } else {
+      this.motoristaService.getMotoristas().subscribe(m => this.motoristas = m);
+    }
+    if (this.data?.veiculos) {
+      this.veiculos = this.data.veiculos;
+    } else {
+      this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
+    }  
+  }
+  
+  onSubmit(): void {
+    if (this.form.valid) {
+      const agendamento = this.form.value;
+      this.dialogRef.close(agendamento);
+       console.log('Agendamento criado:', agendamento);
+      }
+    }
+  }
+
+/*
+ onSubmit(): void {
+    if (this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+      const agendamento = {
+        ...this.form.value,
+        status: 'AGENDADO'
+      };
+      console.log('Agendamento criado:', agendamento);
+      this.dialogRef.close(agendamento);
+    }
+*/

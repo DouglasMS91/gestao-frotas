@@ -1,1 +1,47 @@
-<p>registrar-manutencao works!</p>
+<h2 mat-dialog-title>Registrar Manutenção</h2>
+<form [formGroup]="form_manutencao" (ngSubmit)="onSubmit()">
+
+     <mat-form-field appearance="fill">
+        <mat-label>Veículo</mat-label>
+        <mat-select formControlName="veiculo" required>
+            <mat-option *ngFor="let v of veiculos" [value]="v">{{ v.modelo }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+     <mat-form-field appearance="fill">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dataManutencao" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Valor</mat-label>
+        <input matInput type="number" formControlName="valorManutencao" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Tipo de Manutenção</mat-label>
+        <mat-select formControlName="tipoManutencao" required>
+            <mat-option value="Preventiva">Preventiva</mat-option>
+            <mat-option value="Corretiva">Corretiva</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+     <mat-form-field appearance="fill">
+        <mat-label>Quilometragem Atual</mat-label>
+        <input matInput type="number" formControlName="quilometragemAtual" required>
+    </mat-form-field>
+
+    <mat-form-field  appearance="outline">
+        <mat-label>Descrição da Manutenção</mat-label>
+        <textarea matInput rows="5" formControlName="descricao" required></textarea>
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" type="submit">Registar</button>
+        <button mat-raised-button color="warn" (click)="onClose()" mat-dialog-close>Cancelar</button>
+    </div>
+
+</form>
+
