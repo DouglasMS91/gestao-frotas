@@ -11,49 +11,33 @@ import { VeiculoService } from './veiculo.service';
 })
 export class AgendamentoService {
   private agendamentos: Agendamento [] = [];
-  
+  private agendamentoSubject = new BehaviorSubject<Agendamento[]>([]);
   
   constructor(
-  private motoristaService: MotoristaService,
-  private veiculoService: VeiculoService
-) {
-  forkJoin({
-    motoristas: this.motoristaService.getMotoristas(),
-    veiculos: this.veiculoService.getVeiculos()
-  }).subscribe(({ motoristas, veiculos }) => {
-    console.log('Motoristas recebidos:', motoristas);
-    console.log('Veículos recebidos:', veiculos);
-
-    this.agendamentos = [
-      {
-        id: 1,
-        motorista: motoristas[0],
-        veiculo: veiculos[0],
-        data: new Date('15/06/2025'),
-        status: 'PENDENTE'
-      }
-    ];
-    this.agendamentoSubject.next(this.agendamentos);
-  });
-}
-  private agendamentoSubject = new BehaviorSubject<Agendamento[]>([]);
-
+    private motoristaService: MotoristaService,
+    private veiculoService: VeiculoService
+  ) {
+    forkJoin({
+      motoristas: this.motoristaService.getMotoristas(),
+      veiculos: this.veiculoService.getVeiculos()
+    }).subscribe(({ motoristas, veiculos }) => {
+      this.agendamentos = [
+        {
+          id: 1,
+          motorista: motoristas[0],
+          veiculo: veiculos[0],
+          data: new Date('15/06/2025'),
+          status: 'PENDENTE'
+        }
+      ];
+      this.agendamentoSubject.next(this.agendamentos);
+    });
+  }
+  
   getAgendamentos(): Observable<Agendamento[]> {
     return this.agendamentoSubject.asObservable();
   }
   
-  
-  
-  agendarViagem(agendamento: Agendamento): Observable<Agendamento> {
-    agendamento.id = this.agendamentos.length + 1;
-    this.agendamentos.push(agendamento);
-    this.agendamentoSubject.next(this.agendamentos);
-    return new BehaviorSubject(agendamento).asObservable();
-  }
-  
-  listarViagens(): Observable<Agendamento[]> {
-    return of(this.agendamentos);
-  }
 }
 
 

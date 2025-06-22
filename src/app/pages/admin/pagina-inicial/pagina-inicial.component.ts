@@ -3,7 +3,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AgendarViagemComponent } from '../agendar-viagem/agendar-viagem.component';
@@ -46,12 +45,13 @@ export class PaginaInicialComponent  implements OnInit {
     private dialog: MatDialog,
     private veiculoService: VeiculoService,
     private motoristaService: MotoristaService,
-    private agendamentoService: AgendamentoService,
+    private agendamentoService: AgendamentoService
   ) {}
   
   
 
   ngOnInit() {
+    console.log('Agendamento Service:', this.agendamentoService);
     this.agendamentoService.getAgendamentos().subscribe(agendamentos => {
       this.agendamentos = [...agendamentos];
   });
