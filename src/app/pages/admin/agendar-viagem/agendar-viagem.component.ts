@@ -36,8 +36,8 @@ export class AgendarViagemComponent implements OnInit {
   form!: FormGroup;
   veiculos: Veiculo [] = [];
   motoristas: Motorista [] = [];
-
- constructor(
+  
+  constructor(
     private fb: FormBuilder,
     private veiculoService: VeiculoService,
     private motoristaService: MotoristaService,
@@ -45,18 +45,7 @@ export class AgendarViagemComponent implements OnInit {
     public dialogRef: MatDialogRef<AgendarViagemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-    /*
-    this.motoristas = data?.motoristas || [];
-    this.form = this.fb.group({
-      veiculo: ['', Validators.required],
-      motorista: ['', Validators.required],
-      dataSaida: ['', Validators.required],
-      horaSaida: ['', Validators.required],
-      destino: ['', Validators.required],
-      justificativa: ['', Validators.required],
-    });
-  }*/
-
+ 
   ngOnInit(): void {
     this.form = this.fb.group({
       veiculo: ['', Validators.required],
@@ -66,8 +55,8 @@ export class AgendarViagemComponent implements OnInit {
       destino: ['', Validators.required],
       justificativa: ['', Validators.required],
     });
-
-
+    
+    
     if (this.data?.motoristas) {
       this.motoristas = this.data.motoristas;
     } else {
@@ -82,24 +71,24 @@ export class AgendarViagemComponent implements OnInit {
   
   onSubmit(): void {
     if (this.form.valid) {
-      const agendamento = this.form.value;
-      this.dialogRef.close(agendamento);
-       console.log('Agendamento criado:', agendamento);
-      }
+      const formValue = this.form.value;
+      const agendamento = {
+        id: formValue.id,
+        data: formValue.dataSaida, 
+        status: formValue.status, 
+        destino: formValue.destino,
+        motoristaId: formValue.motorista, 
+        veiculoId: formValue.veiculo
+      };
+      this.agendamentoService.criarAgendamento(agendamento).subscribe({
+        next: (novoAgendamento) => {
+          console.log('Agendamento Criado:', agendamento);
+          this.dialogRef.close(novoAgendamento);
+        },
+        error: (err) => {
+          console.error('Erro ao criar agendamento:', err);
+        }
+      });
     }
   }
-
-/*
- onSubmit(): void {
-    if (this.form.valid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-      const agendamento = {
-        ...this.form.value,
-        status: 'AGENDADO'
-      };
-      console.log('Agendamento criado:', agendamento);
-      this.dialogRef.close(agendamento);
-    }
-*/
+}

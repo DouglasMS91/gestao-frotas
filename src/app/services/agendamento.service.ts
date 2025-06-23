@@ -5,124 +5,48 @@ import { Agendamento } from '../models/agendamento.model';
 import { Motorista } from '../models/motorista.model';
 import { MotoristaService } from './motorista.service';
 import { Veiculo, VeiculoService } from './veiculo.service';
+import { AgendamentoCreateDTO } from '../models/agendamentoDTO';
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class AgendamentoService {
-  private agendamentos: Agendamento [] = [];
+  private agendamentos: Agendamento[] = [];
   private agendamentoSubject = new BehaviorSubject<Agendamento[]>([]);
-  
-  
-  constructor(private motoristaService: MotoristaService, private veiculoService: VeiculoService) {}
-  
-  
-  criarAgendamento(agendamento: Agendamento): void {
-    this.agendamentos.push(agendamento);
-    this.agendamentoSubject.next(this.agendamentos);
-    }
- 
-    
-    
-    getAgendamentos(): Observable<Agendamento[]> {
-      return this.agendamentoSubject.asObservable();
-    }
-    
-  }
-  
-  /*
-  export class AgendamentoService {
-  private agendamentos: Agendamento [] = [];
-  private agendamentoSubject = new ReplaySubject<Agendamento[]>(1);
-  
+
+  private apiUrl = 'http://localhost:8080/api/agendamentos';
+
   constructor(
-  private motoristaService: MotoristaService,
-  private veiculoService: VeiculoService
+    private motoristaService: MotoristaService,
+    private veiculoService: VeiculoService,
+    private http: HttpClient
   ) {}
-  
-  initMockData(): void {
-  forkJoin({
-  motoristas: this.motoristaService.getMotoristas(),
-  veiculos: this.veiculoService.getVeiculos()
-  }).subscribe(({ motoristas, veiculos }) => {
-  console.log('Mock carregado:', motoristas, veiculos);
-  this.agendamentos = [
-  {
-  id: 1,
-  motorista: motoristas[0],
-  veiculo: veiculos[0],
-  data: new Date('15-06-2025'),
-  status: 'PENDENTE'
+
+  getMotoristas(): Observable<Motorista[]> {
+    return this.http.get<Motorista[]>(`${this.apiUrl}/motoristas`);
   }
-  ];
-  console.log('Mock agendamento gerado:', this.agendamentos);
-  this.agendamentoSubject.next(this.agendamentos);
-  });
+
+  getVeiculos(): Observable<Veiculo[]> {
+    return this.http.get<Veiculo[]>(`${this.apiUrl}/veiculos`);
   }
-  
-  
-  
-  getAgendamentos(): Observable<Agendamento[]> {
-  return this.agendamentoSubject.asObservable();
+
+  criarAgendamento(dto: AgendamentoCreateDTO): Observable<Agendamento> {
+    return this.http.post<Agendamento>(this.apiUrl, dto);
   }
-  
-  }*/
-  
-  
-  
-  /*
-  constructor(private http: HttpClient) {}
-  
-  listarAgendamentos(filtros: any): Observable<Agendamento[]> {
-  let params = new HttpParams();
-  if (filtros.periodoInicial) {
-  params = params.set('periodoInicial', filtros.periodoInicial);
+
+
+   getAgendamentos(): Observable<Agendamento[]> {
+    return this.http.get<Agendamento[]>(this.apiUrl);
   }
-  if (filtros.periodoFinal) {
-  params = params.set('periodoFinal', filtros.periodoFinal);
-  }
-  if (filtros.status) {
-  params = params.set('status', filtros.status);
-  }
-  if (filtros.motorista) {
-  params = params.set('motorista', filtros.motorista);
-  }
+
+  excluirAgendamento(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+}
+ 
   
-  return this.http.get<Agendamento[]>(this.apiUrl, { params });
-  }
-  }
-  -----------------------------------------------------------------------
-  export class AgendamentoService {
-  //private apiUrl = 'http://localhost:4200/agendamentos'; // Ajuste conforme seu backend
-  
-  private agendamentos: Agendamento [] = [];
-  
-  
-  constructor(
-  private motoristaService: MotoristaService,
-  private veiculoService: VeiculoService,
-  ) {
-  const motoritsa = this.motoristaService.getMotoristas();
-  const veiculo = this.veiculoService.getVeiculos();
-  }
-  
-  
-  
-  agendarViagem(agendamentos: Agendamento): Observable<Agendamento> {
-  agendamentos.id = this.agendamentos.length + 1;
-  this.agendamentos.push(agendamentos);
-  return of(agendamentos);
-  }
-  
-  listarViagens(): Observable<Agendamento[]> {
-  return of(this.agendamentos);
-  }
-  }
-  
-  
-  */
-  
-  
-  
+}
+ 
   
   

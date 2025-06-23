@@ -66,9 +66,13 @@ export class PaginaInicialComponent  implements OnInit {
       error: (err) => console.log('Erro ao carregar Veiculos', err)
     })
     
-    this.agendamentoService.getAgendamentos().subscribe(ags => {
-      this.agendamentos = ags;
+    this.agendamentoService.getAgendamentos().subscribe({
+      next: (data) => {
+        this.agendamentos = data;
+      },
+      error: (err) => console.log('Erro ao carregar Agendamentos', err)
     });
+    
 
     this.veiculoService.getVeiculos().subscribe(v => {
       this.veiculos = v;
@@ -78,18 +82,19 @@ export class PaginaInicialComponent  implements OnInit {
   
   
   openDialog(): void{
-    this.dialog.open(AgendamentoComponent, {
+    const dialogRef = this.dialog.open(AgendamentoComponent, {
       width: '30%',
       data: {
         veiculos: this.veiculos,
         motoristas: this.motoristas,
       }
-    }).afterClosed().subscribe((resultado: Agendamento | undefined) => {
-      if(resultado){
-        this.agendamentoService.criarAgendamento(resultado);
-      }
-      console.log(resultado)
-    })
+    });
+    dialogRef.afterClosed().subscribe((novoAgendamento) => {
+    if (novoAgendamento) {
+      this.agendamentos.push(novoAgendamento);
+      this.agendamentos = [...this.agendamentos]; 
+    }
+  });
   }
   
   agendarViagem(id: number) {
@@ -131,6 +136,17 @@ export class PaginaInicialComponent  implements OnInit {
     });
   } 
   
+  excluirAgendamento(id: number): void {
+  this.agendamentoService.excluirAgendamento(id).subscribe({
+    next: () => {
+      this.agendamentos = this.agendamentos.filter(ag => ag.id !== id);
+    },
+    error: err => {
+      console.error('Erro ao excluir agendamento:', err);
+    }
+  });
+}
+
   
 }
 

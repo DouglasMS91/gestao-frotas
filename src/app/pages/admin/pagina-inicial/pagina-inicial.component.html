@@ -5,8 +5,6 @@
 </mat-toolbar>
 
 <div class="container">
-  
-  
   <div *ngFor="let ag of agendamentos" class="card">
     <div class="card-header">
       <span>Agendamento #{{ ag.id }}</span>
@@ -19,6 +17,9 @@
       <p><strong>Motorista:</strong> {{ ag.motorista.nome }}</p>
       <p><strong>Veículo:</strong> {{ ag.veiculo.modelo }}</p>
       <p><strong>Data:</strong> {{ ag.data | date: 'dd/MM/yyyy' }}</p>
+      <button mat-button (click)="excluirAgendamento(ag.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
       
       <div class="actions">
         <button *ngIf="ag.status === 'PENDENTE'" (click)="agendarViagem(ag.id)" class="btn success">Agendar Viagem</button>
@@ -29,42 +30,3 @@
   </div>
 </div>
 
-
-
-<!--
-<div class="container">
-  <h2>Lista de Agendamentos</h2>
-  
-  <div *ngFor="let ag of agendamentos" class="card">
-    <div class="card-header">
-      <span>Agendamento #{{ ag.id }}</span>
-      <span class="status" [ngClass]="ag.status.toLowerCase()">{{ ag.status }}</span>
-    </div>
-    
-    <div class="card-body">
-      <p><strong>Motorista:</strong> {{ ag.motorista }}</p>
-      <p><strong>Início:</strong> {{ ag.dataInicio || 'Não informada' }}</p>
-      <p><strong>Fim:</strong> {{ ag.dataFim || 'Não informada' }}</p>
-      
-      <div class="actions">
-        <button *ngIf="ag.status === 'PENDENTE'" (click)="agendarViagem(ag.id)" class="btn success">Agendar Viagem</button>
-        <button *ngIf="ag.status === 'EM_USO'" (click)="registrarAbastecimento(ag.id)" class="btn warning">Registrar Abastecimento</button>
-        <button *ngIf="ag.status === 'FINALIZADO'" (click)="registrarManutencao(ag.id)" class="btn info">Registrar Manutenção</button>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="filtros">
-  <input type="text" placeholder="Filtrar por motorista" [(ngModel)]="filtros.motorista">
-  
-  <select [(ngModel)]="filtros.status">
-    <option value="">Todos os status</option>
-    <option value="PENDENTE">PENDENTE</option>
-    <option value="AGENDADO">AGENDADO</option>
-    <option value="EM_USO">EM USO</option>
-    <option value="FINALIZADO">FINALIZADO</option>
-  </select> 
-</div>
--->
