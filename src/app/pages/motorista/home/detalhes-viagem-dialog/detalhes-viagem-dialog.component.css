@@ -1,0 +1,36 @@
+.detalhes-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+mat-dialog-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #444;
+}
+
+mat-dialog-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dialog-container {
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 15px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
