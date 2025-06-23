@@ -112,6 +112,10 @@ export class GerenciarMotoristasComponent {
   }
   
   editMotorista(motorista: any): void {
+    if (!motorista) {
+  console.error('Motorista inválido para edição');
+  return;
+    }
     const dialogRef = this.dialog.open(EditarMotoristaComponent, {
       width: '40%',
       data: motorista,
@@ -119,7 +123,15 @@ export class GerenciarMotoristasComponent {
     
     dialogRef.afterClosed().subscribe((motoristaAtualizado) => {
       if (motoristaAtualizado) {
-        this.motoristaService.atualizarMotorista(motoristaAtualizado);
+        this.motoristaService.atualizarMotorista(motoristaAtualizado).subscribe({
+          next: (motorista) => {
+            const index = this.lista_motoristas.findIndex(m => m.id === motorista.id);
+            if( index !== -1){
+              this.lista_motoristas[index] = motorista;
+              this.lista_motoristas = [...this.lista_motoristas];
+            }
+          }
+        })
       }
     });
   }

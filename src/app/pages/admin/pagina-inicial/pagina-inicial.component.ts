@@ -51,6 +51,13 @@ export class PaginaInicialComponent  implements OnInit {
   
   
   ngOnInit() {
+    this.motoristaService.getMotoristas().subscribe({
+      next: (data) => {
+        this.motoristas = data;
+        console.log('Motoristas Carregados', this.motoristas);
+      },
+      error: (err) => console.log('Erro ao carregar Motoristas', err)
+    });
     
     this.agendamentoService.getAgendamentos().subscribe(ags => {
       this.agendamentos = ags;

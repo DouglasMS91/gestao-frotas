@@ -32,6 +32,10 @@ export class MotoristaService {
     
     private apiUrl = 'http://localhost:8080/api/motoristas';
     constructor(private http: HttpClient) {}
+
+     getMotoristas(): Observable<Motorista[]> {
+        return this.http.get<Motorista[]>(this.apiUrl);
+    }
     
     cadastrarMotorista(motorista: Motorista): Observable<Motorista> {
         return this.http.post<Motorista>(this.apiUrl, motorista,
@@ -39,22 +43,14 @@ export class MotoristaService {
         );
     }
     
-    getMotoristas(): Observable<Motorista[]> {
-        return this.http.get<Motorista[]>(this.apiUrl);
-        
-    }
-    atualizarMotorista(motoristaAtualizado: Motorista): void {
-        const index = this.motoristas.findIndex(m => m.id === motoristaAtualizado.id);
-        if (index !== -1) {
-            this.motoristas[index] = motoristaAtualizado;
-            this.motoristaSubject.next([...this.motoristas]);
-        }
+   
+
+    atualizarMotorista(motorista: Motorista): Observable<Motorista> {
+       return this.http.put<Motorista>(`${this.apiUrl}/${motorista.id}`, motorista);
     }
     
     removerMotorista(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
-        this.motoristas = this.motoristas.filter(m => m.id !== id);
-        this.motoristaSubject.next([...this.motoristas]);
     }
 
     adicionarMotorista(novoMotorista: Motorista): void {
