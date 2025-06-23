@@ -61,7 +61,7 @@ export class GerenciarMotoristasComponent {
   ) {}
   
   ngOnInit() {
-    this.motoristaService.getMotoristas();
+    //this.motoristaService.getMotoristas();
     this.motoristaService.getMotoristas().subscribe(motoristas => {
       this.lista_motoristas = [...motoristas];
     });
@@ -73,7 +73,6 @@ export class GerenciarMotoristasComponent {
     });
     
     dialogRef.afterClosed().subscribe((form: any) => {
-      console.log('Dados do diálogo:', form);
       if (form) {
         const novoMotorista: Motorista = {
           nome: form.nome,
@@ -92,6 +91,7 @@ export class GerenciarMotoristasComponent {
         this.motoristaService.cadastrarMotorista(novoMotorista).subscribe({
           next: (motoristaCriado) => {
             this.lista_motoristas.push(motoristaCriado);
+            this.lista_motoristas = [...this.lista_motoristas];
           },
           error: (err) => {
             console.error("Erro ao cadastrar;", err);
@@ -101,20 +101,10 @@ export class GerenciarMotoristasComponent {
     });
   }
   
-  formatarEndereco(motorista: any): string {
-    const partes = [];
-    if (motorista.logradouro) partes.push(motorista.logradouro);
-    if (motorista.bairro) partes.push(motorista.bairro);
-    if (motorista.localidade && motorista.uf) {
-      partes.push(`${motorista.localidade} - ${motorista.uf}`);
-    }
-    return partes.join(', ');
-  }
-  
   editMotorista(motorista: any): void {
     if (!motorista) {
-  console.error('Motorista inválido para edição');
-  return;
+      console.error('Motorista inválido para edição');
+      return;
     }
     const dialogRef = this.dialog.open(EditarMotoristaComponent, {
       width: '40%',
@@ -136,8 +126,6 @@ export class GerenciarMotoristasComponent {
     });
   }
   
-  
-  
   deleteMotorista(motorista: Motorista): void {
     const dialogRef = this.dialog.open(ExcluirMotoristaComponent, {
       width: '30%',
@@ -152,5 +140,15 @@ export class GerenciarMotoristasComponent {
         });
       }
     });
+  }
+  
+  formatarEndereco(motorista: any): string {
+    const partes = [];
+    if (motorista.logradouro) partes.push(motorista.logradouro);
+    if (motorista.bairro) partes.push(motorista.bairro);
+    if (motorista.localidade && motorista.uf) {
+      partes.push(`${motorista.localidade} - ${motorista.uf}`);
+    }
+    return partes.join(', ');
   }
 }

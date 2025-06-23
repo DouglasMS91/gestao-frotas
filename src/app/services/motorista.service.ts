@@ -43,8 +43,6 @@ export class MotoristaService {
         );
     }
     
-   
-
     atualizarMotorista(motorista: Motorista): Observable<Motorista> {
        return this.http.put<Motorista>(`${this.apiUrl}/${motorista.id}`, motorista);
     }
@@ -53,10 +51,10 @@ export class MotoristaService {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
 
-    adicionarMotorista(novoMotorista: Motorista): void {
+   /* adicionarMotorista(novoMotorista: Motorista): void {
     this.motoristas.push(novoMotorista);
     this.motoristaSubject.next([...this.motoristas]);
-    }
+    }*/
     
     /*
     private motoristas: Motorista[] = [

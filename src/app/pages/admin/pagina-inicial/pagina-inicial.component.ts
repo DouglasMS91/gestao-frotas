@@ -16,6 +16,7 @@ import { Motorista } from '../../../models/motorista.model';
 import { MotoristaService } from '../../../services/motorista.service';
 import { AgendamentoComponent } from '../agendamento/agendamento.component';
 import { AgendamentoService } from '../../../services/agendamento.service';
+import { subscribe } from 'diagnostics_channel';
 
 
 
@@ -54,10 +55,16 @@ export class PaginaInicialComponent  implements OnInit {
     this.motoristaService.getMotoristas().subscribe({
       next: (data) => {
         this.motoristas = data;
-        console.log('Motoristas Carregados', this.motoristas);
       },
       error: (err) => console.log('Erro ao carregar Motoristas', err)
     });
+
+    this.veiculoService.getVeiculos().subscribe({
+      next: (data) => {
+        this.veiculos= data;
+      },
+      error: (err) => console.log('Erro ao carregar Veiculos', err)
+    })
     
     this.agendamentoService.getAgendamentos().subscribe(ags => {
       this.agendamentos = ags;
@@ -66,10 +73,7 @@ export class PaginaInicialComponent  implements OnInit {
     this.veiculoService.getVeiculos().subscribe(v => {
       this.veiculos = v;
     });
-    
-   /* this.motoristaService.getMotoristas().subscribe(m => {
-      this.motoristas = m;
-    });*/
+
   }   
   
   
