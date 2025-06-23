@@ -37,12 +37,12 @@ import { EditarMotoristaComponent } from './editar-motorista/editar-motorista.co
 
 export class GerenciarMotoristasComponent {
   lista_motoristas: Motorista[] = [];
-
+  
   visualizarSenha(motorista: Motorista){
     motorista.exibirSenha = !motorista.exibirSenha;
   }
-
-
+  
+  
   colunas: string[] = [
     'Nome',
     'CPF',
@@ -54,27 +54,28 @@ export class GerenciarMotoristasComponent {
     'Senha',
     'Ações'
   ]
-
+  
   constructor(
     private dialog: MatDialog,
     private motoristaService: MotoristaService
   ) {}
-
+  
   ngOnInit() {
+    this.motoristaService.getMotoristas();
     this.motoristaService.getMotoristas().subscribe(motoristas => {
       this.lista_motoristas = [...motoristas];
     });
   }
-
+  
   openDialog(): void {
     const dialogRef = this.dialog.open(FormMotoristasComponent, {
       width: '40%',
     });
-
+    
     dialogRef.afterClosed().subscribe((form: any) => {
+      console.log('Dados do diálogo:', form);
       if (form) {
         const novoMotorista: Motorista = {
-          id: Date.now(),
           nome: form.nome,
           cpf: form.cpf,
           cnh: form.cnh,
@@ -82,52 +83,61 @@ export class GerenciarMotoristasComponent {
           telefone: form.telefone,
           cep: form.cep,
           logradouro: form.logradouro,
-          bairro: form.bairo,
+          bairro: form.bairro,
           localidade: form.string,
           uf: form.uf,
           email: form.email,
           senha: form.senha
-      };
-        this.motoristaService.adicionarMotorista(novoMotorista);
+        };
+        this.motoristaService.cadastrarMotorista(novoMotorista).subscribe({
+          next: (motoristaCriado) => {
+            this.lista_motoristas.push(motoristaCriado);
+          },
+          error: (err) => {
+            console.error("Erro ao cadastrar;", err);
+          }
+        })
       } 
     });
   }
-
+  
   formatarEndereco(motorista: any): string {
     const partes = [];
     if (motorista.logradouro) partes.push(motorista.logradouro);
     if (motorista.bairro) partes.push(motorista.bairro);
     if (motorista.localidade && motorista.uf) {
       partes.push(`${motorista.localidade} - ${motorista.uf}`);
-  }
-  return partes.join(', ');
+    }
+    return partes.join(', ');
   }
   
   editMotorista(motorista: any): void {
-  const dialogRef = this.dialog.open(EditarMotoristaComponent, {
-    width: '40%',
-    data: motorista,
-  });
-
-  dialogRef.afterClosed().subscribe((motoristaAtualizado) => {
-    if (motoristaAtualizado) {
-      this.motoristaService.atualizarMotorista(motoristaAtualizado);
-    }
-  });
-}
-
-
-deleteMotorista(motorista: any): void {
-  const dialogRef = this.dialog.open(ExcluirMotoristaComponent, {
-    width: '30%',
-  });
-
-  dialogRef.afterClosed().subscribe((resultado) => {
-    if (resultado) {
-      const index = this.lista_motoristas.indexOf(motorista);
-     if(resultado){
-      this.motoristaService.removerMotorista(motorista.id);
-       }
+    const dialogRef = this.dialog.open(EditarMotoristaComponent, {
+      width: '40%',
+      data: motorista,
+    });
+    
+    dialogRef.afterClosed().subscribe((motoristaAtualizado) => {
+      if (motoristaAtualizado) {
+        this.motoristaService.atualizarMotorista(motoristaAtualizado);
+      }
+    });
+  }
+  
+  
+  
+  deleteMotorista(motorista: Motorista): void {
+    const dialogRef = this.dialog.open(ExcluirMotoristaComponent, {
+      width: '30%',
+    });
+    
+    dialogRef.afterClosed().subscribe((motoristaRemovido) => {
+      if (motoristaRemovido) {
+        this.motoristaService.removerMotorista(motorista.id!).subscribe({
+          next: () => {
+            this.lista_motoristas = this.lista_motoristas.filter(m => m.id !== motorista.id);
+          }
+        });
       }
     });
   }

@@ -49,35 +49,36 @@ export class PaginaInicialComponent  implements OnInit {
   ) {}
   
   
-
+  
   ngOnInit() {
-    console.log('Agendamento Service:', this.agendamentoService);
-    this.agendamentoService.getAgendamentos().subscribe(agendamentos => {
-      this.agendamentos = [...agendamentos];
-  });
+    
+    this.agendamentoService.getAgendamentos().subscribe(ags => {
+      this.agendamentos = ags;
+    });
 
     this.veiculoService.getVeiculos().subscribe(v => {
-    this.veiculos = v;
-  });
-
-   this.motoristaService.getMotoristas().subscribe(m => {
-    this.motoristas = m;
-   });
-}   
-
-
+      this.veiculos = v;
+    });
+    
+   /* this.motoristaService.getMotoristas().subscribe(m => {
+      this.motoristas = m;
+    });*/
+  }   
+  
+  
   openDialog(): void{
     this.dialog.open(AgendamentoComponent, {
       width: '30%',
       data: {
         veiculos: this.veiculos,
-        motoristas: this.motoristas 
+        motoristas: this.motoristas,
       }
-    }).afterClosed().subscribe(result =>{
-      if (result) {
-        this.agendamentos.push(result);
+    }).afterClosed().subscribe((resultado: Agendamento | undefined) => {
+      if(resultado){
+        this.agendamentoService.criarAgendamento(resultado);
       }
-    });
+      console.log(resultado)
+    })
   }
   
   agendarViagem(id: number) {
@@ -114,7 +115,7 @@ export class PaginaInicialComponent  implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-         // Salve o abastecimento (ex: this.abastecimentos.push(result)) 
+        // Salve o abastecimento (ex: this.abastecimentos.push(result)) 
       }
     });
   } 

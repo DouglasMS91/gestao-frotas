@@ -4,23 +4,22 @@
   <button mat-raised-button color="primary" (click)="openDialog()">Novo Agendamento</button>
 </mat-toolbar>
 
- <div class="container">
- 
-
+<div class="container">
+  
+  
   <div *ngFor="let ag of agendamentos" class="card">
     <div class="card-header">
       <span>Agendamento #{{ ag.id }}</span>
-      
     </div>
     <div class="info">
       <span class="status" [ngClass]="ag.status?.toLowerCase()">{{ ag.status }}</span>
     </div>
-
+    
     <div class="card-body">
       <p><strong>Motorista:</strong> {{ ag.motorista.nome }}</p>
       <p><strong>Veículo:</strong> {{ ag.veiculo.modelo }}</p>
       <p><strong>Data:</strong> {{ ag.data | date: 'dd/MM/yyyy' }}</p>
-
+      
       <div class="actions">
         <button *ngIf="ag.status === 'PENDENTE'" (click)="agendarViagem(ag.id)" class="btn success">Agendar Viagem</button>
         <button *ngIf="ag.status === 'EM_USO'" (click)="registrarAbastecimento(ag.id)" class="btn warning">Registrar Abastecimento</button>
@@ -33,20 +32,20 @@
 
 
 <!--
- <div class="container">
+<div class="container">
   <h2>Lista de Agendamentos</h2>
-
+  
   <div *ngFor="let ag of agendamentos" class="card">
     <div class="card-header">
       <span>Agendamento #{{ ag.id }}</span>
       <span class="status" [ngClass]="ag.status.toLowerCase()">{{ ag.status }}</span>
     </div>
-
+    
     <div class="card-body">
       <p><strong>Motorista:</strong> {{ ag.motorista }}</p>
       <p><strong>Início:</strong> {{ ag.dataInicio || 'Não informada' }}</p>
       <p><strong>Fim:</strong> {{ ag.dataFim || 'Não informada' }}</p>
-
+      
       <div class="actions">
         <button *ngIf="ag.status === 'PENDENTE'" (click)="agendarViagem(ag.id)" class="btn success">Agendar Viagem</button>
         <button *ngIf="ag.status === 'EM_USO'" (click)="registrarAbastecimento(ag.id)" class="btn warning">Registrar Abastecimento</button>
@@ -59,7 +58,7 @@
 
 <div class="filtros">
   <input type="text" placeholder="Filtrar por motorista" [(ngModel)]="filtros.motorista">
-
+  
   <select [(ngModel)]="filtros.status">
     <option value="">Todos os status</option>
     <option value="PENDENTE">PENDENTE</option>
