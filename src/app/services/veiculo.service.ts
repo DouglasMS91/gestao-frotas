@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, model } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Motorista } from '../models/motorista.model';
 
 export interface Veiculo {
   id: number; 
@@ -15,53 +17,38 @@ export interface Veiculo {
   providedIn: 'root'
 })
 export class VeiculoService {
-  private veiculos: Veiculo[] = [
-    { id: 1, 
-      placa: 'ABC-1234', 
-      modelo: 'Fusca', 
-      tipo: 'Carro', 
-      ano: 1975, 
-      quilometragemAtual: 120000, 
-      status: 'Disponível' 
-    },
-    {id: 2, 
-      placa: 'ABC-0000', 
-      modelo: 'F-150', 
-      tipo: 'Caminhão', 
-      ano: 2012, 
-      quilometragemAtual: 18231, 
-      status: 'Disponível' 
-    },
-  ];
-  
+  private veiculos: Veiculo[] = [];
   private veiculosSubject = new BehaviorSubject<Veiculo[]>(this.veiculos);
   
-  constructor() {}
+  private apiUrl = 'http://localhost:8080/api/veiculos';
+  constructor(private http: HttpClient) {}
+  
   
   getVeiculos(): Observable<Veiculo[]> {
-    return this.veiculosSubject.asObservable();
+    return this.http.get<Veiculo[]>(this.apiUrl);
+  }
+
+  
+  adicionarVeiculo(veiculo: Veiculo): Observable<Veiculo> {
+    return this.http.post<Veiculo>(this.apiUrl, veiculo)
   }
   
-  getVeiculoById(id: number): Veiculo | undefined {
-    return this.veiculos.find(v => v.id === id);
+  atualizarVeiculo(veiculo: Veiculo): Observable<Veiculo> {
+    return this.http.put<Veiculo>(`${this.apiUrl}/${veiculo.id}`, veiculo);
+    }
+  
+  
+  removerVeiculo(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  
-  
-  adicionarVeiculo(novoVeiculo: Veiculo): void {
-    this.veiculos.push(novoVeiculo);
-    this.veiculosSubject.next([...this.veiculos]);
-  }
-  
-  atualizarVeiculo(veiculoAtualizado: Veiculo): void {
+}
+
+/*
+atualizarVeiculo(veiculoAtualizado: Veiculo): void {
     const index = this.veiculos.findIndex(v => v.id === veiculoAtualizado.id);
     if (index !== -1) {
       this.veiculos[index] = veiculoAtualizado;
       this.veiculosSubject.next([...this.veiculos]); 
     }
   }
-  
-  removerVeiculo(id: number): void {
-    this.veiculos = this.veiculos.filter(v => v.id !== id);
-    this.veiculosSubject.next([...this.veiculos]);
-  }
-}
+    */

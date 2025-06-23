@@ -73,8 +73,14 @@ export class FormMotoristasComponent {
   onSubmit() {
     if (this.formMotorista.valid) {
       const motoristaData = this.formMotorista.value;
+
+          const motoristaParaEnviar = {
+      ...motoristaData,
+      validade_cnh: motoristaData.validade_cnh
+        ? this.formatarDataISO(motoristaData.validade_cnh)
+        : null
+    };
       this.dialogRef.close(motoristaData);
-      console.log(motoristaData);
     }
   }
   
@@ -136,7 +142,14 @@ export class FormMotoristasComponent {
     cepControl?.setErrors({ notFound: true });
     this.limparCamposEndereco();
   }
-  
+  formatarDataISO(data: any): string {
+  if (!data) return '';
+  const d = new Date(data);
+  const ano = d.getFullYear();
+  const mes = (d.getMonth() + 1).toString().padStart(2, '0');
+  const dia = d.getDate().toString().padStart(2, '0');
+  return `${ano}-${mes}-${dia}`;
+}
  
   
 }

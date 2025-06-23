@@ -16,6 +16,7 @@ import { Motorista } from '../../../models/motorista.model';
 import { MotoristaService } from '../../../services/motorista.service';
 import { AgendamentoComponent } from '../agendamento/agendamento.component';
 import { AgendamentoService } from '../../../services/agendamento.service';
+import { subscribe } from 'diagnostics_channel';
 
 
 
@@ -49,35 +50,46 @@ export class PaginaInicialComponent  implements OnInit {
   ) {}
   
   
-
+  
   ngOnInit() {
-    console.log('Agendamento Service:', this.agendamentoService);
-    this.agendamentoService.getAgendamentos().subscribe(agendamentos => {
-      this.agendamentos = [...agendamentos];
-  });
+    this.motoristaService.getMotoristas().subscribe({
+      next: (data) => {
+        this.motoristas = data;
+      },
+      error: (err) => console.log('Erro ao carregar Motoristas', err)
+    });
+
+    this.veiculoService.getVeiculos().subscribe({
+      next: (data) => {
+        this.veiculos= data;
+      },
+      error: (err) => console.log('Erro ao carregar Veiculos', err)
+    })
+    
+    this.agendamentoService.getAgendamentos().subscribe(ags => {
+      this.agendamentos = ags;
+    });
 
     this.veiculoService.getVeiculos().subscribe(v => {
-    this.veiculos = v;
-  });
+      this.veiculos = v;
+    });
 
-   this.motoristaService.getMotoristas().subscribe(m => {
-    this.motoristas = m;
-   });
-}   
-
-
+  }   
+  
+  
   openDialog(): void{
     this.dialog.open(AgendamentoComponent, {
       width: '30%',
       data: {
         veiculos: this.veiculos,
-        motoristas: this.motoristas 
+        motoristas: this.motoristas,
       }
-    }).afterClosed().subscribe(result =>{
-      if (result) {
-        this.agendamentos.push(result);
+    }).afterClosed().subscribe((resultado: Agendamento | undefined) => {
+      if(resultado){
+        this.agendamentoService.criarAgendamento(resultado);
       }
-    });
+      console.log(resultado)
+    })
   }
   
   agendarViagem(id: number) {
@@ -114,7 +126,7 @@ export class PaginaInicialComponent  implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-         // Salve o abastecimento (ex: this.abastecimentos.push(result)) 
+        // Salve o abastecimento (ex: this.abastecimentos.push(result)) 
       }
     });
   } 

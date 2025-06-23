@@ -47,27 +47,29 @@ export class GerenciarVeiculosComponent implements OnInit {
     'Status',
     'Ações'
   ]
-
+  
   constructor(
     private dialog: MatDialog,
     private veiculoService: VeiculoService
   ) {}
-
-ngOnInit() {
+  
+  ngOnInit() {
     this.veiculoService.getVeiculos().subscribe(veiculos => {
       this.lista_veiculos = [...veiculos];
-});
-}
-
+    });
+  }
+  
   openDialog(): void {
     const dialogRef = this.dialog.open(CadastrarVeiculoComponent, {
       width: '40%',
     });
-
+    
     dialogRef.afterClosed().subscribe((form: any) => {
-      if (form) {
+       if (form) {
+        delete form.id;
+        
         const novoVeiculo: Veiculo = {
-          id: Date.now(), 
+          id: form.id,
           placa: form.placa,
           modelo: form.modelo,
           tipo: form.tipo,
@@ -75,35 +77,52 @@ ngOnInit() {
           quilometragemAtual: form.quilometragemAtual,
           status: form.status,
         };
-        this.veiculoService.adicionarVeiculo(novoVeiculo);
+        this.veiculoService.adicionarVeiculo(novoVeiculo).subscribe({
+          next: (novoVeiculo) => {
+            this.lista_veiculos.push(novoVeiculo);
+            this.lista_veiculos = [...this.lista_veiculos];
+          },
+          error: (err) => {
+            console.error("Erro ao cadastrar;", err);
+          }
+        })
       }
     });
   }
-
-    editVeiculo(veiculo: any): void {
+  
+  editVeiculo(veiculo: any): void {
     const dialogRef = this.dialog.open(EditarVeiculoComponent, { 
       width: '40%',
       data: veiculo,
     });
-
-    dialogRef.afterClosed().subscribe((veiculoAtualizado: Veiculo) => {
+    
+    dialogRef.afterClosed().subscribe((veiculoAtualizado) => {
       if (veiculoAtualizado) {
-        this.veiculoService.atualizarVeiculo(veiculoAtualizado);
+        this.veiculoService.atualizarVeiculo(veiculoAtualizado).subscribe({
+          next: (veiculo) => {
+            const index = this.lista_veiculos.findIndex(v => v.id === veiculo.id);
+            if (index !== -1){
+              this.lista_veiculos[index] = veiculo;
+              this.lista_veiculos = [...this.lista_veiculos];
+            }
+          }
+        })
       }
     });
   }
-
+  
   deleteVeiculo(veiculo: Veiculo): void {
     const dialogRef = this.dialog.open(ConfirmarExclusaoComponent, {
       width: '30%',
     });
-
-    dialogRef.afterClosed().subscribe((resultado) => {
-      if (resultado) {
-        const index = this.lista_veiculos.indexOf(veiculo);
-        if (resultado) {   
-         this.veiculoService.removerVeiculo(veiculo.id);
-        }
+    
+    dialogRef.afterClosed().subscribe((veiculoRemovido) => {
+      if (veiculoRemovido) {
+        this.veiculoService.removerVeiculo(veiculo.id!).subscribe({
+          next: () => {
+            this.lista_veiculos = this.lista_veiculos.filter(v => v.id !== veiculo.id);
+          }
+        })
       }
     });
   }
