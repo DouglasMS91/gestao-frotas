@@ -72,6 +72,10 @@
   background-color: #27ae60; /* verde */
 }
 
+.status.agendado {
+  background-color: #515352; /* verde */
+}
+
 .card-body p {
   margin: 6px 0;
 }

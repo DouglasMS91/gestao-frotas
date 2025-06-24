@@ -25,6 +25,7 @@
         <button *ngIf="ag.status === 'PENDENTE'" (click)="agendarViagem(ag.id)" class="btn success">Agendar Viagem</button>
         <button *ngIf="ag.status === 'EM_USO'" (click)="registrarAbastecimento(ag.id)" class="btn warning">Registrar Abastecimento</button>
         <button *ngIf="ag.status === 'FINALIZADO'" (click)="registrarManutencao(ag.id)" class="btn info">Registrar Manutenção</button>
+        <button *ngIf="ag.status === 'AGENDADO'" class="btn info">-</button>
       </div>
     </div>
   </div>
