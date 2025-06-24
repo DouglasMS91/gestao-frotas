@@ -19,6 +19,8 @@ import { AgendamentoService } from '../../../services/agendamento.service';
 import { subscribe } from 'diagnostics_channel';
 import { ManutencaoService } from '../../../services/manutencao.service';
 import { Manutencao } from '../../../models/manutencao.model';
+import { AbastecimentoService } from '../../../services/abastecimento.service';
+import { Abastecimento } from '../../../models/abastaceimento.model';
 
 
 
@@ -44,13 +46,15 @@ export class PaginaInicialComponent  implements OnInit {
   motoristas: Motorista[] = [];
   agendamentos: Agendamento[] = [];
   manutencoes: Manutencao[] = [];
+  abastecimentos: Abastecimento[] = [];
   
   constructor(
     private dialog: MatDialog,
     private veiculoService: VeiculoService,
     private motoristaService: MotoristaService,
     private agendamentoService: AgendamentoService,
-    private manutencaoService: ManutencaoService
+    private manutencaoService: ManutencaoService,
+    private abastecimentoService: AbastecimentoService
   ) {}
   
   
@@ -78,10 +82,10 @@ export class PaginaInicialComponent  implements OnInit {
     });
     
 
-    this.veiculoService.getVeiculos().subscribe(v => {
+    /*this.veiculoService.getVeiculos().subscribe(v => {
       this.veiculos = v;
     });
-
+    */
   }   
   
   
@@ -123,6 +127,13 @@ export class PaginaInicialComponent  implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       if (result) {     
+        this.abastecimentoService.registrarAbastecimento(result).subscribe({
+          next: (novoAbastecimento) => {
+            this.abastecimentos.push(novoAbastecimento);
+            this.abastecimentos = [...this.abastecimentos];
+          },
+          error: err => console.error('Erro ao salvar abastecimento:', err)
+        })
       }
     });
   }
@@ -139,7 +150,6 @@ export class PaginaInicialComponent  implements OnInit {
         next: (novaManutencao) => {
           this.manutencoes.push(novaManutencao); 
           this.manutencoes = [...this.manutencoes];
-          console.log('Manutenção salva:', novaManutencao);
         },
         error: err => console.error('Erro ao salvar manutenção:', err)
       });

@@ -50,8 +50,8 @@ export class RegistrarAbastecimentoComponent {
       veiculo: ['', Validators.required],
       dataAbastecimento: ['', Validators.required],
       tipoCombustivel: ['', Validators.required],
-      valorAbastecimento:  ['', Validators.required],
-      quilometragem:  ['', Validators.required],
+      valor:  ['', Validators.required],
+      quilometragemAtual:  ['', Validators.required],
       motorista:  ['', Validators.required],
     });
     
@@ -69,7 +69,15 @@ export class RegistrarAbastecimentoComponent {
   
   onSubmit() {
     if (this.form_abastecimento.valid) {
-      const abastecimento = this.form_abastecimento.value;
+      const formValue = this.form_abastecimento.value;
+      const abastecimento = {
+        veiculoId: formValue.veiculo,
+        data: formValue.dataAbastecimento,
+        tipoCombustivel: formValue.tipoCombustivel,
+        valor: formValue.valor,
+        quilometragemAtual: formValue.quilometragemAtual,
+        motoristaId: formValue.motorista,
+      };
       this.dialogRef.close(abastecimento);
       console.log('Abastecimento registrado:', abastecimento);
     } 

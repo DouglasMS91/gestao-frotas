@@ -9,14 +9,12 @@ import { Abastecimento } from '../models/abastaceimento.model';
 
 export class AbastecimentoService {
     private abastecimentos: Abastecimento [] = [];
-    //private apiUrl = 'http://localhost:4200/abastecimentos'; // Ajuste conforme seu backend
+    private apiUrl = 'http://localhost:8080/api/abastecimentos';
 
-    constructor() {}
+    constructor(private http: HttpClient) {}
 
-    registrarAbastecimento(abastecimentos: Abastecimento): Observable<Abastecimento> {
-        abastecimentos.id = this.abastecimentos.length + 1;
-        this.abastecimentos.push(abastecimentos);
-        return of (abastecimentos);
+    registrarAbastecimento(abastecimento: Abastecimento): Observable<Abastecimento> {
+      return this.http.post<Abastecimento>(this.apiUrl, abastecimento);
     }
 
 

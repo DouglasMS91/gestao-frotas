@@ -3,10 +3,10 @@ import { Motorista } from "./motorista.model";
 
 export interface Abastecimento {
     id?: number; 
-    veiculo: Veiculo;
-    dataAbastecimento: Date; // mudar depois para date
+    veiculoId: number;
+    dataAbastecimento: Date;
     tipoCombustivel: String;
-    valorAbastecimento: number; //mudar para double
+    valor: number; 
     quilometragem: number;
-    motorista: Motorista;
+    motoristaId: number;
 }
