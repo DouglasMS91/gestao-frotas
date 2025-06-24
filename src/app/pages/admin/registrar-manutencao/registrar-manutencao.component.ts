@@ -8,7 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Veiculo } from '../../../models/veiculo.model';
 import { VeiculoService } from '../../../services/veiculo.service';
 
@@ -58,7 +58,16 @@ export class RegistrarManutencaoComponent {
   
   onSubmit() {
     if (this.form_manutencao.valid) {
-      const manutencao = this.form_manutencao.value;
+      const formValue = this.form_manutencao.value;
+
+      const manutencao = {
+        dataManutencao: formValue.dataManutencao,
+        valor: formValue.valorManutencao,
+        tipo: formValue.tipoManutencao,
+        quilometragemAtual: formValue.quilometragemAtual,
+        descricao: formValue.descricao,
+       veiculoId: formValue.veiculo
+      };
       this.dialogRef.close(manutencao);
       console.log('Manutenção registrada:', manutencao);
     }

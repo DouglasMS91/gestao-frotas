@@ -17,6 +17,8 @@ import { MotoristaService } from '../../../services/motorista.service';
 import { AgendamentoComponent } from '../agendamento/agendamento.component';
 import { AgendamentoService } from '../../../services/agendamento.service';
 import { subscribe } from 'diagnostics_channel';
+import { ManutencaoService } from '../../../services/manutencao.service';
+import { Manutencao } from '../../../models/manutencao.model';
 
 
 
@@ -41,12 +43,14 @@ export class PaginaInicialComponent  implements OnInit {
   veiculos: Veiculo[] = [];
   motoristas: Motorista[] = [];
   agendamentos: Agendamento[] = [];
+  manutencoes: Manutencao[] = [];
   
   constructor(
     private dialog: MatDialog,
     private veiculoService: VeiculoService,
     private motoristaService: MotoristaService,
-    private agendamentoService: AgendamentoService
+    private agendamentoService: AgendamentoService,
+    private manutencaoService: ManutencaoService
   ) {}
   
   
@@ -131,7 +135,14 @@ export class PaginaInicialComponent  implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-        // Salve o abastecimento (ex: this.abastecimentos.push(result)) 
+        this.manutencaoService.registrarManutencao(result).subscribe({
+        next: (novaManutencao) => {
+          this.manutencoes.push(novaManutencao); 
+          this.manutencoes = [...this.manutencoes];
+          console.log('Manutenção salva:', novaManutencao);
+        },
+        error: err => console.error('Erro ao salvar manutenção:', err)
+      });
       }
     });
   } 
