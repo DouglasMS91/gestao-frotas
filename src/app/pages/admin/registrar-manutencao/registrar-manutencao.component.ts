@@ -61,12 +61,12 @@ export class RegistrarManutencaoComponent {
       const formValue = this.form_manutencao.value;
 
       const manutencao = {
-        dataManutencao: formValue.dataManutencao,
+        data: formValue.dataManutencao,
         valor: formValue.valorManutencao,
         tipo: formValue.tipoManutencao,
         quilometragemAtual: formValue.quilometragemAtual,
         descricao: formValue.descricao,
-       veiculoId: formValue.veiculo
+        veiculoId: formValue.veiculo
       };
       this.dialogRef.close(manutencao);
       console.log('Manutenção registrada:', manutencao);
