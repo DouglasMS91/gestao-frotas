@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-historico',
   standalone: true,
