@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>🛣️ Detalhes da Viagem</h2>
+
+<div mat-dialog-content class="detalhes-conteudo">
+  <p><strong>Veículo:</strong> {{ dadosViagem.veiculo }}</p>
+  <p><strong>Motorista:</strong> {{ dadosViagem.motorista || '---' }}</p>
+  <p><strong>Destino:</strong> {{ dadosViagem.destino }}</p>
+  <p><strong>Data de Saída:</strong> {{ dadosViagem.dataSaida || '---' }}</p>
+  <p><strong>Data de Retorno:</strong> {{ dadosViagem.dataRetorno || '---' }}</p>
+  <p><strong>Status:</strong> {{ dadosViagem.status }}</p>
+  <p><strong>Quilometragem Inicial:</strong> {{ dadosViagem.quilometragemInicial || '---' }}</p>
+  <p><strong>Quilometragem Final:</strong> {{ dadosViagem.quilometragemFinal || '---' }}</p>
+  <p><strong>Justificativa:</strong> {{ dadosViagem.justificativa || '---' }}</p>
+  <p><strong>Observações:</strong> {{ dadosViagem.observacoes || '---' }}</p>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button color="primary" (click)="fechar()">Fechar</button>
+</div>
