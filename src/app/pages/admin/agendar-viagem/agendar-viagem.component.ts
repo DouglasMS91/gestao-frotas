@@ -15,7 +15,8 @@ import { MotoristaService } from '../../../services/motorista.service';
 import { Motorista } from '../../../models/motorista.model';
 import { Agendamento } from '../../../models/agendamento.model';
 import { AgendamentoService } from '../../../services/agendamento.service';
-
+import { ViagemService } from '../../../services/viagem.service';
+import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-agendar-viagem',
   standalone: true,
@@ -24,6 +25,7 @@ import { AgendamentoService } from '../../../services/agendamento.service';
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatButtonModule,
     MatDialogModule,
     ReactiveFormsModule,
@@ -34,72 +36,67 @@ import { AgendamentoService } from '../../../services/agendamento.service';
 })
 export class AgendarViagemComponent implements OnInit {
   form!: FormGroup;
-  veiculos: Veiculo [] = [];
-  motoristas: Motorista [] = [];
-
- constructor(
+  motoristas: any[] = [];
+  veiculos: any[] = [];
+  
+  constructor(
     private fb: FormBuilder,
-    private veiculoService: VeiculoService,
     private motoristaService: MotoristaService,
-    private agendamentoService: AgendamentoService,
+    private veiculoService: VeiculoService,
+    private viagemService: ViagemService,
     public dialogRef: MatDialogRef<AgendarViagemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-    /*
-    this.motoristas = data?.motoristas || [];
-    this.form = this.fb.group({
-      veiculo: ['', Validators.required],
-      motorista: ['', Validators.required],
-      dataSaida: ['', Validators.required],
-      horaSaida: ['', Validators.required],
-      destino: ['', Validators.required],
-      justificativa: ['', Validators.required],
-    });
-  }*/
-
+  
   ngOnInit(): void {
     this.form = this.fb.group({
-      veiculo: ['', Validators.required],
-      motorista: ['', Validators.required],
-      dataSaida: ['', Validators.required],
-      horaSaida: ['', Validators.required],
+      veiculo: [this.data?.veiculo || '', Validators.required],
+      motorista: [this.data?.motorista || '', Validators.required],
+      data: ['', Validators.required],
+      hora: ['', Validators.required],
       destino: ['', Validators.required],
-      justificativa: ['', Validators.required],
+      justificativa: ['', Validators.required]
     });
-
-
-    if (this.data?.motoristas) {
-      this.motoristas = this.data.motoristas;
-    } else {
-      this.motoristaService.getMotoristas().subscribe(m => this.motoristas = m);
-    }
-    if (this.data?.veiculos) {
-      this.veiculos = this.data.veiculos;
-    } else {
-      this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
-    }  
+    
+    this.getMotoristas();
+    this.getVeiculos();
+    
   }
   
   onSubmit(): void {
     if (this.form.valid) {
-      const agendamento = this.form.value;
-      this.dialogRef.close(agendamento);
-       console.log('Agendamento criado:', agendamento);
-      }
+      const formValue = this.form.value;
+      const viagem = {
+        veiculoId: formValue.veiculo,
+        motoristaId: formValue.motorista,
+        agendamentoId: this.data.agendamentoId,
+        data: formValue.data, 
+        hora: formValue.hora,
+        destino: formValue.destino,
+        justificativa: formValue.justificativa,
+      };
+      this.viagemService.agendarViagem(viagem).subscribe({
+        next: (res) => {
+          this.dialogRef.close(res);
+        },
+        error: (err) => {
+          console.error('Erro ao agendar viagem:', err);
+        }
+      });
     }
   }
+  
+  getMotoristas() {
+    this.motoristaService.getMotoristas().subscribe(m => {
+      this.motoristas = m;
+    });
+  }
+  
+  getVeiculos() {
+    this.veiculoService.getVeiculos().subscribe(v => {
+      this.veiculos = v;
+    });
+  }
+  
+}
 
-/*
- onSubmit(): void {
-    if (this.form.valid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-      const agendamento = {
-        ...this.form.value,
-        status: 'AGENDADO'
-      };
-      console.log('Agendamento criado:', agendamento);
-      this.dialogRef.close(agendamento);
-    }
-*/

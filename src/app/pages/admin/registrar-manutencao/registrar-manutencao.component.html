@@ -4,7 +4,7 @@
      <mat-form-field appearance="fill">
         <mat-label>Veículo</mat-label>
         <mat-select formControlName="veiculo" required>
-            <mat-option *ngFor="let v of veiculos" [value]="v">{{ v.modelo }}</mat-option>
+            <mat-option *ngFor="let v of veiculos" [value]="v.id">{{ v.modelo }}</mat-option>
         </mat-select>
     </mat-form-field>
 

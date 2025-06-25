@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Agendar Viagem</h2>
+<h2 mat-dialog-title>Novo Agendamento</h2>
 <form [formGroup]="formAgendamento" (ngSubmit)="onSubmit()" *ngIf="motoristas.length && veiculos.length">
     
     <mat-form-field appearance="fill">
@@ -14,6 +14,11 @@
             <mat-option *ngFor="let m of motoristas" [value]="m"> {{ m.nome }} </mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-form-field appearance="fill" >
+          <mat-label>Destino</mat-label>
+          <input matInput formControlName="destino">
+        </mat-form-field>
     
     <mat-form-field appearance="fill">
         <mat-label>Data</mat-label>

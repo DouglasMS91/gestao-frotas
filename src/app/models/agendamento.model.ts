@@ -6,26 +6,8 @@ export interface Agendamento {
   veiculo: Veiculo;
   motorista: Motorista;
   data: Date; 
+  destino: String,
   status?: String;
-  //hora: String;
-  //destino: String;
-  //justificativa: String;
+
   
 }
-
-/*
-export interface Agendamento {
-id: number;
-dataInicio: string;
-dataFim: string;
-motorista: {
-id: number;
-nome: string;
-};
-status: 'PENDENTE' | 'EM_USO' | 'FINALIZADO';
-veiculo: {
-modelo: string;
-placa: string;
-};
-}
-*/

@@ -17,6 +17,15 @@ import { MotoristaService } from '../../../services/motorista.service';
 import { AgendamentoComponent } from '../agendamento/agendamento.component';
 import { AgendamentoService } from '../../../services/agendamento.service';
 import { subscribe } from 'diagnostics_channel';
+import { ManutencaoService } from '../../../services/manutencao.service';
+import { Manutencao } from '../../../models/manutencao.model';
+import { AbastecimentoService } from '../../../services/abastecimento.service';
+import { Abastecimento } from '../../../models/abastaceimento.model';
+import { ViagemService } from '../../../services/viagem.service';
+import { Viagem } from '../../../models/viagem.model';
+import { MatTableModule } from '@angular/material/table';
+import { forkJoin } from 'rxjs';
+
 
 
 
@@ -30,6 +39,7 @@ import { subscribe } from 'diagnostics_channel';
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
+    MatTableModule,
     FormsModule,
     CommonModule,
   ],
@@ -41,95 +51,158 @@ export class PaginaInicialComponent  implements OnInit {
   veiculos: Veiculo[] = [];
   motoristas: Motorista[] = [];
   agendamentos: Agendamento[] = [];
+  manutencoes: Manutencao[] = [];
+  abastecimentos: Abastecimento[] = [];
+  viagens: Viagem[] = [];
+  displayedColumns: string[] = ['id', 'status', 'motorista', 'veiculo', 'data', 'acoes'];
+  
   
   constructor(
     private dialog: MatDialog,
     private veiculoService: VeiculoService,
     private motoristaService: MotoristaService,
-    private agendamentoService: AgendamentoService
+    private agendamentoService: AgendamentoService,
+    private manutencaoService: ManutencaoService,
+    private abastecimentoService: AbastecimentoService,
+    private viagemService: ViagemService,
   ) {}
   
-  
-  
   ngOnInit() {
-    this.motoristaService.getMotoristas().subscribe({
-      next: (data) => {
-        this.motoristas = data;
+    forkJoin({
+      motoristas: this.motoristaService.getMotoristas(),
+      veiculos: this.veiculoService.getVeiculos(),
+      agendamentos: this.agendamentoService.getAgendamentos()
+    }).subscribe({
+      next: ({ motoristas, veiculos, agendamentos }) => {
+        this.motoristas = motoristas;
+        this.veiculos = veiculos;
+        this.agendamentos = agendamentos;
       },
-      error: (err) => console.log('Erro ao carregar Motoristas', err)
+      error: (err) => console.log('Erro ao carregar dados:', err)
     });
-
-    this.veiculoService.getVeiculos().subscribe({
-      next: (data) => {
-        this.veiculos= data;
-      },
-      error: (err) => console.log('Erro ao carregar Veiculos', err)
-    })
-    
-    this.agendamentoService.getAgendamentos().subscribe(ags => {
-      this.agendamentos = ags;
-    });
-
-    this.veiculoService.getVeiculos().subscribe(v => {
-      this.veiculos = v;
-    });
-
-  }   
+  }
   
+  /*ngOnInit() {
+  this.motoristaService.getMotoristas().subscribe({
+  next: (data) => {
+  this.motoristas = data;
+  },
+  error: (err) => console.log('Erro ao carregar Motoristas', err)
+  });
+  
+  this.veiculoService.getVeiculos().subscribe({
+  next: (data) => {
+  this.veiculos= data;
+  },
+  error: (err) => console.log('Erro ao carregar Veiculos', err)
+  })
+  
+  this.agendamentoService.getAgendamentos().subscribe({
+  next: (data) => {
+  this.agendamentos = data;
+  },
+  error: (err) => console.log('Erro ao carregar Agendamentos', err)
+  });
+  
+  }   
+  */
   
   openDialog(): void{
-    this.dialog.open(AgendamentoComponent, {
+    const dialogRef = this.dialog.open(AgendamentoComponent, {
       width: '30%',
       data: {
         veiculos: this.veiculos,
         motoristas: this.motoristas,
       }
-    }).afterClosed().subscribe((resultado: Agendamento | undefined) => {
-      if(resultado){
-        this.agendamentoService.criarAgendamento(resultado);
+    });
+    dialogRef.afterClosed().subscribe((novoAgendamento) => {
+      if (novoAgendamento) {
+        this.agendamentos.push(novoAgendamento);
+        this.agendamentos = [...this.agendamentos]; 
       }
-      console.log(resultado)
-    })
+    });
   }
   
-  agendarViagem(id: number) {
+  agendarViagem(agendamentoId: number) {
+    const agendamento = this.agendamentos.find(a => a.id === agendamentoId);
+
+    
     this.dialog.open(AgendarViagemComponent, {
       width: '30%',
       data: {
-        veiculos: this.veiculos,
-        motoristas: this.motoristas 
+        agendamentoId: agendamento?.id,
+        motorista: agendamento?.motorista.id,
+        veiculo: agendamento?.veiculo.id
       }
-    }).afterClosed().subscribe(result => {
-      if (result) {
+    }).afterClosed().subscribe(viagem => {
+      if (viagem) {
+        this.viagens.push(viagem);
+        this.viagens = [...this.viagens];
+        
+        const agendamento = this.agendamentos.find(a => a.id === viagem.agendamentoId);
+        if (agendamento) {
+          agendamento.status = 'AGENDADO';
+        }
       }
     });
   }
   
-  registrarAbastecimento(id: number) {
+  registrarAbastecimento(agendamentoId: number) {
+    const agendamento = this.agendamentos.find(a => a.id === agendamentoId);
+
     this.dialog.open(RegistrarAbastecimentoComponent, {
       width: '30%',
       data: {
-        veiculos: this.veiculos,
-        motoristas: this.motoristas 
+        agendamentoId: agendamento?.id,
+        motorista: agendamento?.motorista.id,
+        veiculo: agendamento?.veiculo.id 
       }
     }).afterClosed().subscribe(result => {
       if (result) {     
+        this.abastecimentoService.registrarAbastecimento(result).subscribe({
+          next: (novoAbastecimento) => {
+            this.abastecimentos.push(novoAbastecimento);
+            this.abastecimentos = [...this.abastecimentos];
+          },
+          error: err => console.error('Erro ao salvar abastecimento:', err)
+        })
       }
     });
   }
   
-  registrarManutencao(id: number) {
+  registrarManutencao(agendamentoId: number) {
+    const agendamento = this.agendamentos.find(a => a.id === agendamentoId);
+
     this.dialog.open(RegistrarManutencaoComponent, {
       width: '30%',
       data: {
-        veiculos: this.veiculos
+        agendamentoId: agendamento?.id,
+        motorista: agendamento?.motorista.id,
+        veiculo: agendamento?.veiculo.id
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-        // Salve o abastecimento (ex: this.abastecimentos.push(result)) 
+        this.manutencaoService.registrarManutencao(result).subscribe({
+          next: (novaManutencao) => {
+            this.manutencoes.push(novaManutencao); 
+            this.manutencoes = [...this.manutencoes];
+          },
+          error: err => console.error('Erro ao salvar manutenção:', err)
+        });
       }
     });
   } 
+  
+  excluirAgendamento(id: number): void {
+    this.agendamentoService.excluirAgendamento(id).subscribe({
+      next: () => {
+        this.agendamentos = this.agendamentos.filter(ag => ag.id !== id);
+      },
+      error: err => {
+        console.error('Erro ao excluir agendamento:', err);
+      }
+    });
+  }
   
   
 }

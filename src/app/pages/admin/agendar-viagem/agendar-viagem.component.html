@@ -4,27 +4,27 @@
   <mat-form-field appearance="fill">
     <mat-label>Veículo</mat-label>
     <mat-select formControlName="veiculo" required>
-        <mat-option *ngFor="let v of veiculos" [value]="v">{{ v.modelo }} </mat-option>
+        <mat-option *ngFor="let v of veiculos" [value]="v.id">{{ v.modelo }} </mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Motorista</mat-label>
     <mat-select formControlName="motorista" required>
-      <mat-option *ngFor="let m of motoristas" [value]="m"> {{ m.nome }} </mat-option>
+      <mat-option *ngFor="let m of motoristas" [value]="m.id"> {{ m.nome }} </mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Data de Saída</mat-label>
-    <input matInput [matDatepicker]="picker" formControlName="dataSaida" required>
+    <input matInput [matDatepicker]="picker" formControlName="data" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
    <mat-form-field appearance="fill">
     <mat-label>Hora de Saída</mat-label>
-    <input matInput type="time" formControlName="horaSaida" required>
+    <input matInput type="time" formControlName="hora" required>
   </mat-form-field>
 
   <mat-form-field appearance="fill">

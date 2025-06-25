@@ -72,6 +72,10 @@
   background-color: #27ae60; /* verde */
 }
 
+.status.agendado {
+  background-color: #515352; /* verde */
+}
+
 .card-body p {
   margin: 6px 0;
 }
@@ -115,4 +119,36 @@
 
 .btn.info:hover {
   background-color: #2980b9;
+}
+/*------------------------------------------------LISTA-------------------------------*/
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.pendente {
+  background-color: #f39c12;
+  color: #000;
+}
+
+.agendado {
+  background-color: #6c757d;
+  color: #000;
+}
+
+.finalizado {
+  background-color: #28a745;
+  color: #000;
+}
+
+.em_uso {
+  background-color: #007bff;
+  color: #000;
+}
+
+.agViagem {
+  align-self: center;
 }

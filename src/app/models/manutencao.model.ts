@@ -2,10 +2,10 @@ import { Veiculo } from "./veiculo.model";
 
 export interface Manutencao {
     id?: number; 
-    veiculo: Veiculo;
-    dataManutencao: String; // mudar depois para date
-    valorManutencao: String; //mudar para double
-    tipoManutencao: String;
+    veiculoId: number;
+    dataManutencao: Date; 
+    valorManutencao: number; 
+    tipoManutencao: 'preventiva' | 'corretiva';
     quilometragemAtual: number;
-    descricao: String;
+    descricao: string;
 }

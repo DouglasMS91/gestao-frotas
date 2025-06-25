@@ -12,6 +12,7 @@ import { MotoristaService } from '../../../services/motorista.service';
 import { AgendamentoService } from '../../../services/agendamento.service';
 import { VeiculoService } from '../../../services/veiculo.service';
 import { Veiculo } from '../../../services/veiculo.service';
+import { AgendamentoCreateDTO } from '../../../models/agendamentoDTO';
 
 @Component({
   selector: 'app-agendamento',
@@ -51,9 +52,11 @@ export class AgendamentoComponent {
         motorista: ['', Validators.required],
         data: ['', Validators.required],
         status: ['', Validators.required],
+        destino: ['', Validators.required]
       })
 
-   /* if (this.data?.motoristas) {
+
+    if (this.data?.motoristas) {
       this.motoristas = this.data.motoristas;
     } else {
       this.motoristaService.getMotoristas().subscribe(m => this.motoristas = m);
@@ -62,19 +65,30 @@ export class AgendamentoComponent {
       this.veiculos = this.data.veiculos;
     } else {
       this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
-    }  */
-   this.motoristaService.getMotoristas().subscribe(m => this.motoristas = m);
-   this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
-    }
+    }  
+  }
+    
 
-   onSubmit(): void {
+ onSubmit(): void {
     if (this.formAgendamento.valid) {
-      const agendamento = this.formAgendamento.value;
-      this.dialogRef.close({
-        ...agendamento,
+      const formValue = this.formAgendamento.value;
+      const dto: AgendamentoCreateDTO = {
+        data: formValue.data, 
+        status: formValue.status, 
+        destino: formValue.destino,
+        motoristaId: formValue.motorista.id ?? formValue.motorista,
+        veiculoId: formValue.veiculo.id ?? formValue.veiculo,
+      };
+      this.agendamentoService.criarAgendamento(dto).subscribe({
+        next: (novoAgendamento) => {
+          this.dialogRef.close(novoAgendamento);
+        },
+        error: (err) => {
+          console.error('Erro ao criar agendamento:', err);
+        }
       });
-      }
     }
+  }
 }
 
 

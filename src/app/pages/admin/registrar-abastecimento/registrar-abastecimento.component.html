@@ -1,10 +1,18 @@
 <h2 mat-dialog-title>Registrar Abastecimento</h2>
 <form [formGroup]="form_abastecimento" (ngSubmit)="onSubmit()">
     
+    
+    <mat-form-field appearance="fill">
+        <mat-label>Nome Motorista</mat-label>
+        <mat-select formControlName="motorista" required>
+            <mat-option *ngFor="let m of motoristas" [value]="m.id">{{ m.nome }}</mat-option>   
+        </mat-select>
+    </mat-form-field>
+    
     <mat-form-field appearance="fill">
         <mat-label>Veículo</mat-label>
         <mat-select formControlName="veiculo" required>
-            <mat-option *ngFor="let v of veiculos" [value]="v">{{ v.modelo }}</mat-option>
+            <mat-option *ngFor="let v of veiculos" [value]="v.id">{{ v.modelo }}</mat-option>
         </mat-select>
     </mat-form-field>
     
@@ -26,20 +34,12 @@
     
     <mat-form-field appearance="fill">
         <mat-label>Valor</mat-label>
-        <input matInput type="number" formControlName="valorAbastecimento" required>
+        <input matInput type="number" formControlName="valor" required>
     </mat-form-field>
     
     <mat-form-field appearance="fill">
         <mat-label>Quilometragem</mat-label>
-        <input matInput type="number" formControlName="quilometragem" required>
-    </mat-form-field>
-    
-    
-    <mat-form-field appearance="fill">
-        <mat-label>Nome Motorista</mat-label>
-        <mat-select formControlName="motorista" required>
-            <mat-option *ngFor="let m of motoristas" [value]="m">{{ m.nome }}</mat-option>   
-        </mat-select>
+        <input matInput type="number" formControlName="quilometragemAtual" required>
     </mat-form-field>
     
     <div class="actions">
