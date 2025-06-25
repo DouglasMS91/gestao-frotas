@@ -46,25 +46,18 @@ export class RegistrarAbastecimentoComponent {
   ) {}
   
   ngOnInit(): void {
+    
     this.form_abastecimento = this.fb.group({
-      veiculo: ['', Validators.required],
+      veiculo: [this.data?.veiculo || '', Validators.required],
+      motorista: [this.data?.motorista || '', Validators.required],
       dataAbastecimento: ['', Validators.required],
       tipoCombustivel: ['', Validators.required],
       valor:  ['', Validators.required],
       quilometragemAtual:  ['', Validators.required],
-      motorista:  ['', Validators.required],
     });
     
-    if (this.data?.motoristas) {
-      this.motoristas = this.data.motoristas;
-    } else {
-      this.motoristaService.getMotoristas().subscribe(m => this.motoristas = m);
-    }
-    if (this.data?.veiculos) {
-      this.veiculos = this.data.veiculos;
-    } else {
-      this.veiculoService.getVeiculos().subscribe(v => this.veiculos = v);
-    }  
+    this.getMotoristas();
+    this.getVeiculos();
   }
   
   onSubmit() {
@@ -72,19 +65,31 @@ export class RegistrarAbastecimentoComponent {
       const formValue = this.form_abastecimento.value;
       const abastecimento = {
         veiculoId: formValue.veiculo,
+        motoristaId: formValue.motorista,
         data: formValue.dataAbastecimento,
         tipoCombustivel: formValue.tipoCombustivel,
         valor: formValue.valor,
         quilometragemAtual: formValue.quilometragemAtual,
-        motoristaId: formValue.motorista,
       };
       this.dialogRef.close(abastecimento);
       console.log('Abastecimento registrado:', abastecimento);
     } 
   }
-
+  
   onClose() {
     this.dialogRef.close();
+  }
+  
+  getMotoristas() {
+    this.motoristaService.getMotoristas().subscribe(m => {
+      this.motoristas = m;
+    });
+  }
+  
+  getVeiculos() {
+    this.veiculoService.getVeiculos().subscribe(v => {
+      this.veiculos = v;
+    });
   }
 }
 
