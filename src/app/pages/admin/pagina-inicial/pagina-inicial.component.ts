@@ -25,11 +25,16 @@ import { ViagemService } from '../../../services/viagem.service';
 import { Viagem } from '../../../models/viagem.model';
 import { MatTableModule } from '@angular/material/table';
 import { forkJoin } from 'rxjs';
+import { MatFormField } from '@angular/material/form-field';
+import { MatLabel } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 
-
-
-
+import { MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -40,7 +45,17 @@ import { forkJoin } from 'rxjs';
     MatToolbarModule,
     MatIconModule,
     MatTableModule,
+    MatFormField,
+    MatLabel,
+    MatSelectModule,
+    MatOptionModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatInputModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     CommonModule,
   ],
   templateUrl: './pagina-inicial.component.html',
@@ -54,7 +69,10 @@ export class PaginaInicialComponent  implements OnInit {
   manutencoes: Manutencao[] = [];
   abastecimentos: Abastecimento[] = [];
   viagens: Viagem[] = [];
-  displayedColumns: string[] = ['id', 'status', 'motorista', 'veiculo', 'data', 'acoes'];
+  displayedColumns: string[] = ['id', 'status', 'motorista', 'veiculo', 'data', 'ações', 'excluirAgendamento'];
+  filtro = { motoristaId: '', status: '', dataInicio: null as Date | null, dataFim: null as Date| null};
+  todosAgendamentos: any[] = []; 
+  lista: any[] = [];
   
   
   constructor(
@@ -68,6 +86,8 @@ export class PaginaInicialComponent  implements OnInit {
   ) {}
   
   ngOnInit() {
+    
+    
     forkJoin({
       motoristas: this.motoristaService.getMotoristas(),
       veiculos: this.veiculoService.getVeiculos(),
@@ -77,35 +97,13 @@ export class PaginaInicialComponent  implements OnInit {
         this.motoristas = motoristas;
         this.veiculos = veiculos;
         this.agendamentos = agendamentos;
+        this.todosAgendamentos = agendamentos;
+        this.aplicarFiltro();
       },
       error: (err) => console.log('Erro ao carregar dados:', err)
     });
+    console.log('Agendamentos recebidos:', this.todosAgendamentos);
   }
-  
-  /*ngOnInit() {
-  this.motoristaService.getMotoristas().subscribe({
-  next: (data) => {
-  this.motoristas = data;
-  },
-  error: (err) => console.log('Erro ao carregar Motoristas', err)
-  });
-  
-  this.veiculoService.getVeiculos().subscribe({
-  next: (data) => {
-  this.veiculos= data;
-  },
-  error: (err) => console.log('Erro ao carregar Veiculos', err)
-  })
-  
-  this.agendamentoService.getAgendamentos().subscribe({
-  next: (data) => {
-  this.agendamentos = data;
-  },
-  error: (err) => console.log('Erro ao carregar Agendamentos', err)
-  });
-  
-  }   
-  */
   
   openDialog(): void{
     const dialogRef = this.dialog.open(AgendamentoComponent, {
@@ -118,14 +116,15 @@ export class PaginaInicialComponent  implements OnInit {
     dialogRef.afterClosed().subscribe((novoAgendamento) => {
       if (novoAgendamento) {
         this.agendamentos.push(novoAgendamento);
-        this.agendamentos = [...this.agendamentos]; 
+        this.agendamentos = [...this.agendamentos];
+        this.aplicarFiltro();
       }
     });
   }
   
   agendarViagem(agendamentoId: number) {
     const agendamento = this.agendamentos.find(a => a.id === agendamentoId);
-
+    
     
     this.dialog.open(AgendarViagemComponent, {
       width: '30%',
@@ -149,7 +148,7 @@ export class PaginaInicialComponent  implements OnInit {
   
   registrarAbastecimento(agendamentoId: number) {
     const agendamento = this.agendamentos.find(a => a.id === agendamentoId);
-
+    
     this.dialog.open(RegistrarAbastecimentoComponent, {
       width: '30%',
       data: {
@@ -172,7 +171,7 @@ export class PaginaInicialComponent  implements OnInit {
   
   registrarManutencao(agendamentoId: number) {
     const agendamento = this.agendamentos.find(a => a.id === agendamentoId);
-
+    
     this.dialog.open(RegistrarManutencaoComponent, {
       width: '30%',
       data: {
@@ -197,6 +196,7 @@ export class PaginaInicialComponent  implements OnInit {
     this.agendamentoService.excluirAgendamento(id).subscribe({
       next: () => {
         this.agendamentos = this.agendamentos.filter(ag => ag.id !== id);
+        this.lista = this.lista.filter(ag => ag.id !== id);
       },
       error: err => {
         console.error('Erro ao excluir agendamento:', err);
@@ -204,105 +204,57 @@ export class PaginaInicialComponent  implements OnInit {
     });
   }
   
+  aplicarFiltro() {
+    this.lista = this.todosAgendamentos.filter(ag => {
+      const porMotorista = !this.filtro.motoristaId || ag.motorista.id === +this.filtro.motoristaId;
+      const porStatus = !this.filtro.status || ag.status === this.filtro.status;
+      const porData = this.filtrarPorIntervaloDeData(ag.data);
+      //const porData = !this.filtro.data || this.compararDatas(ag.data, this.filtro.data);
+      return porMotorista && porStatus && porData;
+    });
+  }
   
+  compararDatas(data1: string, data2: Date): boolean {
+    if (!data1) return false;
+    const [dia, mes, ano] = data1.split('/').map(Number);
+    const d1 = new Date(ano, mes - 1, dia);
+    return d1.toDateString() === data2.toDateString();
+  }
+  
+  limparFiltros() {
+    this.filtro = {
+      motoristaId: '',
+      status: '',
+      dataInicio: null,
+      dataFim: null
+    };
+    this.aplicarFiltro();
+  }
+  
+  filtrarPorIntervaloDeData(dataAgendamento: string): boolean {
+  if (!dataAgendamento) return false;
+
+  const data = new Date(dataAgendamento); // formato ISO
+
+  if (isNaN(data.getTime())) return false; // Data inválida
+
+  const inicio = this.filtro.dataInicio ? new Date(this.filtro.dataInicio) : null;
+  const fim = this.filtro.dataFim ? new Date(this.filtro.dataFim) : null;
+
+  // Normalizar horários
+  if (inicio) inicio.setHours(0, 0, 0, 0);
+  if (fim) fim.setHours(23, 59, 59, 999);
+  data.setHours(12, 0, 0, 0);
+
+  if (inicio && data < inicio) return false;
+  if (fim && data > fim) return false;
+
+  return true;
+}
+
 }
 
 
 
 
 
-/*
-import { Component, OnInit} from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { AgendarViagemComponent } from '../agendar-viagem/agendar-viagem.component';
-import { MatDialog } from '@angular/material/dialog';
-import { RegistrarAbastecimentoComponent } from '../registrar-abastecimento/registrar-abastecimento.component';
-import { RegistrarManutencaoComponent } from '../registrar-manutencao/registrar-manutencao.component';
-import { VeiculoService } from '../../../services/veiculo.service';
-import { Veiculo } from '../../../models/veiculo.model';
-
-
-
-
-@Component({
-selector: 'app-pagina-inicial',
-standalone: true,
-imports: [
-MatSidenavModule,
-MatButtonModule,
-MatToolbarModule,
-MatIconModule,
-FormsModule,
-CommonModule,
-],
-templateUrl: './pagina-inicial.component.html',
-styleUrl: './pagina-inicial.component.css'
-})
-
-export class PaginaInicialComponent  implements OnInit{
-veiculo: Veiculo[] = [];
-
-constructor(
-private dialog: MatDialog,
-private veiculoService: VeiculoService,
-) {}
-
-agendamentos: any[] = [];
-
-ngOnInit(): void {
-this.agendamentos = [
-{ id: 1, status: 'PENDENTE', motorista: 'João', dataInicio: '10/05/2025', dataFim: '15/05/2025' },
-{ id: 2, status: 'EM_USO', motorista: 'Maria', dataInicio: '1', dataFim: '1' },
-{ id: 3, status: 'FINALIZADO', motorista: 'Carlos', dataInicio: '2', dataFim: '2' },
-{ id: 4, status: 'PENDENTE', motorista: 'Roney', dataInicio: '15/06/2025', dataFim: '20/06/2025' }
-];
-}
-
-filtros = {
-periodoInicial: '',
-periodoFinal: '',
-status: '',
-motorista: ''
-};
-
-agendarViagem(id: number) {
-this.dialog.open(AgendarViagemComponent, {
-width: '30%',
-}).afterClosed().subscribe(result => {
-if (result) {
-// Salve o agendamento (ex: this.agendamentos.push(result))
-}
-});
-}
-
-registrarAbastecimento(id: number) {
-this.dialog.open(RegistrarAbastecimentoComponent, {
-width: '30%',
-}).afterClosed().subscribe(result => {
-if (result) {
-// Salve o abastecimento (ex: this.abastecimentos.push(result))      
-}
-});
-}
-
-registrarManutencao(id: number) {
-this.dialog.open(RegistrarManutencaoComponent, {
-width: '30%',
-}).afterClosed().subscribe(result => {
-if (result) {
-
-}
-});
-} 
-
-
-}
-
-*/
