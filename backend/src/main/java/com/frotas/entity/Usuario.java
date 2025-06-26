@@ -1,11 +1,15 @@
 package com.frotas.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import com.frotas.entity.enums.Perfil;
 
 @Entity
+@Data // <- Lombok gera getters/setters/toString/etc.
 public class Usuario {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -15,7 +19,10 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Perfil perfil;
 
-    private Boolean ativo;
+    private boolean ativo;
 
-    // Getters e setters
-}
+
+    public boolean getAtivo() {
+    return ativo;
+    }
+}   
