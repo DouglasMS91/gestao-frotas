@@ -14,7 +14,7 @@
     
     <ng-container matColumnDef="CPF">
       <mat-header-cell *matHeaderCellDef> CPF </mat-header-cell>
-      <mat-cell *matCellDef="let motorista"> {{motorista.cpf}} </mat-cell>
+      <mat-cell *matCellDef="let motorista"> {{ motorista.cpf | mask: '000.000.000-00' }} </mat-cell> 
     </ng-container>
     
     <ng-container matColumnDef="CNH">
@@ -29,7 +29,7 @@
     
     <ng-container matColumnDef="Telefone">
       <mat-header-cell *matHeaderCellDef> Telefone </mat-header-cell>
-      <mat-cell *matCellDef="let motorista"> {{motorista.telefone}} </mat-cell>
+      <mat-cell *matCellDef="let motorista"> {{motorista.telefone | mask: '(00) 00000-0000'}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="Endereço">

@@ -5,36 +5,45 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AgendarViagemComponent } from '../agendar-viagem/agendar-viagem.component';
 import { MatDialog } from '@angular/material/dialog';
-import { RegistrarAbastecimentoComponent } from '../registrar-abastecimento/registrar-abastecimento.component';
-import { RegistrarManutencaoComponent } from '../registrar-manutencao/registrar-manutencao.component';
-import { VeiculoService } from '../../../services/veiculo.service';
-import { Veiculo } from '../../../models/veiculo.model';
-import { Agendamento } from '../../../models/agendamento.model';
-import { Motorista } from '../../../models/motorista.model';
-import { MotoristaService } from '../../../services/motorista.service';
-import { AgendamentoComponent } from '../agendamento/agendamento.component';
-import { AgendamentoService } from '../../../services/agendamento.service';
-import { subscribe } from 'diagnostics_channel';
-import { ManutencaoService } from '../../../services/manutencao.service';
-import { Manutencao } from '../../../models/manutencao.model';
-import { AbastecimentoService } from '../../../services/abastecimento.service';
-import { Abastecimento } from '../../../models/abastaceimento.model';
-import { ViagemService } from '../../../services/viagem.service';
-import { Viagem } from '../../../models/viagem.model';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
-import { forkJoin } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
 import { MatLabel } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { forkJoin } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
-import { MatOptionModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { AgendarViagemComponent } from '../agendar-viagem/agendar-viagem.component';
+
+import { RegistrarAbastecimentoComponent } from '../registrar-abastecimento/registrar-abastecimento.component';
+import { RegistrarManutencaoComponent } from '../registrar-manutencao/registrar-manutencao.component';
+
+import { VeiculoService } from '../../../services/veiculo.service';
+import { Veiculo } from '../../../models/veiculo.model';
+
+import { Agendamento } from '../../../models/agendamento.model';
+import { Motorista } from '../../../models/motorista.model';
+import { MotoristaService } from '../../../services/motorista.service';
+
+import { AgendamentoComponent } from '../agendamento/agendamento.component';
+import { AgendamentoService } from '../../../services/agendamento.service';
+
+
+import { ManutencaoService } from '../../../services/manutencao.service';
+import { Manutencao } from '../../../models/manutencao.model';
+
+import { AbastecimentoService } from '../../../services/abastecimento.service';
+import { Abastecimento } from '../../../models/abastecimento.model';
+
+
+import { ViagemService } from '../../../services/viagem.service';
+import { Viagem } from '../../../models/viagem.model';
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -57,6 +66,7 @@ import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material
     MatDatepickerModule,
     MatNativeDateModule,
     CommonModule,
+    ReactiveFormsModule
   ],
   templateUrl: './pagina-inicial.component.html',
   styleUrl: './pagina-inicial.component.css'
