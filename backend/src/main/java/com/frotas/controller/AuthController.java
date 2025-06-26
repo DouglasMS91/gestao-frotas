@@ -8,20 +8,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*") // permite acesso do Angular
 public class AuthController {
 
     @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req) {
-        Usuario usuario = usuarioService.login(req.email, req.senha);
-        LoginResponse resp = new LoginResponse();
-        resp.id = usuario.getId();
-        resp.nome = usuario.getNome();
-        resp.perfil = usuario.getPerfil().name();
-        return ResponseEntity.ok(resp);
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        Optional<Usuario> usuarioOpt = usuarioService.login(request.getEmail(), request.getSenha());
+
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            return ResponseEntity.ok(new LoginResponse(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getPerfil().name()
+            ));
+        }
+
+        return ResponseEntity.status(401).body("Credenciais inválidas ou usuário inativo.");
     }
 }

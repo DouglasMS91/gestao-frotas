@@ -6,21 +6,26 @@ import com.frotas.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario login(String email, String senha) {
-        Usuario usuario = usuarioRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public Optional<Usuario> login(String email, String senha) {
+        Optional<Usuario> optUsuario = usuarioRepository.findByEmail(email);
 
-        String senhaHash = HashUtil.sha256ComSalt(senha);
-        if (!usuario.getSenha().equals(senhaHash)) {
-            throw new RuntimeException("Senha inválida");
+        if (optUsuario.isPresent()) {
+            Usuario usuario = optUsuario.get();
+            String senhaHash = HashUtil.sha256ComSalt(senha); // com SALT fixo
+
+            if (usuario.getSenha().equals(senhaHash) && Boolean.TRUE.equals(usuario.getAtivo())) {
+                return Optional.of(usuario);
+            }
         }
 
-        return usuario;
+        return Optional.empty();
     }
 }
