@@ -10,7 +10,8 @@ import { PaginaInicialComponent } from './pages/admin/pagina-inicial/pagina-inic
 import { MotoristaHomeComponent } from './pages/motorista/home/motorista-home.component';
 import { MOTORISTA_ROUTES } from './pages/motorista/motorista.route';
 import { ADMIN_ROUTES } from './pages/admin/admin.route';
-
+import { AdminGuard } from './guards/admin.guard';
+import { MotoristaGuard } from './guards/motorista.guard';
 
 
 export const routes: Routes = [
@@ -22,11 +23,13 @@ export const routes: Routes = [
 
   {
     path: 'admin',
+    canActivate: [AdminGuard],
     children: ADMIN_ROUTES
   },
   
   {
     path: 'motorista',
+    canActivate: [MotoristaGuard],
     children: MOTORISTA_ROUTES
   },
 ];

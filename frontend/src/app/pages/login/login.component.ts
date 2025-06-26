@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-loginapp',
@@ -22,21 +24,29 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  private apiUrl = 'http://localhost:8080/auth/login';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required]]
     });
   }
 
-  onLogin() {
-    if (this.loginForm.valid) {
+login() {
+  return this.http.post<any>(this.apiUrl, this.loginForm.value)
+    .subscribe({
+      next: (res) => {
+        this.authService.saveToken(res.token, res.role);
 
-      console.log('Login com:', this.loginForm.value);
-      this.router.navigate(['/admin']);
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
-  }
+        if (res.role === 'ADMIN') {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/motorista']);
+        }
+      },
+      error: () => alert('Login inválido!')
+    });
+}
+
 }
