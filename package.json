@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@angular/material": "^20.0.4",
+    "ngx-mask": "^19.0.7"
+  }
+}

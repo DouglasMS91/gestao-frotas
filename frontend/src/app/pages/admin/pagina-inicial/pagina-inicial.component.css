@@ -152,3 +152,49 @@
 .agViagem {
   align-self: center;
 }
+
+
+.lista {
+  display: flex; 
+  gap: 1rem; 
+  flex-wrap: wrap; 
+  margin-top: 5rem; 
+  margin-bottom: 1rem; 
+  align-items: center;
+}
+
+.filtro-info {
+  background: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #444;
+  display: inline-block;
+}
+
+.tabela-compacta {
+  font-size: 13px;
+}
+
+.tabela-compacta th, 
+.tabela-compacta td {
+  padding: 4px 8px; /* Reduz o espaço interno */
+  line-height: 1.2;
+}
+
+.mat-header-cell {
+  font-weight: 600;
+}
+
+button.mat-raised-button {
+  padding: 2px 8px;
+  font-size: 12px;
+  min-height: 28px;
+  line-height: 1;
+}
+
+.status-badge {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}

@@ -14,8 +14,7 @@ import { ExcluirMotoristaComponent } from './excluir-motorista/excluir-motorista
 import { Motorista } from '../../../models/motorista.model';
 import { MotoristaService } from '../../../services/motorista.service';
 import { EditarMotoristaComponent } from './editar-motorista/editar-motorista.component';
-
-
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-gerenciar-motoristas',
@@ -29,8 +28,10 @@ import { EditarMotoristaComponent } from './editar-motorista/editar-motorista.co
     MatToolbarModule, 
     MatTableModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    NgxMaskPipe
   ],
+  providers: [provideNgxMask()],
   templateUrl: './gerenciar-motoristas.component.html',
   styleUrl: './gerenciar-motoristas.component.css'
 })
