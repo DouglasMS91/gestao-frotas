@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { NgxMaskPipe } from 'ngx-mask';
 import { VeiculoService } from '../../../services/veiculo.service';
 import { Veiculo } from '../../../services/veiculo.service';
 import { MotoristaService } from '../../../services/motorista.service';
@@ -19,6 +21,7 @@ import { Motorista } from '../../../models/motorista.model';
   selector: 'app-registrar-abastecimento',
   standalone: true,
   imports: [
+    NgxMaskDirective,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -28,6 +31,8 @@ import { Motorista } from '../../../models/motorista.model';
     ReactiveFormsModule,
     CommonModule
   ],
+ 
+
   templateUrl: './registrar-abastecimento.component.html',
   styleUrl: './registrar-abastecimento.component.css'
 })

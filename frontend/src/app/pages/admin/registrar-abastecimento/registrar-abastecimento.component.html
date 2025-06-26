@@ -34,12 +34,20 @@
     
     <mat-form-field appearance="fill">
         <mat-label>Valor</mat-label>
-        <input matInput type="number" formControlName="valor" required>
+        <input matInput
+      type="text"
+      formControlName="valor"
+      required
+      mask="separator.2"
+      thousandSeparator="."
+      decimalMarker=","
+      placeholder="R$ 0,00"
+      />
     </mat-form-field>
     
     <mat-form-field appearance="fill">
         <mat-label>Quilometragem</mat-label>
-        <input matInput type="number" formControlName="quilometragemAtual" required>
+        <input matInput type="number" formControlName="quilometragemAtual" required/>
     </mat-form-field>
     
     <div class="actions">

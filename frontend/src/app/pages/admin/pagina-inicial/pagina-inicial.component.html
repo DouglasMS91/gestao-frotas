@@ -4,8 +4,7 @@
   <button mat-raised-button color="primary" (click)="openDialog()">Novo Agendamento</button>
 </mat-toolbar>
 
-<div  class="lista" >
-  <!-- Filtro por Motorista -->
+<div class="lista" >
   <mat-form-field appearance="fill">
     <mat-label>Motorista</mat-label>
     <mat-select [(ngModel)]="filtro.motoristaId" (ngModelChange)="aplicarFiltro()">
@@ -110,7 +109,6 @@
           </td>
         </ng-container>
         
-        <!-- Render table header and rows -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
